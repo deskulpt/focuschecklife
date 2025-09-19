@@ -67,7 +67,7 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -95,20 +95,20 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
       {/* Question Card */}
       <Card className="mb-8 shadow-[var(--shadow-soft)]">
         <CardHeader>
-          <CardTitle className="text-lg leading-relaxed">
+          <CardTitle className="text-base sm:text-lg leading-relaxed">
             {currentQ.text}
           </CardTitle>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="px-2 py-1 bg-medical-light rounded">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            <span className="px-2 py-1 bg-medical-light rounded whitespace-nowrap">
               {currentQ.category.replace('_', ' ')}
             </span>
-            <span>•</span>
-            <span>{currentQ.source}</span>
+            <span className="hidden sm:inline">•</span>
+            <span className="break-all sm:break-normal">{currentQ.source}</span>
           </div>
         </CardHeader>
         
         <CardContent>
-          <div className="grid gap-3">
+          <div className="space-y-2 sm:space-y-3">
             {Object.entries(scaleLabels).map(([value, label]) => {
               const numValue = parseInt(value);
               const isSelected = responses[currentQ.id] === numValue;
@@ -117,15 +117,15 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
                 <Button
                   key={value}
                   variant={isSelected ? "default" : "outline"}
-                  className={`justify-start h-auto p-4 text-left transition-all ${
+                  className={`w-full justify-start h-auto p-3 sm:p-4 text-left transition-all ${
                     isSelected 
                       ? 'bg-primary text-primary-foreground shadow-[var(--shadow-soft)]' 
                       : 'hover:bg-medical-light hover:border-primary/30'
                   }`}
                   onClick={() => handleResponse(numValue)}
                 >
-                  <div className="flex items-center gap-3 w-full">
-                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${
+                  <div className="flex items-start gap-2 sm:gap-3 w-full min-w-0">
+                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 ${
                       isSelected 
                         ? 'bg-primary-foreground border-primary-foreground' 
                         : 'border-muted-foreground'
@@ -134,9 +134,9 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
                         <div className="w-2 h-2 rounded-full bg-primary m-0.5" />
                       )}
                     </div>
-                    <div>
-                      <div className="font-medium">{label}</div>
-                      <div className="text-xs text-muted-foreground">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-sm sm:text-base break-words">{label}</div>
+                      <div className="text-xs text-muted-foreground mt-1 leading-relaxed break-words">
                         {numValue === 0 && 'This situation does not occur or occurs very rarely'}
                         {numValue === 1 && 'This situation occurs occasionally, but not frequently'}
                         {numValue === 2 && 'This situation occurs regularly and is noticeable'}
@@ -152,36 +152,37 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
       </Card>
 
       {/* Navigation */}
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <Button 
           variant="outline" 
           onClick={goToPrevious}
           disabled={currentQuestion === 0}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full sm:w-auto"
         >
           <ArrowLeft className="w-4 h-4" />
-          Previous
+          <span className="hidden sm:inline">Previous</span>
+          <span className="sm:hidden">Back</span>
         </Button>
         
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground w-full sm:w-auto justify-center sm:justify-end">
           {responses[currentQ.id] !== undefined ? (
             <>
               <div className="w-2 h-2 rounded-full bg-success" />
-              Answered
+              <span>Answered</span>
             </>
           ) : (
             <>
               <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-              Select an answer to continue
+              <span className="text-center">Select an answer to continue</span>
             </>
           )}
         </div>
       </div>
 
       {/* Category Progress */}
-      <div className="mt-8 p-4 bg-medical-light rounded-lg">
-        <div className="text-sm text-muted-foreground mb-2">Assessment Categories:</div>
-        <div className="flex flex-wrap gap-2">
+      <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-medical-light rounded-lg">
+        <div className="text-xs sm:text-sm text-muted-foreground mb-2">Assessment Categories:</div>
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-1 sm:gap-2">
           {['inattention', 'hyperactivity', 'impulsivity', 'functional_impairment'].map(category => {
             const categoryQuestions = questions.filter(q => q.category === category);
             const answeredCount = categoryQuestions.filter(q => responses[q.id] !== undefined).length;
@@ -190,8 +191,9 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
             if (totalCount === 0) return null;
             
             return (
-              <div key={category} className="text-xs px-2 py-1 rounded bg-white/50">
-                {category.replace('_', ' ')}: {answeredCount}/{totalCount}
+              <div key={category} className="text-xs px-2 py-1 rounded bg-white/50 text-center">
+                <div className="font-medium capitalize">{category.replace('_', ' ')}</div>
+                <div className="text-muted-foreground">{answeredCount}/{totalCount}</div>
               </div>
             );
           })}

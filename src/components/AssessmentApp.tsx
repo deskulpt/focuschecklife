@@ -43,21 +43,21 @@ const AssessmentApp = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-medical-light/20 to-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent mb-4">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent mb-4">
               ADHD Assessment Tool
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
               A comprehensive, research-based assessment tool using validated clinical questionnaires 
               to help identify potential ADHD symptoms across different age groups.
             </p>
           </div>
 
           {/* Main Assessment Card */}
-          <Card className="shadow-[var(--shadow-card)] border-0 bg-card/80 backdrop-blur-sm">
+          <Card className="shadow-[var(--shadow-card)] border-0 bg-card/80 backdrop-blur-sm overflow-hidden">
             {currentStep === 'age' && (
               <AgeSelection onAgeSelect={handleAgeSelection} />
             )}
@@ -79,7 +79,7 @@ const AssessmentApp = () => {
           </Card>
 
           {/* Important Notice */}
-          <div className="mt-8 p-6 bg-warning/10 border border-warning/20 rounded-lg">
+          <div className="mt-6 sm:mt-8 p-4 sm:p-6 bg-warning/10 border border-warning/20 rounded-lg">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 w-6 h-6 rounded-full bg-warning/20 flex items-center justify-center mt-1">
                 <span className="text-warning text-sm font-semibold">!</span>
