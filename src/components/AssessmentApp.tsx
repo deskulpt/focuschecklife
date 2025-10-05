@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AgeSelection } from './AgeSelection';
 import { AssessmentSurvey } from './AssessmentSurvey';
+import { AssessmentGames, GameResults } from './AssessmentGames';
 import { AssessmentResults } from './AssessmentResults';
 import { Card } from '@/components/ui/card';
 
@@ -9,12 +10,14 @@ export type AgeGroup = 'child' | 'teen' | 'adult';
 export interface AssessmentData {
   ageGroup: AgeGroup;
   responses: Record<string, number>;
+  gameResults?: GameResults;
   completedAt: Date;
 }
 
 const AssessmentApp = () => {
-  const [currentStep, setCurrentStep] = useState<'age' | 'survey' | 'results'>('age');
+  const [currentStep, setCurrentStep] = useState<'age' | 'survey' | 'games' | 'results'>('age');
   const [selectedAge, setSelectedAge] = useState<AgeGroup | null>(null);
+  const [surveyResponses, setSurveyResponses] = useState<Record<string, number>>({});
   const [assessmentData, setAssessmentData] = useState<AssessmentData | null>(null);
 
   const handleAgeSelection = (age: AgeGroup) => {
@@ -23,11 +26,17 @@ const AssessmentApp = () => {
   };
 
   const handleSurveyComplete = (responses: Record<string, number>) => {
+    setSurveyResponses(responses);
+    setCurrentStep('games');
+  };
+
+  const handleGamesComplete = (gameResults: GameResults) => {
     if (!selectedAge) return;
     
     const data: AssessmentData = {
       ageGroup: selectedAge,
-      responses,
+      responses: surveyResponses,
+      gameResults,
       completedAt: new Date(),
     };
     
@@ -38,6 +47,7 @@ const AssessmentApp = () => {
   const resetAssessment = () => {
     setCurrentStep('age');
     setSelectedAge(null);
+    setSurveyResponses({});
     setAssessmentData(null);
   };
 
@@ -67,6 +77,13 @@ const AssessmentApp = () => {
                 ageGroup={selectedAge} 
                 onComplete={handleSurveyComplete}
                 onBack={() => setCurrentStep('age')}
+              />
+            )}
+
+            {currentStep === 'games' && (
+              <AssessmentGames
+                onComplete={handleGamesComplete}
+                onBack={() => setCurrentStep('survey')}
               />
             )}
             

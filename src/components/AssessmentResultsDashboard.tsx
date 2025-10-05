@@ -179,6 +179,192 @@ export const AssessmentResultsDashboard = ({ data }: AssessmentResultsDashboardP
         </CardContent>
       </Card>
 
+      {/* Cognitive Performance Tests Results */}
+      {data.gameResults && (
+        <Card className="shadow-[var(--shadow-card)] border-primary/20">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Brain className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-xl">Cognitive Performance Tests</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Objective measures of attention, memory, and executive function
+                </p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* CPT Results */}
+              <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Target className="w-4 h-4" />
+                    Attention Test (CPT)
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-success font-semibold">{data.gameResults.cpt.correctHits}</div>
+                      <div className="text-xs text-muted-foreground">Correct Hits</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-destructive font-semibold">{data.gameResults.cpt.falseAlarms}</div>
+                      <div className="text-xs text-muted-foreground">False Alarms</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-warning font-semibold">{data.gameResults.cpt.missedTargets}</div>
+                      <div className="text-xs text-muted-foreground">Missed</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-primary font-semibold">{data.gameResults.cpt.averageReactionTime}ms</div>
+                      <div className="text-xs text-muted-foreground">Avg Time</div>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t">
+                    <div className="text-xs text-muted-foreground">
+                      <strong>Accuracy:</strong> {Math.round((data.gameResults.cpt.correctHits / data.gameResults.cpt.totalTrials) * 100)}%
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Working Memory Results */}
+              <Card className="bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-800">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Brain className="w-4 h-4" />
+                    Memory Test
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-success font-semibold">{data.gameResults.workingMemory.correctResponses}</div>
+                      <div className="text-xs text-muted-foreground">Correct</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-destructive font-semibold">{data.gameResults.workingMemory.incorrectResponses}</div>
+                      <div className="text-xs text-muted-foreground">Incorrect</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded col-span-2">
+                      <div className="text-primary font-semibold text-lg">{data.gameResults.workingMemory.maxNLevel}</div>
+                      <div className="text-xs text-muted-foreground">Max Level Achieved</div>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t">
+                    <div className="text-xs text-muted-foreground">
+                      <strong>Accuracy:</strong> {Math.round((data.gameResults.workingMemory.correctResponses / data.gameResults.workingMemory.totalTrials) * 100)}%
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Stroop Test Results */}
+              <Card className="bg-pink-50 dark:bg-pink-950/20 border-pink-200 dark:border-pink-800">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Activity className="w-4 h-4" />
+                    Flexibility Test
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-success font-semibold">{data.gameResults.stroop.correctResponses}</div>
+                      <div className="text-xs text-muted-foreground">Correct</div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                      <div className="text-primary font-semibold">{data.gameResults.stroop.averageReactionTime}ms</div>
+                      <div className="text-xs text-muted-foreground">Avg Time</div>
+                    </div>
+                  </div>
+                  <div className="space-y-1 pt-2 border-t text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Congruent:</span>
+                      <span className="font-semibold">{Math.round(data.gameResults.stroop.congruentAccuracy * 100)}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Incongruent:</span>
+                      <span className="font-semibold">{Math.round(data.gameResults.stroop.incongruentAccuracy * 100)}%</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Cognitive Performance Chart */}
+            <Card className="bg-muted/30">
+              <CardHeader>
+                <CardTitle className="text-base">Performance Comparison</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={[
+                        {
+                          test: 'Attention',
+                          accuracy: Math.round((data.gameResults.cpt.correctHits / data.gameResults.cpt.totalTrials) * 100),
+                          speed: 100 - Math.min(100, (data.gameResults.cpt.averageReactionTime / 10))
+                        },
+                        {
+                          test: 'Memory',
+                          accuracy: Math.round((data.gameResults.workingMemory.correctResponses / data.gameResults.workingMemory.totalTrials) * 100),
+                          speed: (data.gameResults.workingMemory.maxNLevel / 7) * 100
+                        },
+                        {
+                          test: 'Flexibility',
+                          accuracy: Math.round((data.gameResults.stroop.correctResponses / data.gameResults.stroop.totalTrials) * 100),
+                          speed: 100 - Math.min(100, (data.gameResults.stroop.averageReactionTime / 10))
+                        }
+                      ]}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis 
+                        dataKey="test" 
+                        tick={{ fontSize: 12 }} 
+                        stroke="hsl(var(--foreground))"
+                      />
+                      <YAxis 
+                        domain={[0, 100]}
+                        tick={{ fontSize: 12 }} 
+                        stroke="hsl(var(--foreground))"
+                      />
+                      <Tooltip 
+                        formatter={(value: any) => [`${Math.round(value)}%`, '']}
+                        labelStyle={{ color: 'hsl(var(--foreground))' }}
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--background))', 
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '6px'
+                        }}
+                      />
+                      <Legend />
+                      <Bar dataKey="accuracy" fill="hsl(var(--success))" name="Accuracy %" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="speed" fill="hsl(var(--primary))" name="Performance Score" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="p-4 bg-medical-light rounded-lg">
+              <p className="text-xs text-muted-foreground">
+                <strong>Clinical Note:</strong> These computerized tests provide objective measurements similar to 
+                those used by professionals in ADHD assessment. The Continuous Performance Test (CPT) measures 
+                sustained attention, the Working Memory Test assesses memory capacity, and the Stroop Test 
+                evaluates cognitive flexibility and inhibition control.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Category Breakdown Chart */}
