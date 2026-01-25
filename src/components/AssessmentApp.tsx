@@ -4,6 +4,8 @@ import { AssessmentSurvey } from './AssessmentSurvey';
 import { AssessmentGames, GameResults } from './AssessmentGames';
 import { AssessmentResults } from './AssessmentResults';
 import { Card } from '@/components/ui/card';
+import { LanguageToggle } from './LanguageToggle';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export type AgeGroup = 'child' | 'teen' | 'adult';
 
@@ -51,18 +53,24 @@ const AssessmentApp = () => {
     setAssessmentData(null);
   };
 
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-medical-light/20 to-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <div className="max-w-6xl mx-auto">
+          {/* Language Toggle */}
+          <div className="flex justify-end mb-4">
+            <LanguageToggle />
+          </div>
+          
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent mb-4">
-              ADHD Assessment Tool
+              {t('app.title')}
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
-              A comprehensive, research-based assessment tool using validated clinical questionnaires 
-              to help identify potential ADHD symptoms across different age groups.
+              {t('app.subtitle')}
             </p>
           </div>
 
@@ -102,8 +110,7 @@ const AssessmentApp = () => {
                 <span className="text-warning text-sm font-semibold">!</span>
               </div>
               <div className="text-sm text-foreground/80">
-                <strong className="text-foreground">Important Disclaimer:</strong> This assessment is for informational purposes only and is not a substitute for professional medical diagnosis. 
-                If you have concerns about ADHD symptoms, please consult with a qualified healthcare professional or mental health provider.
+                <strong className="text-foreground">{t('disclaimer.title')}</strong> {t('disclaimer.text')}
               </div>
             </div>
           </div>

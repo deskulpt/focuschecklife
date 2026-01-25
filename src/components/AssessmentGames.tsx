@@ -5,6 +5,7 @@ import { ArrowLeft, Brain, Target, Zap, Palette } from 'lucide-react';
 import { ContinuousPerformanceTest } from './games/ContinuousPerformanceTest';
 import { WorkingMemoryTest } from './games/WorkingMemoryTest';
 import { StroopTest } from './games/StroopTest';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export interface GameResults {
   cpt: {
@@ -38,6 +39,7 @@ interface AssessmentGamesProps {
 type GameType = 'menu' | 'cpt' | 'memory' | 'stroop';
 
 export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) => {
+  const { t } = useLanguage();
   const [currentGame, setCurrentGame] = useState<GameType>('menu');
   const [completedGames, setCompletedGames] = useState<Set<string>>(new Set());
   const [gameResults, setGameResults] = useState<Partial<GameResults>>({});
@@ -45,24 +47,24 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
   const games = [
     {
       id: 'cpt',
-      name: 'Attention Test',
-      description: 'Measures sustained attention and impulse control',
+      nameKey: 'games.test1.title',
+      descriptionKey: 'games.test1.description',
       icon: Target,
       color: 'from-blue-500 to-blue-600',
       scientificName: 'Continuous Performance Test (CPT)'
     },
     {
       id: 'memory',
-      name: 'Memory Test',
-      description: 'Assesses working memory capacity',
+      nameKey: 'games.test2.title',
+      descriptionKey: 'games.test2.description',
       icon: Brain,
       color: 'from-purple-500 to-purple-600',
       scientificName: 'N-Back Working Memory Test'
     },
     {
       id: 'stroop',
-      name: 'Flexibility Test',
-      description: 'Evaluates cognitive flexibility and inhibition',
+      nameKey: 'games.test3.title',
+      descriptionKey: 'games.test3.description',
       icon: Palette,
       color: 'from-pink-500 to-pink-600',
       scientificName: 'Stroop Color-Word Test'
@@ -87,7 +89,7 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
         <div className="mb-8">
           <Button variant="ghost" onClick={onBack} className="flex items-center gap-2 mb-4">
             <ArrowLeft className="w-4 h-4" />
-            Back to Survey
+            {t('games.back')}
           </Button>
           
           <div className="space-y-3">
@@ -96,9 +98,9 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
                 <Zap className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h2 className="text-2xl font-semibold">Cognitive Assessment Games</h2>
+                <h2 className="text-2xl font-semibold">{t('games.title')}</h2>
                 <p className="text-sm text-muted-foreground">
-                  Complete {games.length} interactive tests ({completedGames.size} of {games.length} done)
+                  {t('games.game')} {completedGames.size}/{games.length}
                 </p>
               </div>
             </div>
@@ -126,15 +128,15 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold mb-1 flex items-center gap-2">
-                        {game.name}
+                        {t(game.nameKey)}
                         {isCompleted && (
                           <span className="text-xs bg-success/10 text-success px-2 py-0.5 rounded-full">
-                            ✓ Complete
+                            ✓ {t('games.complete')}
                           </span>
                         )}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        {game.description}
+                        {t(game.descriptionKey)}
                       </p>
                     </div>
                   </div>
@@ -151,7 +153,7 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
                     className="w-full"
                     variant={isCompleted ? 'outline' : 'default'}
                   >
-                    {isCompleted ? 'Completed' : 'Start Test'}
+                    {isCompleted ? t('games.complete') : t('games.start')}
                   </Button>
                 </CardContent>
               </Card>
@@ -165,12 +167,12 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
               <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Zap className="w-8 h-8 text-success" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">All Tests Complete!</h3>
+              <h3 className="text-xl font-semibold mb-2">{t('games.complete')}!</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Great job! Click continue to see your comprehensive results.
+                {t('games.research')}
               </p>
               <Button onClick={() => onComplete(gameResults as GameResults)} size="lg">
-                View Results
+                {t('games.viewResults')}
               </Button>
             </CardContent>
           </Card>
@@ -178,9 +180,7 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
 
         <div className="mt-6 p-4 bg-medical-light rounded-lg">
           <p className="text-xs text-muted-foreground">
-            <strong>Note:</strong> These computerized tests are based on clinically validated assessments 
-            like those used in Creyos Health and other professional ADHD diagnostic tools. They provide 
-            objective data about attention, memory, and executive function.
+            <strong>Note:</strong> {t('games.research')}
           </p>
         </div>
       </div>
