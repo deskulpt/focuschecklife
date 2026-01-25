@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WorkingMemoryResult {
   correctResponses: number;
@@ -15,6 +16,7 @@ interface WorkingMemoryTestProps {
 }
 
 export const WorkingMemoryTest = ({ onComplete }: WorkingMemoryTestProps) => {
+  const { t } = useLanguage();
   const [gameState, setGameState] = useState<'intro' | 'memorize' | 'recall' | 'complete'>('intro');
   const [sequence, setSequence] = useState<number[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -118,22 +120,22 @@ export const WorkingMemoryTest = ({ onComplete }: WorkingMemoryTestProps) => {
     return (
       <Card className="shadow-[var(--shadow-soft)]">
         <CardHeader>
-          <CardTitle>Working Memory Test</CardTitle>
+          <CardTitle>{t('wm.title')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">
-            This test measures your ability to hold and manipulate information in memory.
+            {t('wm.description')}
           </p>
           <div className="space-y-2 text-sm">
-            <p><strong>Instructions:</strong></p>
+            <p><strong>{t('wm.instructions.title')}</strong></p>
             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li>Watch the sequence of highlighted squares</li>
-              <li>Remember the order in which they appear</li>
-              <li>Click the squares in the same order</li>
-              <li>The sequence gets longer as you progress</li>
+              <li>{t('wm.instructions.1')}</li>
+              <li>{t('wm.instructions.2')}</li>
+              <li>{t('wm.instructions.3')}</li>
+              <li>{t('wm.instructions.4')}</li>
             </ul>
           </div>
-          <Button onClick={startGame} className="w-full">Start Test</Button>
+          <Button onClick={startGame} className="w-full">{t('wm.start')}</Button>
         </CardContent>
       </Card>
     );
@@ -147,7 +149,7 @@ export const WorkingMemoryTest = ({ onComplete }: WorkingMemoryTestProps) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">
-          Level {level} - Trial {trial + 1} / {totalTrialsPerLevel}
+          {t('wm.level')} {level} - {t('wm.trial')} {trial + 1} / {totalTrialsPerLevel}
         </span>
         <Progress value={(trial / totalTrialsPerLevel) * 100} className="w-1/2 h-2" />
       </div>
@@ -157,11 +159,11 @@ export const WorkingMemoryTest = ({ onComplete }: WorkingMemoryTestProps) => {
           <div className="space-y-4">
             <div className="text-center">
               {gameState === 'memorize' && (
-                <p className="text-sm text-muted-foreground mb-4">Watch the sequence...</p>
+                <p className="text-sm text-muted-foreground mb-4">{t('wm.watch')}</p>
               )}
               {gameState === 'recall' && (
                 <p className="text-sm text-muted-foreground mb-4">
-                  Click the squares in order ({userSequence.length}/{sequence.length})
+                  {t('wm.repeat')} ({userSequence.length}/{sequence.length})
                 </p>
               )}
             </div>
@@ -199,11 +201,11 @@ export const WorkingMemoryTest = ({ onComplete }: WorkingMemoryTestProps) => {
       <div className="grid grid-cols-2 gap-2 text-sm">
         <div className="p-3 bg-success/10 rounded-lg text-center">
           <div className="font-semibold text-success">{results.correctResponses}</div>
-          <div className="text-xs text-muted-foreground">Correct</div>
+          <div className="text-xs text-muted-foreground">{t('wm.correct')}</div>
         </div>
         <div className="p-3 bg-primary/10 rounded-lg text-center">
           <div className="font-semibold text-primary">{results.maxNLevel}</div>
-          <div className="text-xs text-muted-foreground">Max Level</div>
+          <div className="text-xs text-muted-foreground">{t('wm.maxLevel')}</div>
         </div>
       </div>
     </div>

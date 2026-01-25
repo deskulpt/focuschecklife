@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getQuestionsForAge, scaleLabels } from '@/data/assessmentQuestions';
 import type { AgeGroup } from './AssessmentApp';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage, Language } from '@/contexts/LanguageContext';
 
 interface AssessmentSurveyProps {
   ageGroup: AgeGroup;
@@ -14,7 +14,7 @@ interface AssessmentSurveyProps {
 }
 
 export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSurveyProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const questions = getQuestionsForAge(ageGroup);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState<Record<string, number>>({});
@@ -107,11 +107,11 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
       <Card className="mb-8 shadow-[var(--shadow-soft)]">
         <CardHeader>
           <CardTitle className="text-base sm:text-lg leading-relaxed">
-            {currentQ.text}
+            {currentQ.text[language as Language]}
           </CardTitle>
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             <span className="px-2 py-1 bg-medical-light rounded whitespace-nowrap">
-              {currentQ.category.replace('_', ' ')}
+              {t(`survey.category.${currentQ.category}`)}
             </span>
             <span className="hidden sm:inline">•</span>
             <span className="break-all sm:break-normal">{currentQ.source}</span>
@@ -172,12 +172,12 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
           {responses[currentQ.id] !== undefined ? (
             <>
               <div className="w-2 h-2 rounded-full bg-success" />
-              <span>Answered</span>
+              <span>{language === 'pt-BR' ? 'Respondido' : 'Answered'}</span>
             </>
           ) : (
             <>
               <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-              <span className="text-center">Select an answer to continue</span>
+              <span className="text-center">{language === 'pt-BR' ? 'Selecione uma resposta para continuar' : 'Select an answer to continue'}</span>
             </>
           )}
         </div>
