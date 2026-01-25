@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { RefreshCw, Download, AlertTriangle } from 'lucide-react';
 import type { AssessmentData } from './AssessmentApp';
 import { AssessmentResultsDashboard } from './AssessmentResultsDashboard';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AssessmentResultsProps {
   data: AssessmentData;
@@ -20,11 +21,13 @@ interface CategoryResult {
 }
 
 export const AssessmentResults = ({ data, onRestart }: AssessmentResultsProps) => {
+  const { t } = useLanguage();
+  
   const getAgeGroupTitle = () => {
     switch (data.ageGroup) {
-      case 'child': return 'Child (6-12 years)';
-      case 'teen': return 'Teen (13-17 years)';
-      case 'adult': return 'Adult (18+ years)';
+      case 'child': return t('results.ageGroup.child');
+      case 'teen': return t('results.ageGroup.teen');
+      case 'adult': return t('results.ageGroup.adult');
     }
   };
 
@@ -33,10 +36,10 @@ export const AssessmentResults = ({ data, onRestart }: AssessmentResultsProps) =
       {/* Header */}
       <div className="text-center">
         <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent mb-2">
-          Assessment Results
+          {t('results.title')}
         </h2>
         <p className="text-muted-foreground text-sm sm:text-base">
-          {getAgeGroupTitle()} • Completed {data.completedAt.toLocaleDateString()}
+          {getAgeGroupTitle()} • {t('results.completed')} {data.completedAt.toLocaleDateString()}
         </p>
       </div>
 
@@ -46,12 +49,12 @@ export const AssessmentResults = ({ data, onRestart }: AssessmentResultsProps) =
       {/* Research Sources */}
       <Card className="bg-medical-light">
         <CardHeader>
-          <CardTitle className="text-lg">Assessment Based On</CardTitle>
+          <CardTitle className="text-lg">{t('results.basedOn')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <h4 className="font-semibold mb-2">Clinical Criteria:</h4>
+              <h4 className="font-semibold mb-2">{t('results.clinicalCriteria')}</h4>
               <ul className="space-y-1 text-muted-foreground">
                 <li>• DSM-5 Diagnostic Criteria for ADHD</li>
                 <li>• American Psychiatric Association Guidelines</li>
@@ -59,7 +62,7 @@ export const AssessmentResults = ({ data, onRestart }: AssessmentResultsProps) =
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Validated Scales:</h4>
+              <h4 className="font-semibold mb-2">{t('results.validatedScales')}</h4>
               <ul className="space-y-1 text-muted-foreground">
                 <li>• Adult ADHD Self-Report Scale (ASRS-v1.1)</li>
                 <li>• Conners' Rating Scales</li>
@@ -75,8 +78,7 @@ export const AssessmentResults = ({ data, onRestart }: AssessmentResultsProps) =
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Button onClick={onRestart} variant="outline" className="flex items-center gap-2">
           <RefreshCw className="w-4 h-4" />
-          <span className="hidden sm:inline">Take Assessment Again</span>
-          <span className="sm:hidden">Retake</span>
+          {t('results.retake')}
         </Button>
         <Button 
           onClick={() => window.print()} 
@@ -84,8 +86,7 @@ export const AssessmentResults = ({ data, onRestart }: AssessmentResultsProps) =
           className="flex items-center gap-2"
         >
           <Download className="w-4 h-4" />
-          <span className="hidden sm:inline">Save Results</span>
-          <span className="sm:hidden">Save</span>
+          {t('results.save')}
         </Button>
       </div>
 
@@ -94,12 +95,9 @@ export const AssessmentResults = ({ data, onRestart }: AssessmentResultsProps) =
         <div className="flex items-start gap-3">
           <AlertTriangle className="flex-shrink-0 w-5 h-5 text-destructive mt-0.5" />
           <div className="text-sm">
-            <h4 className="font-semibold text-destructive mb-2">Medical Disclaimer</h4>
+            <h4 className="font-semibold text-destructive mb-2">{t('results.medicalDisclaimer')}</h4>
             <p className="text-foreground/80 leading-relaxed">
-              This assessment is for educational and informational purposes only. It is not intended to diagnose, treat, 
-              or replace professional medical advice. ADHD diagnosis requires comprehensive evaluation by a qualified 
-              healthcare professional, including clinical interviews, medical history, and sometimes additional testing. 
-              If you have concerns about ADHD symptoms, please consult with a licensed healthcare provider.
+              {t('results.disclaimerText')}
             </p>
           </div>
         </div>

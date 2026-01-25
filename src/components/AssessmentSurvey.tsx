@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getQuestionsForAge, scaleLabels } from '@/data/assessmentQuestions';
 import type { AgeGroup } from './AssessmentApp';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AssessmentSurveyProps {
   ageGroup: AgeGroup;
@@ -13,6 +14,7 @@ interface AssessmentSurveyProps {
 }
 
 export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSurveyProps) => {
+  const { t } = useLanguage();
   const questions = getQuestionsForAge(ageGroup);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState<Record<string, number>>({});
@@ -47,23 +49,32 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
   const getAgeGroupTitle = () => {
     switch (ageGroup) {
       case 'child':
-        return 'Children (6-12 years)';
+        return t('age.child.title');
       case 'teen':
-        return 'Teenagers (13-17 years)';
+        return t('age.teen.title');
       case 'adult':
-        return 'Adults (18+ years)';
+        return t('age.adult.title');
     }
   };
 
   const getInstructions = () => {
     switch (ageGroup) {
       case 'child':
-        return 'Please answer based on your observations of the child over the past 6 months.';
+        return t('survey.instructions.child');
       case 'teen':
-        return 'Please answer based on how often these situations occur in your daily life.';
+        return t('survey.instructions.teen');
       case 'adult':
-        return 'Please answer based on how you have felt and conducted yourself over the past 6 months.';
+        return t('survey.instructions.adult');
     }
+  };
+
+  const getScaleLabel = (value: number) => {
+    const scaleKeys = ['scale.never', 'scale.rarely', 'scale.sometimes', 'scale.often', 'scale.veryOften'];
+    return t(scaleKeys[value]);
+  };
+
+  const getCategoryLabel = (category: string) => {
+    return t(`survey.category.${category}`);
   };
 
   return (
@@ -73,18 +84,18 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
         <div className="flex items-center justify-between mb-4">
           <Button variant="ghost" onClick={onBack} className="flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" />
-            Back to Age Selection
+            {t('survey.back')}
           </Button>
           <div className="text-sm text-muted-foreground">
-            Question {currentQuestion + 1} of {questions.length}
+            {t('survey.question')} {currentQuestion + 1} {t('survey.of')} {questions.length}
           </div>
         </div>
         
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Assessment: {getAgeGroupTitle()}</h2>
+            <h2 className="text-2xl font-semibold">{getAgeGroupTitle()}</h2>
             <div className="text-right text-sm text-muted-foreground">
-              <div>{Math.round(progress)}% Complete</div>
+              <div>{Math.round(progress)}%</div>
             </div>
           </div>
           <Progress value={progress} className="h-2" />
@@ -135,13 +146,7 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-medium text-sm sm:text-base break-words">{label}</div>
-                      <div className="text-xs text-muted-foreground mt-1 leading-relaxed break-words">
-                        {numValue === 0 && 'This situation does not occur or occurs very rarely'}
-                        {numValue === 1 && 'This situation occurs occasionally, but not frequently'}
-                        {numValue === 2 && 'This situation occurs regularly and is noticeable'}
-                        {numValue === 3 && 'This situation occurs very frequently and causes significant problems'}
-                      </div>
+                      <div className="font-medium text-sm sm:text-base break-words">{getScaleLabel(numValue)}</div>
                     </div>
                   </div>
                 </Button>
@@ -160,8 +165,7 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
           className="flex items-center gap-2 w-full sm:w-auto"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">Previous</span>
-          <span className="sm:hidden">Back</span>
+          {t('survey.previous')}
         </Button>
         
         <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground w-full sm:w-auto justify-center sm:justify-end">
@@ -181,7 +185,7 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
 
       {/* Category Progress */}
       <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-medical-light rounded-lg">
-        <div className="text-xs sm:text-sm text-muted-foreground mb-2">Assessment Categories:</div>
+        <div className="text-xs sm:text-sm text-muted-foreground mb-2">{t('survey.progress')}:</div>
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-1 sm:gap-2">
           {['inattention', 'hyperactivity', 'impulsivity', 'functional_impairment'].map(category => {
             const categoryQuestions = questions.filter(q => q.category === category);
@@ -192,7 +196,7 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
             
             return (
               <div key={category} className="text-xs px-2 py-1 rounded bg-white/50 text-center">
-                <div className="font-medium capitalize">{category.replace('_', ' ')}</div>
+                <div className="font-medium">{getCategoryLabel(category)}</div>
                 <div className="text-muted-foreground">{answeredCount}/{totalCount}</div>
               </div>
             );
