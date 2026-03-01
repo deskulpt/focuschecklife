@@ -14,7 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          has_paid_full_test: boolean
+          has_paid_pdf: boolean
+          id: string
+          plan: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          has_paid_full_test?: boolean
+          has_paid_pdf?: boolean
+          id?: string
+          plan?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          has_paid_full_test?: boolean
+          has_paid_pdf?: boolean
+          id?: string
+          plan?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_assessments: {
+        Row: {
+          age_group: string
+          completed_at: string
+          created_at: string
+          game_results: Json | null
+          id: string
+          is_full_access: boolean
+          overall_score: number | null
+          risk_level: string | null
+          survey_responses: Json | null
+          user_id: string
+        }
+        Insert: {
+          age_group: string
+          completed_at?: string
+          created_at?: string
+          game_results?: Json | null
+          id?: string
+          is_full_access?: boolean
+          overall_score?: number | null
+          risk_level?: string | null
+          survey_responses?: Json | null
+          user_id: string
+        }
+        Update: {
+          age_group?: string
+          completed_at?: string
+          created_at?: string
+          game_results?: Json | null
+          id?: string
+          is_full_access?: boolean
+          overall_score?: number | null
+          risk_level?: string | null
+          survey_responses?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
