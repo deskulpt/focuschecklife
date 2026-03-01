@@ -5,9 +5,11 @@ import { AlertTriangle, CheckCircle, AlertCircle, TrendingUp, Target, Brain, Act
 import { getQuestionsForAge } from '@/data/assessmentQuestions';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend } from 'recharts';
 import type { AssessmentData } from './AssessmentApp';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AssessmentResultsDashboardProps {
   data: AssessmentData;
+  isFreePreview?: boolean;
 }
 
 interface CategoryResult {
@@ -25,15 +27,12 @@ const COLORS = {
   high: 'hsl(var(--destructive))'
 };
 
-export const AssessmentResultsDashboard = ({ data }: AssessmentResultsDashboardProps) => {
+export const AssessmentResultsDashboard = ({ data, isFreePreview = false }: AssessmentResultsDashboardProps) => {
+  const { t } = useLanguage();
   const questions = getQuestionsForAge(data.ageGroup);
   
-  // Calculate category scores
   const categoryResults: CategoryResult[] = [
-    'inattention',
-    'hyperactivity', 
-    'impulsivity',
-    'functional_impairment'
+    'inattention', 'hyperactivity', 'impulsivity', 'functional_impairment'
   ].map(category => {
     const categoryQuestions = questions.filter(q => q.category === category);
     const totalScore = categoryQuestions.reduce((sum, q) => {
@@ -41,47 +40,35 @@ export const AssessmentResultsDashboard = ({ data }: AssessmentResultsDashboardP
       const weight = q.weight || 1;
       return sum + (response * weight);
     }, 0);
-    
     const maxPossibleScore = categoryQuestions.reduce((sum, q) => {
       const weight = q.weight || 1;
       return sum + (3 * weight);
     }, 0);
-    
     const percentage = maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
-    
     let level: 'low' | 'moderate' | 'high' = 'low';
     if (percentage >= 70) level = 'high';
     else if (percentage >= 40) level = 'moderate';
-    
     return {
       category: category.replace('_', ' '),
       score: Math.round(totalScore),
       maxScore: Math.round(maxPossibleScore),
       percentage: Math.round(percentage),
       level,
-      description: getCategoryDescription(category, level)
+      description: t(`category.${category}.${level}`)
     };
   }).filter(result => result.maxScore > 0);
 
-  // Calculate overall assessment
   const totalScore = categoryResults.reduce((sum, cat) => sum + cat.score, 0);
   const totalMaxScore = categoryResults.reduce((sum, cat) => sum + cat.maxScore, 0);
   const overallPercentage = totalMaxScore > 0 ? (totalScore / totalMaxScore) * 100 : 0;
 
-  // Prepare chart data
   const pieChartData = categoryResults.map(result => ({
-    name: result.category,
-    value: result.percentage,
-    color: COLORS[result.level]
+    name: result.category, value: result.percentage, color: COLORS[result.level]
   }));
-
   const barChartData = categoryResults.map(result => ({
     category: result.category.charAt(0).toUpperCase() + result.category.slice(1),
-    score: result.score,
-    maxScore: result.maxScore,
-    percentage: result.percentage
+    score: result.score, maxScore: result.maxScore, percentage: result.percentage
   }));
-
   const radarData = categoryResults.map(result => ({
     category: result.category.charAt(0).toUpperCase() + result.category.slice(1),
     score: result.percentage
@@ -100,30 +87,18 @@ export const AssessmentResultsDashboard = ({ data }: AssessmentResultsDashboardP
   const getOverallAssessment = () => {
     if (overallPercentage >= 70) {
       return {
-        level: 'high',
-        title: 'Significant ADHD Symptoms Indicated',
-        description: 'Your responses suggest a high likelihood of ADHD symptoms that may significantly impact daily functioning.',
-        recommendation: 'We strongly recommend consulting with a healthcare professional for a comprehensive evaluation.',
-        color: 'destructive',
-        icon: <AlertTriangle className="w-8 h-8" />
+        level: 'high', title: t('dashboard.high.title'), description: t('dashboard.high.description'),
+        recommendation: t('dashboard.high.recommendation'), color: 'destructive', icon: <AlertTriangle className="w-8 h-8" />
       };
     } else if (overallPercentage >= 40) {
       return {
-        level: 'moderate',
-        title: 'Moderate ADHD Symptoms Indicated',
-        description: 'Your responses suggest some ADHD symptoms that may be impacting your daily life.',
-        recommendation: 'Consider discussing these symptoms with a healthcare professional for further evaluation.',
-        color: 'warning',
-        icon: <AlertCircle className="w-8 h-8" />
+        level: 'moderate', title: t('dashboard.moderate.title'), description: t('dashboard.moderate.description'),
+        recommendation: t('dashboard.moderate.recommendation'), color: 'warning', icon: <AlertCircle className="w-8 h-8" />
       };
     } else {
       return {
-        level: 'low',
-        title: 'Low ADHD Symptoms Indicated',
-        description: 'Your responses suggest minimal ADHD symptoms at this time.',
-        recommendation: 'Continue monitoring symptoms and consult a professional if concerns develop.',
-        color: 'success',
-        icon: <CheckCircle className="w-8 h-8" />
+        level: 'low', title: t('dashboard.low.title'), description: t('dashboard.low.description'),
+        recommendation: t('dashboard.low.recommendation'), color: 'success', icon: <CheckCircle className="w-8 h-8" />
       };
     }
   };
@@ -142,21 +117,17 @@ export const AssessmentResultsDashboard = ({ data }: AssessmentResultsDashboardP
           <div className="flex items-center gap-4">
             <div className={`p-2 rounded-full ${
               overall.color === 'destructive' ? 'bg-destructive/10' :
-              overall.color === 'warning' ? 'bg-warning/10' :
-              'bg-success/10'
+              overall.color === 'warning' ? 'bg-warning/10' : 'bg-success/10'
             }`}>
               <div className={`${
                 overall.color === 'destructive' ? 'text-destructive' :
-                overall.color === 'warning' ? 'text-warning' :
-                'text-success'
-              }`}>
-                {overall.icon}
-              </div>
+                overall.color === 'warning' ? 'text-warning' : 'text-success'
+              }`}>{overall.icon}</div>
             </div>
             <div className="flex-1">
               <CardTitle className="text-xl sm:text-2xl">{overall.title}</CardTitle>
               <div className="text-sm text-muted-foreground mt-1">
-                Overall Score: <span className="font-semibold">{Math.round(overallPercentage)}%</span>
+                {t('results.overallScore')}: <span className="font-semibold">{Math.round(overallPercentage)}%</span>
               </div>
             </div>
             <div className="text-right">
@@ -179,375 +150,278 @@ export const AssessmentResultsDashboard = ({ data }: AssessmentResultsDashboardP
         </CardContent>
       </Card>
 
-      {/* Cognitive Performance Tests Results */}
-      {data.gameResults && (
-        <Card className="shadow-[var(--shadow-card)] border-primary/20">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Brain className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <CardTitle className="text-xl">Cognitive Performance Tests</CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Objective measures of attention, memory, and executive function
+      {/* Free preview stops here - show blur overlay for rest */}
+      {isFreePreview && (
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95 z-10 flex items-center justify-center">
+            <Card className="shadow-[var(--shadow-card)] border-primary/30 max-w-md mx-4">
+              <CardContent className="p-6 text-center">
+                <Brain className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="text-lg font-bold mb-2">{t('paywall.unlockTitle') || 'Unlock Full Results'}</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {t('paywall.unlockDescription') || 'Get detailed category breakdown, cognitive performance analysis, symptom radar chart, and clinical recommendations.'}
                 </p>
-              </div>
+                <p className="text-2xl font-bold text-primary mb-4">$5 <span className="text-sm font-normal text-muted-foreground">{t('paywall.oneTime') || 'one-time'}</span></p>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="filter blur-sm pointer-events-none select-none">
+            <CognitiveAndDetailedResults data={data} categoryResults={categoryResults} pieChartData={pieChartData} barChartData={barChartData} radarData={radarData} getCategoryIcon={getCategoryIcon} t={t} />
+          </div>
+        </div>
+      )}
+
+      {!isFreePreview && (
+        <CognitiveAndDetailedResults data={data} categoryResults={categoryResults} pieChartData={pieChartData} barChartData={barChartData} radarData={radarData} getCategoryIcon={getCategoryIcon} t={t} />
+      )}
+    </div>
+  );
+};
+
+// Extracted the detailed results into a sub-component
+const CognitiveAndDetailedResults = ({ data, categoryResults, pieChartData, barChartData, radarData, getCategoryIcon, t }: any) => (
+  <>
+    {/* Cognitive Performance Tests Results */}
+    {data.gameResults && (
+      <Card className="shadow-[var(--shadow-card)] border-primary/20">
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Brain className="w-6 h-6 text-primary" />
             </div>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* CPT Results */}
-              <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Target className="w-4 h-4" />
-                    Attention Test (CPT)
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-success font-semibold">{data.gameResults.cpt.correctHits}</div>
-                      <div className="text-xs text-muted-foreground">Correct Hits</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-destructive font-semibold">{data.gameResults.cpt.falseAlarms}</div>
-                      <div className="text-xs text-muted-foreground">False Alarms</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-warning font-semibold">{data.gameResults.cpt.missedTargets}</div>
-                      <div className="text-xs text-muted-foreground">Missed</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-primary font-semibold">{data.gameResults.cpt.averageReactionTime}ms</div>
-                      <div className="text-xs text-muted-foreground">Avg Time</div>
-                    </div>
-                  </div>
-                  <div className="pt-2 border-t">
-                    <div className="text-xs text-muted-foreground">
-                      <strong>Accuracy:</strong> {Math.round((data.gameResults.cpt.correctHits / data.gameResults.cpt.totalTrials) * 100)}%
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Working Memory Results */}
-              <Card className="bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-800">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Brain className="w-4 h-4" />
-                    Memory Test
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-success font-semibold">{data.gameResults.workingMemory.correctResponses}</div>
-                      <div className="text-xs text-muted-foreground">Correct</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-destructive font-semibold">{data.gameResults.workingMemory.incorrectResponses}</div>
-                      <div className="text-xs text-muted-foreground">Incorrect</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded col-span-2">
-                      <div className="text-primary font-semibold text-lg">{data.gameResults.workingMemory.maxNLevel}</div>
-                      <div className="text-xs text-muted-foreground">Max Level Achieved</div>
-                    </div>
-                  </div>
-                  <div className="pt-2 border-t">
-                    <div className="text-xs text-muted-foreground">
-                      <strong>Accuracy:</strong> {Math.round((data.gameResults.workingMemory.correctResponses / data.gameResults.workingMemory.totalTrials) * 100)}%
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Stroop Test Results */}
-              <Card className="bg-pink-50 dark:bg-pink-950/20 border-pink-200 dark:border-pink-800">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Activity className="w-4 h-4" />
-                    Flexibility Test
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-success font-semibold">{data.gameResults.stroop.correctResponses}</div>
-                      <div className="text-xs text-muted-foreground">Correct</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-900 p-2 rounded">
-                      <div className="text-primary font-semibold">{data.gameResults.stroop.averageReactionTime}ms</div>
-                      <div className="text-xs text-muted-foreground">Avg Time</div>
-                    </div>
-                  </div>
-                  <div className="space-y-1 pt-2 border-t text-xs">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Congruent:</span>
-                      <span className="font-semibold">{Math.round(data.gameResults.stroop.congruentAccuracy * 100)}%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Incongruent:</span>
-                      <span className="font-semibold">{Math.round(data.gameResults.stroop.incongruentAccuracy * 100)}%</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            <div>
+              <CardTitle className="text-xl">{t('results.cognitivePerformance')}</CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">{t('results.cognitiveDescription')}</p>
             </div>
-
-            {/* Cognitive Performance Chart */}
-            <Card className="bg-muted/30">
-              <CardHeader>
-                <CardTitle className="text-base">Performance Comparison</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Target className="w-4 h-4" /> {t('dashboard.attentionTest')}
+                </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={[
-                        {
-                          test: 'Attention',
-                          accuracy: Math.round((data.gameResults.cpt.correctHits / data.gameResults.cpt.totalTrials) * 100),
-                          speed: 100 - Math.min(100, (data.gameResults.cpt.averageReactionTime / 10))
-                        },
-                        {
-                          test: 'Memory',
-                          accuracy: Math.round((data.gameResults.workingMemory.correctResponses / data.gameResults.workingMemory.totalTrials) * 100),
-                          speed: (data.gameResults.workingMemory.maxNLevel / 7) * 100
-                        },
-                        {
-                          test: 'Flexibility',
-                          accuracy: Math.round((data.gameResults.stroop.correctResponses / data.gameResults.stroop.totalTrials) * 100),
-                          speed: 100 - Math.min(100, (data.gameResults.stroop.averageReactionTime / 10))
-                        }
-                      ]}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                      <XAxis 
-                        dataKey="test" 
-                        tick={{ fontSize: 12 }} 
-                        stroke="hsl(var(--foreground))"
-                      />
-                      <YAxis 
-                        domain={[0, 100]}
-                        tick={{ fontSize: 12 }} 
-                        stroke="hsl(var(--foreground))"
-                      />
-                      <Tooltip 
-                        formatter={(value: any) => [`${Math.round(value)}%`, '']}
-                        labelStyle={{ color: 'hsl(var(--foreground))' }}
-                        contentStyle={{ 
-                          backgroundColor: 'hsl(var(--background))', 
-                          border: '1px solid hsl(var(--border))',
-                          borderRadius: '6px'
-                        }}
-                      />
-                      <Legend />
-                      <Bar dataKey="accuracy" fill="hsl(var(--success))" name="Accuracy %" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="speed" fill="hsl(var(--primary))" name="Performance Score" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
+              <CardContent className="space-y-3">
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-success font-semibold">{data.gameResults.cpt.correctHits}</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.correctHits')}</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-destructive font-semibold">{data.gameResults.cpt.falseAlarms}</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.falseAlarms')}</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-warning font-semibold">{data.gameResults.cpt.missedTargets}</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.missed')}</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-primary font-semibold">{data.gameResults.cpt.averageReactionTime}ms</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.avgTime')}</div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
+            <Card className="bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-800">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Brain className="w-4 h-4" /> {t('dashboard.memoryTest')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-success font-semibold">{data.gameResults.workingMemory.correctResponses}</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.correct')}</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-destructive font-semibold">{data.gameResults.workingMemory.incorrectResponses}</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.incorrect')}</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded col-span-2">
+                    <div className="text-primary font-semibold text-lg">{data.gameResults.workingMemory.maxNLevel}</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.maxLevelAchieved')}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-pink-50 dark:bg-pink-950/20 border-pink-200 dark:border-pink-800">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Activity className="w-4 h-4" /> {t('dashboard.flexibilityTest')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-success font-semibold">{data.gameResults.stroop.correctResponses}</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.correct')}</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-2 rounded">
+                    <div className="text-primary font-semibold">{data.gameResults.stroop.averageReactionTime}ms</div>
+                    <div className="text-xs text-muted-foreground">{t('dashboard.avgTime')}</div>
+                  </div>
+                </div>
+                <div className="space-y-1 pt-2 border-t text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">{t('dashboard.congruent')}:</span>
+                    <span className="font-semibold">{Math.round(data.gameResults.stroop.congruentAccuracy * 100)}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">{t('dashboard.incongruent')}:</span>
+                    <span className="font-semibold">{Math.round(data.gameResults.stroop.incongruentAccuracy * 100)}%</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-            <div className="p-4 bg-medical-light rounded-lg">
-              <p className="text-xs text-muted-foreground">
-                <strong>Clinical Note:</strong> These computerized tests provide objective measurements similar to 
-                those used by professionals in ADHD assessment. The Continuous Performance Test (CPT) measures 
-                sustained attention, the Working Memory Test assesses memory capacity, and the Stroop Test 
-                evaluates cognitive flexibility and inhibition control.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Category Breakdown Chart */}
-        <Card className="shadow-[var(--shadow-soft)]">
-          <CardHeader>
-            <CardTitle className="text-lg">Category Breakdown</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieChartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
+          <Card className="bg-muted/30">
+            <CardHeader>
+              <CardTitle className="text-base">{t('results.performanceComparison')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      { test: t('dashboard.attention'), accuracy: Math.round((data.gameResults.cpt.correctHits / data.gameResults.cpt.totalTrials) * 100), speed: 100 - Math.min(100, (data.gameResults.cpt.averageReactionTime / 10)) },
+                      { test: t('dashboard.memory'), accuracy: Math.round((data.gameResults.workingMemory.correctResponses / data.gameResults.workingMemory.totalTrials) * 100), speed: (data.gameResults.workingMemory.maxNLevel / 7) * 100 },
+                      { test: t('dashboard.flexibility'), accuracy: Math.round((data.gameResults.stroop.correctResponses / data.gameResults.stroop.totalTrials) * 100), speed: 100 - Math.min(100, (data.gameResults.stroop.averageReactionTime / 10)) }
+                    ]}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                   >
-                    {pieChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => [`${value}%`, 'Score']} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="test" tick={{ fontSize: 12 }} stroke="hsl(var(--foreground))" />
+                    <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} stroke="hsl(var(--foreground))" />
+                    <Tooltip
+                      formatter={(value: any) => [`${Math.round(value)}%`, '']}
+                      contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))', borderRadius: '6px' }}
+                    />
+                    <Legend />
+                    <Bar dataKey="accuracy" fill="hsl(var(--success))" name={t('dashboard.accuracyPercent')} radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="speed" fill="hsl(var(--primary))" name={t('dashboard.performanceScore')} radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* Score Comparison Chart */}
-        <Card className="shadow-[var(--shadow-soft)]">
-          <CardHeader>
-            <CardTitle className="text-lg">Score Comparison</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis 
-                    dataKey="category" 
-                    tick={{ fontSize: 12 }} 
-                    stroke="hsl(var(--foreground))"
-                  />
-                  <YAxis 
-                    tick={{ fontSize: 12 }} 
-                    stroke="hsl(var(--foreground))"
-                  />
-                  <Tooltip 
-                    formatter={(value, name) => [value, name === 'percentage' ? 'Percentage' : 'Score']}
-                    labelStyle={{ color: 'hsl(var(--foreground))' }}
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--background))', 
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '6px'
-                    }}
-                  />
-                  <Bar dataKey="percentage" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          <div className="p-4 bg-medical-light rounded-lg">
+            <p className="text-xs text-muted-foreground">
+              <strong>{t('dashboard.clinicalNote')}</strong> {t('dashboard.clinicalNoteText')}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    )}
 
-      {/* Radar Chart */}
+    {/* Charts Section */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <Card className="shadow-[var(--shadow-soft)]">
         <CardHeader>
-          <CardTitle className="text-lg">Symptom Profile Radar</CardTitle>
+          <CardTitle className="text-lg">{t('results.categoryBreakdown')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-80">
+          <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={radarData}>
-                <PolarGrid stroke="hsl(var(--border))" />
-                <PolarAngleAxis 
-                  dataKey="category" 
-                  tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} 
-                />
-                <PolarRadiusAxis 
-                  angle={90} 
-                  domain={[0, 100]} 
-                  tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
-                />
-                <Radar 
-                  name="Score %" 
-                  dataKey="score" 
-                  stroke="hsl(var(--primary))" 
-                  fill="hsl(var(--primary))" 
-                  fillOpacity={0.2}
-                  strokeWidth={2}
-                />
-                <Tooltip 
-                  formatter={(value) => [`${value}%`, 'Score']}
-                  labelStyle={{ color: 'hsl(var(--foreground))' }}
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--background))', 
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '6px'
-                  }}
-                />
-              </RadarChart>
+              <PieChart>
+                <Pie data={pieChartData} cx="50%" cy="50%" innerRadius={40} outerRadius={80} paddingAngle={5} dataKey="value">
+                  {pieChartData.map((entry: any, index: number) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value: any) => [`${value}%`, t('results.score')]} />
+                <Legend />
+              </PieChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>
 
-      {/* Category Details */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {categoryResults.map((category) => (
-          <Card key={category.category} className="shadow-[var(--shadow-soft)]">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg ${
-                    category.level === 'high' ? 'bg-destructive/10' :
-                    category.level === 'moderate' ? 'bg-warning/10' :
-                    'bg-success/10'
-                  }`}>
-                    <div className={`${
-                      category.level === 'high' ? 'text-destructive' :
-                      category.level === 'moderate' ? 'text-warning' :
-                      'text-success'
-                    }`}>
-                      {getCategoryIcon(category.category)}
-                    </div>
-                  </div>
-                  <CardTitle className="text-base sm:text-lg capitalize">{category.category}</CardTitle>
-                </div>
-                <Badge variant={
-                  category.level === 'high' ? 'destructive' :
-                  category.level === 'moderate' ? 'secondary' :
-                  'outline'
-                }>
-                  {category.level}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span>Score: {category.score}/{category.maxScore}</span>
-                  <span className="font-semibold">{category.percentage}%</span>
-                </div>
-                <Progress value={category.percentage} className="h-2" />
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {category.description}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <Card className="shadow-[var(--shadow-soft)]">
+        <CardHeader>
+          <CardTitle className="text-lg">{t('results.yourScore')}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={barChartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="category" tick={{ fontSize: 12 }} stroke="hsl(var(--foreground))" />
+                <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--foreground))" />
+                <Tooltip
+                  formatter={(value: any, name: any) => [value, name === 'percentage' ? '%' : t('results.score')]}
+                  contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))', borderRadius: '6px' }}
+                />
+                <Bar dataKey="percentage" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
     </div>
-  );
-};
 
-function getCategoryDescription(category: string, level: 'low' | 'moderate' | 'high'): string {
-  const descriptions = {
-    inattention: {
-      low: 'Attention and focus appear to be within typical ranges.',
-      moderate: 'Some difficulties with attention, focus, and task completion may be present.',
-      high: 'Significant attention difficulties that likely impact daily functioning.'
-    },
-    hyperactivity: {
-      low: 'Activity levels appear to be within typical ranges.',
-      moderate: 'Some signs of restlessness or excessive activity may be present.',
-      high: 'Significant hyperactivity that likely impacts daily functioning.'
-    },
-    impulsivity: {
-      low: 'Impulse control appears to be within typical ranges.',
-      moderate: 'Some impulsive behaviors may be present.',
-      high: 'Significant impulsivity that likely impacts daily functioning.'
-    },
-    functional_impairment: {
-      low: 'Minimal impact on daily life and functioning.',
-      moderate: 'Some challenges with daily tasks and responsibilities.',
-      high: 'Significant impact on work, school, or relationship functioning.'
-    }
-  };
+    {/* Radar */}
+    <Card className="shadow-[var(--shadow-soft)]">
+      <CardHeader>
+        <CardTitle className="text-lg">{t('results.symptomProfile')}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart data={radarData}>
+              <PolarGrid stroke="hsl(var(--border))" />
+              <PolarAngleAxis dataKey="category" tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} />
+              <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} />
+              <Radar name={t('results.score') + ' %'} dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} strokeWidth={2} />
+              <Tooltip formatter={(value: any) => [`${value}%`, t('results.score')]} contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))', borderRadius: '6px' }} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+      </CardContent>
+    </Card>
 
-  return descriptions[category as keyof typeof descriptions]?.[level] || 'Assessment data available.';
-}
+    {/* Category Details */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {categoryResults.map((category: any) => (
+        <Card key={category.category} className="shadow-[var(--shadow-soft)]">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${
+                  category.level === 'high' ? 'bg-destructive/10' :
+                  category.level === 'moderate' ? 'bg-warning/10' : 'bg-success/10'
+                }`}>
+                  <div className={`${
+                    category.level === 'high' ? 'text-destructive' :
+                    category.level === 'moderate' ? 'text-warning' : 'text-success'
+                  }`}>{getCategoryIcon(category.category)}</div>
+                </div>
+                <CardTitle className="text-base sm:text-lg capitalize">{category.category}</CardTitle>
+              </div>
+              <Badge variant={
+                category.level === 'high' ? 'destructive' :
+                category.level === 'moderate' ? 'secondary' : 'outline'
+              }>
+                {t(`results.${category.level}`)}
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span>{t('results.score')}: {category.score}/{category.maxScore}</span>
+                <span className="font-semibold">{category.percentage}%</span>
+              </div>
+              <Progress value={category.percentage} className="h-2" />
+              <p className="text-xs text-muted-foreground leading-relaxed">{category.description}</p>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </>
+);
