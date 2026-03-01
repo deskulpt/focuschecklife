@@ -11,8 +11,8 @@ interface LanguageContextType {
 const translations: Record<Language, Record<string, string>> = {
   'en': {
     // Header
-    'app.title': 'ADHD Assessment Tool',
-    'app.subtitle': 'A comprehensive, research-based assessment tool using validated clinical questionnaires to help identify potential ADHD symptoms across different age groups.',
+    'app.title': 'FocusCheck ADHD Assessment',
+    'app.subtitle': 'A comprehensive, research-based assessment tool using validated clinical questionnaires and cognitive tests to help identify potential ADHD symptoms across different age groups.',
     
     // Disclaimer
     'disclaimer.title': 'Important Disclaimer:',
@@ -57,6 +57,7 @@ const translations: Record<Language, Record<string, string>> = {
     'games.title': 'Cognitive Assessment Games',
     'games.subtitle': 'Complete these interactive cognitive tests to provide objective data about attention, impulse control, and working memory.',
     'games.back': 'Back to Survey',
+    'games.backToMenu': 'Back to Game Menu',
     'games.game': 'Game',
     'games.test1.title': 'Continuous Performance Test',
     'games.test1.description': 'Measures sustained attention and impulse control',
@@ -73,6 +74,8 @@ const translations: Record<Language, Record<string, string>> = {
     'games.viewResults': 'View Results',
     'games.completeAll': 'Please complete all games to continue',
     'games.research': 'These tests are based on validated cognitive assessment methods used in clinical ADHD evaluations.',
+    'games.basedOn': 'Based on:',
+    'games.note': 'Note:',
     
     // CPT Game
     'cpt.title': 'Continuous Performance Test',
@@ -195,11 +198,20 @@ const translations: Record<Language, Record<string, string>> = {
     'category.functional_impairment.low': 'Minimal impact on daily life and functioning.',
     'category.functional_impairment.moderate': 'Some challenges with daily tasks and responsibilities.',
     'category.functional_impairment.high': 'Significant impact on work, school, or relationship functioning.',
+
+    // Paywall
+    'paywall.unlockTitle': 'Unlock Full Results',
+    'paywall.unlockDescription': 'Get detailed category breakdown, cognitive performance analysis, symptom radar chart, and clinical recommendations.',
+    'paywall.oneTime': 'one-time',
+
+    // Landing
+    'landing.myAssessment': 'My Assessment',
+    'landing.logout': 'Logout',
   },
   'pt-BR': {
     // Header
-    'app.title': 'Ferramenta de Avaliação de TDAH',
-    'app.subtitle': 'Uma ferramenta de avaliação abrangente, baseada em pesquisas, utilizando questionários clínicos validados para ajudar a identificar potenciais sintomas de TDAH em diferentes faixas etárias.',
+    'app.title': 'Avaliação de TDAH FocusCheck',
+    'app.subtitle': 'Uma ferramenta de avaliação abrangente, baseada em pesquisas, utilizando questionários clínicos validados e testes cognitivos para ajudar a identificar potenciais sintomas de TDAH em diferentes faixas etárias.',
     
     // Disclaimer
     'disclaimer.title': 'Aviso Importante:',
@@ -244,6 +256,7 @@ const translations: Record<Language, Record<string, string>> = {
     'games.title': 'Jogos de Avaliação Cognitiva',
     'games.subtitle': 'Complete estes testes cognitivos interativos para fornecer dados objetivos sobre atenção, controle de impulsos e memória de trabalho.',
     'games.back': 'Voltar ao Questionário',
+    'games.backToMenu': 'Voltar ao Menu de Jogos',
     'games.game': 'Jogo',
     'games.test1.title': 'Teste de Desempenho Contínuo',
     'games.test1.description': 'Mede atenção sustentada e controle de impulsos',
@@ -260,6 +273,8 @@ const translations: Record<Language, Record<string, string>> = {
     'games.viewResults': 'Ver Resultados',
     'games.completeAll': 'Por favor, complete todos os jogos para continuar',
     'games.research': 'Estes testes são baseados em métodos de avaliação cognitiva validados usados em avaliações clínicas de TDAH.',
+    'games.basedOn': 'Baseado em:',
+    'games.note': 'Nota:',
     
     // CPT Game
     'cpt.title': 'Teste de Desempenho Contínuo',
@@ -382,6 +397,15 @@ const translations: Record<Language, Record<string, string>> = {
     'category.functional_impairment.low': 'Impacto mínimo na vida diária e funcionamento.',
     'category.functional_impairment.moderate': 'Alguns desafios com tarefas e responsabilidades diárias.',
     'category.functional_impairment.high': 'Impacto significativo no trabalho, escola ou funcionamento nos relacionamentos.',
+
+    // Paywall
+    'paywall.unlockTitle': 'Desbloqueie os Resultados Completos',
+    'paywall.unlockDescription': 'Obtenha detalhamento por categoria, análise de desempenho cognitivo, gráfico radar de sintomas e recomendações clínicas.',
+    'paywall.oneTime': 'pagamento único',
+
+    // Landing
+    'landing.myAssessment': 'Minha Avaliação',
+    'landing.logout': 'Sair',
   }
 };
 
