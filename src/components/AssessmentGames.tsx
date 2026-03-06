@@ -9,27 +9,9 @@ import { StroopTest } from './games/StroopTest';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export interface GameResults {
-  cpt: {
-    correctHits: number;
-    missedTargets: number;
-    falseAlarms: number;
-    averageReactionTime: number;
-    totalTrials: number;
-  };
-  workingMemory: {
-    correctResponses: number;
-    incorrectResponses: number;
-    maxNLevel: number;
-    totalTrials: number;
-  };
-  stroop: {
-    correctResponses: number;
-    incorrectResponses: number;
-    averageReactionTime: number;
-    congruentAccuracy: number;
-    incongruentAccuracy: number;
-    totalTrials: number;
-  };
+  cpt: { correctHits: number; missedTargets: number; falseAlarms: number; averageReactionTime: number; totalTrials: number; };
+  workingMemory: { correctResponses: number; incorrectResponses: number; maxNLevel: number; totalTrials: number; };
+  stroop: { correctResponses: number; incorrectResponses: number; averageReactionTime: number; congruentAccuracy: number; incongruentAccuracy: number; totalTrials: number; };
 }
 
 interface AssessmentGamesProps {
@@ -67,16 +49,14 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-foreground">
-              {t('games.progress') || 'Assessment Progress'}
-            </span>
+            <span className="text-sm font-medium text-foreground">{t('games.progress')}</span>
             <span className="text-sm text-muted-foreground">
-              {completedGames.size}/{games.length} {t('games.complete') || 'completed'}
+              {completedGames.size}/{games.length} {t('games.completed')}
             </span>
           </div>
           <Progress value={(completedGames.size / games.length) * 100} className="h-3" />
           <div className="flex justify-between mt-2">
-            {games.map((game, i) => {
+            {games.map((game) => {
               const isCompleted = completedGames.has(game.id);
               return (
                 <div key={game.id} className="flex items-center gap-1.5 text-xs">
@@ -141,7 +121,7 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
           <Card className="border-success bg-success/5">
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4"><Zap className="w-8 h-8 text-success" /></div>
-              <h3 className="text-xl font-semibold mb-2">{t('games.complete')}!</h3>
+              <h3 className="text-xl font-semibold mb-2">{t('games.allComplete')}</h3>
               <p className="text-sm text-muted-foreground mb-4">{t('games.research')}</p>
               <Button onClick={() => onComplete(gameResults as GameResults)} size="lg">{t('games.viewResults')}</Button>
             </CardContent>

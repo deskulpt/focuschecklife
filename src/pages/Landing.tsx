@@ -9,41 +9,6 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-const faqs = [
-  {
-    q: 'What is FocusCheck ADHD assessment?',
-    a: 'FocusCheck is a comprehensive online ADHD screening tool that combines clinically validated questionnaires (based on DSM-5 criteria, ASRS-v1.1, and Conners\' Rating Scales) with cognitive performance tests including the Continuous Performance Test (CPT), Stroop Color-Word Test, and N-Back Working Memory Test.',
-  },
-  {
-    q: 'Is this ADHD test free?',
-    a: 'Yes! The basic assessment including all questionnaires and cognitive games is completely free. You\'ll receive a results snapshot at no cost. Detailed breakdowns are available for $5, and a professional PDF report for your doctor costs $20.',
-  },
-  {
-    q: 'How long does the ADHD assessment take?',
-    a: 'The complete assessment takes approximately 15-20 minutes, including the questionnaire (5-15 minutes depending on age group) and three cognitive performance tests (about 5 minutes total).',
-  },
-  {
-    q: 'Can this test diagnose ADHD?',
-    a: 'FocusCheck is a screening tool, not a diagnostic instrument. Only a qualified healthcare professional can diagnose ADHD. Our results provide valuable insights and a detailed report you can share with your doctor to support the diagnostic process.',
-  },
-  {
-    q: 'What age groups does FocusCheck support?',
-    a: 'FocusCheck offers age-appropriate assessments for three groups: Children (6-12 years) using Conners\' Rating Scales and DSM-5 criteria, Teenagers (13-17 years) combining self-report and parent questionnaires, and Adults (18+) using the ASRS-v1.1 scale with retrospective childhood assessment.',
-  },
-  {
-    q: 'Is my data private and secure?',
-    a: 'Absolutely. All assessment data is encrypted and stored securely with row-level security. Your results are only accessible through your authenticated account. We never share personal health data with third parties.',
-  },
-  {
-    q: 'Can I share my results with my doctor?',
-    a: 'Yes! Our Professional Report ($20) generates a detailed PDF designed to be shared with healthcare providers. It includes your symptom profile, cognitive test scores, clinical methodology notes, and personalized recommendations — making your appointment more productive.',
-  },
-  {
-    q: 'What cognitive tests are included?',
-    a: 'Three research-backed tests: 1) Continuous Performance Test (CPT) measuring sustained attention, 2) N-Back Working Memory Test evaluating working memory capacity, and 3) Stroop Color-Word Test assessing inhibitory control and processing speed.',
-  },
-];
-
 const Landing = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
@@ -64,6 +29,16 @@ const Landing = () => {
 
   const navAction = () => (user ? navigate('/assessment') : navigate('/auth'));
 
+  const faqKeys = Array.from({ length: 8 }, (_, i) => i + 1);
+  const learnArticles = [
+    { titleKey: 'learn.a1.title', contentKey: 'learn.a1.content', icon: Target },
+    { titleKey: 'learn.a2.title', contentKey: 'learn.a2.content', icon: Brain },
+    { titleKey: 'learn.a3.title', contentKey: 'learn.a3.content', icon: FileText },
+    { titleKey: 'learn.a4.title', contentKey: 'learn.a4.content', icon: Shield },
+    { titleKey: 'learn.a5.title', contentKey: 'learn.a5.content', icon: Star },
+    { titleKey: 'learn.a6.title', contentKey: 'learn.a6.content', icon: Zap },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-medical-light/20 to-background">
       {/* Nav */}
@@ -71,26 +46,22 @@ const Landing = () => {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/logo.png" alt="FocusCheck ADHD Assessment" className="w-9 h-9" loading="lazy" />
-            <span className="text-lg font-bold bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent">
-              FocusCheck
-            </span>
+            <span className="text-lg font-bold text-foreground">FocusCheck</span>
           </div>
-          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-3">
             <LanguageToggle />
             {user ? (
               <>
-                <Button variant="ghost" size="sm" onClick={() => navigate('/assessment')}>My Assessment</Button>
-                <Button variant="outline" size="sm" onClick={handleLogout}>Logout</Button>
+                <Button variant="ghost" size="sm" onClick={() => navigate('/assessment')}>{t('landing.myAssessment')}</Button>
+                <Button variant="outline" size="sm" onClick={handleLogout}>{t('landing.logout')}</Button>
               </>
             ) : (
               <>
-                <Button variant="ghost" size="sm" onClick={() => navigate('/auth')}>Sign In</Button>
-                <Button size="sm" onClick={() => navigate('/auth')}>Get Started Free</Button>
+                <Button variant="ghost" size="sm" onClick={() => navigate('/auth')}>{t('nav.signIn')}</Button>
+                <Button size="sm" onClick={() => navigate('/auth')}>{t('nav.getStarted')}</Button>
               </>
             )}
           </div>
-          {/* Mobile Hamburger */}
           <div className="flex md:hidden items-center gap-2">
             <LanguageToggle />
             <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
@@ -98,18 +69,17 @@ const Landing = () => {
             </Button>
           </div>
         </div>
-        {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-border/50 bg-card/95 backdrop-blur-sm px-4 py-3 space-y-2">
             {user ? (
               <>
-                <Button variant="ghost" className="w-full justify-start" onClick={() => { navigate('/assessment'); setMobileMenuOpen(false); }}>My Assessment</Button>
-                <Button variant="outline" className="w-full justify-start" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>Logout</Button>
+                <Button variant="ghost" className="w-full justify-start" onClick={() => { navigate('/assessment'); setMobileMenuOpen(false); }}>{t('landing.myAssessment')}</Button>
+                <Button variant="outline" className="w-full justify-start" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>{t('landing.logout')}</Button>
               </>
             ) : (
               <>
-                <Button variant="ghost" className="w-full justify-start" onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }}>Sign In</Button>
-                <Button className="w-full" onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }}>Get Started Free</Button>
+                <Button variant="ghost" className="w-full justify-start" onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }}>{t('nav.signIn')}</Button>
+                <Button className="w-full" onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }}>{t('nav.getStarted')}</Button>
               </>
             )}
           </div>
@@ -119,38 +89,35 @@ const Landing = () => {
       {/* Hero */}
       <section className="container mx-auto px-4 py-12 sm:py-16 md:py-24 text-center">
         <Badge className="mb-4 sm:mb-6 bg-primary/10 text-primary border-primary/20 px-3 sm:px-4 py-1.5 text-xs sm:text-sm">
-          ✨ Pending Clinical Trials • DSM-5 Based
+          {t('hero.badge')}
         </Badge>
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-          <span className="bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent">
-            Know Your ADHD.
-          </span>
+          <span className="text-primary">{t('hero.title1')}</span>
           <br />
-          <span className="text-foreground">Take Control of Your Focus.</span>
+          <span className="text-foreground">{t('hero.title2')}</span>
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
-          The most comprehensive online ADHD assessment combining validated questionnaires
-          with cognitive performance tests. Get actionable insights in under 20 minutes.
+          {t('hero.subtitle')}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
           <Button size="lg" onClick={navAction} className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6">
-            Start Free Assessment <ArrowRight className="ml-2 w-5 h-5" />
+            {t('hero.cta')} <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
           <Button size="lg" variant="outline" onClick={() => document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' })} className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6">
-            <BookOpen className="mr-2 w-5 h-5" /> Learn About ADHD
+            <BookOpen className="mr-2 w-5 h-5" /> {t('hero.learnMore')}
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground mt-4">No credit card required • Results in 20 minutes</p>
+        <p className="text-xs text-muted-foreground mt-4">{t('hero.noCreditCard')}</p>
       </section>
 
       {/* Trust Badges */}
       <section className="container mx-auto px-4 py-6 sm:py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {[
-            { icon: Shield, label: 'DSM-5 Based', sub: 'Gold standard criteria' },
-            { icon: Brain, label: 'Cognitive Tests', sub: 'CPT, Stroop, Memory' },
-            { icon: Users, label: '3 Age Groups', sub: 'Children, Teens, Adults' },
-            { icon: FileText, label: 'PDF Report', sub: 'Share with your doctor' },
+            { icon: Shield, label: t('trust.dsm5'), sub: t('trust.dsm5Sub') },
+            { icon: Brain, label: t('trust.cognitive'), sub: t('trust.cognitiveSub') },
+            { icon: Users, label: t('trust.ageGroups'), sub: t('trust.ageGroupsSub') },
+            { icon: FileText, label: t('trust.pdf'), sub: t('trust.pdfSub') },
           ].map((item, i) => (
             <Card key={i} className="text-center border-border/50 bg-card/60">
               <CardContent className="pt-4 sm:pt-6 pb-3 sm:pb-4 px-2 sm:px-4">
@@ -165,62 +132,62 @@ const Landing = () => {
 
       {/* Pricing */}
       <section className="container mx-auto px-4 py-12 sm:py-16" id="pricing">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">Simple, Transparent Pricing</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">{t('pricing.title')}</h2>
         <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-xl mx-auto text-sm sm:text-base">
-          Start with a free assessment snapshot. Upgrade for comprehensive results and a professional PDF report.
+          {t('pricing.subtitle')}
         </p>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
           {/* Free */}
           <Card className="border-border/50 relative">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base sm:text-lg">Free Snapshot</CardTitle>
-              <div className="text-2xl sm:text-3xl font-bold">$0</div>
-              <p className="text-xs sm:text-sm text-muted-foreground">Get started</p>
+              <CardTitle className="text-base sm:text-lg">{t('pricing.free.title')}</CardTitle>
+              <div className="text-2xl sm:text-3xl font-bold">{t('pricing.free.price')}</div>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.free.subtitle')}</p>
             </CardHeader>
             <CardContent className="space-y-2 sm:space-y-3">
-              {['Complete survey questionnaire', 'Play all 3 cognitive games', 'Basic results snapshot', 'Overall risk indicator'].map((f, i) => (
+              {['pricing.free.f1', 'pricing.free.f2', 'pricing.free.f3', 'pricing.free.f4'].map((k, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {f}
+                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
                 </div>
               ))}
-              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>Start Free</Button>
+              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>{t('pricing.free.cta')}</Button>
             </CardContent>
           </Card>
 
-          {/* Full Test */}
+          {/* Full */}
           <Card className="border-primary/50 relative shadow-[var(--shadow-card)]">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <Badge className="bg-primary text-primary-foreground px-3 text-xs">Most Popular</Badge>
+              <Badge className="bg-primary text-primary-foreground px-3 text-xs">{t('pricing.full.badge')}</Badge>
             </div>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base sm:text-lg">Full Assessment</CardTitle>
-              <div className="text-2xl sm:text-3xl font-bold">$5</div>
-              <p className="text-xs sm:text-sm text-muted-foreground">One-time payment</p>
+              <CardTitle className="text-base sm:text-lg">{t('pricing.full.title')}</CardTitle>
+              <div className="text-2xl sm:text-3xl font-bold">{t('pricing.full.price')}</div>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.full.subtitle')}</p>
             </CardHeader>
             <CardContent className="space-y-2 sm:space-y-3">
-              {['Everything in Free', 'Detailed category breakdown', 'Cognitive performance analysis', 'Symptom profile radar chart', 'Clinical recommendations'].map((f, i) => (
+              {['pricing.full.f1', 'pricing.full.f2', 'pricing.full.f3', 'pricing.full.f4', 'pricing.full.f5'].map((k, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {f}
+                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
                 </div>
               ))}
-              <Button className="w-full mt-3 sm:mt-4" onClick={navAction}>Get Full Results</Button>
+              <Button className="w-full mt-3 sm:mt-4" onClick={navAction}>{t('pricing.full.cta')}</Button>
             </CardContent>
           </Card>
 
           {/* PDF */}
           <Card className="border-border/50 relative sm:col-span-2 md:col-span-1">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base sm:text-lg">Professional Report</CardTitle>
-              <div className="text-2xl sm:text-3xl font-bold">$20</div>
-              <p className="text-xs sm:text-sm text-muted-foreground">Downloadable PDF</p>
+              <CardTitle className="text-base sm:text-lg">{t('pricing.pdf.title')}</CardTitle>
+              <div className="text-2xl sm:text-3xl font-bold">{t('pricing.pdf.price')}</div>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.pdf.subtitle')}</p>
             </CardHeader>
             <CardContent className="space-y-2 sm:space-y-3">
-              {['Everything in Full Assessment', 'Comprehensive PDF report', 'Share with your practitioner', 'Clinical methodology notes', 'Personalized recommendations'].map((f, i) => (
+              {['pricing.pdf.f1', 'pricing.pdf.f2', 'pricing.pdf.f3', 'pricing.pdf.f4', 'pricing.pdf.f5'].map((k, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {f}
+                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
                 </div>
               ))}
-              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>Get PDF Report</Button>
+              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>{t('pricing.pdf.cta')}</Button>
             </CardContent>
           </Card>
         </div>
@@ -228,51 +195,44 @@ const Landing = () => {
 
       {/* Educational Content */}
       <section className="container mx-auto px-4 py-12 sm:py-16" id="learn">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">Understanding ADHD</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">{t('learn.title')}</h2>
         <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-2xl mx-auto text-sm sm:text-base">
-          Knowledge is the first step. Learn why testing matters and how results can transform your life.
+          {t('learn.subtitle')}
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
-          {[
-            { title: 'Why Test for ADHD?', content: 'ADHD affects 5-10% of children and 2-5% of adults worldwide. Many go undiagnosed for years, struggling with focus, organization, and impulse control without understanding why. Early identification leads to better outcomes — studies show that properly managed ADHD results in 30% improvement in academic and work performance.', icon: Target },
-            { title: 'What This Assessment Reveals', content: 'Our multi-dimensional assessment evaluates four key areas: inattention, hyperactivity, impulsivity, and functional impairment. Combined with cognitive tests (CPT, Stroop, Working Memory), you get a comprehensive picture of how your brain processes information, maintains attention, and controls impulses.', icon: Brain },
-            { title: 'Working With Your Practitioner', content: 'Your FocusCheck results are designed to be shared with healthcare professionals. The detailed breakdown helps your doctor or therapist understand your specific symptom profile, enabling more targeted treatment plans. Bring your PDF report to your next appointment for a more productive conversation.', icon: FileText },
-            { title: 'Our Clinical Methodology', content: 'FocusCheck uses DSM-5 diagnostic criteria, the Adult ADHD Self-Report Scale (ASRS-v1.1), Conners\' Rating Scales, and Vanderbilt Assessment Scales. Our cognitive tests mirror those used in clinical settings — the Continuous Performance Test, N-Back Working Memory Test, and Stroop Color-Word Test.', icon: Shield },
-            { title: 'Life After Diagnosis', content: 'Understanding your ADHD profile opens doors to effective strategies: cognitive behavioral therapy, medication options, workplace accommodations, organizational tools, and mindfulness practices. Many adults report feeling "finally understood" after getting clarity on their symptoms.', icon: Star },
-            { title: 'ADHD Is Not a Limitation', content: 'Many successful entrepreneurs, artists, and innovators have ADHD. Traits like hyperfocus, creativity, and high energy can be powerful assets when properly channeled. The key is understanding your unique cognitive profile and building systems that work with your brain, not against it.', icon: Zap },
-          ].map((article, i) => (
+          {learnArticles.map((article, i) => (
             <Card key={i} className="border-border/50 hover:shadow-[var(--shadow-card)] transition-shadow">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
                     <article.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <CardTitle className="text-sm sm:text-base">{article.title}</CardTitle>
+                  <CardTitle className="text-sm sm:text-base">{t(article.titleKey)}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{article.content}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(article.contentKey)}</p>
               </CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ */}
       <section className="container mx-auto px-4 py-12 sm:py-16" id="faq">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">Frequently Asked Questions</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">{t('faq.title')}</h2>
         <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-xl mx-auto text-sm sm:text-base">
-          Everything you need to know about our ADHD assessment.
+          {t('faq.subtitle')}
         </p>
         <div className="max-w-3xl mx-auto">
           <Accordion type="single" collapsible className="space-y-2">
-            {faqs.map((faq, i) => (
+            {faqKeys.map((i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border border-border/50 rounded-lg px-4 sm:px-6 bg-card/60">
                 <AccordionTrigger className="text-sm sm:text-base font-medium text-left py-4">
-                  {faq.q}
+                  {t(`faq.q${i}`)}
                 </AccordionTrigger>
                 <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pb-4">
-                  {faq.a}
+                  {t(`faq.a${i}`)}
                 </AccordionContent>
               </AccordionItem>
             ))}
@@ -282,15 +242,14 @@ const Landing = () => {
 
       {/* CTA */}
       <section className="container mx-auto px-4 py-12 sm:py-16">
-        <Card className="bg-gradient-to-r from-primary/10 to-medical-teal/10 border-primary/20 max-w-3xl mx-auto">
+        <Card className="bg-primary/5 border-primary/20 max-w-3xl mx-auto">
           <CardContent className="p-6 sm:p-8 md:p-12 text-center">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">Ready to Understand Your Mind?</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">{t('cta.title')}</h2>
             <p className="text-muted-foreground mb-4 sm:mb-6 max-w-xl mx-auto text-sm sm:text-base">
-              Join thousands who have taken the first step towards understanding their ADHD.
-              Start your free assessment today.
+              {t('cta.subtitle')}
             </p>
             <Button size="lg" onClick={navAction} className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6">
-              Begin Your Assessment <ArrowRight className="ml-2 w-5 h-5" />
+              {t('cta.button')} <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </CardContent>
         </Card>
@@ -303,11 +262,8 @@ const Landing = () => {
             <img src="/logo.png" alt="FocusCheck" className="w-6 h-6" loading="lazy" />
             <span className="font-semibold text-foreground">FocusCheck</span>
           </div>
-          <p className="max-w-xl mx-auto mb-3 sm:mb-4">
-            This tool is for informational purposes only and does not constitute medical advice.
-            Always consult a qualified healthcare professional for diagnosis and treatment.
-          </p>
-          <p>© {new Date().getFullYear()} FocusCheck. All rights reserved.</p>
+          <p className="max-w-xl mx-auto mb-3 sm:mb-4">{t('footer.disclaimer')}</p>
+          <p>© {new Date().getFullYear()} {t('footer.copyright')}</p>
         </div>
       </footer>
     </div>

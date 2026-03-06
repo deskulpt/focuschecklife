@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users } from 'lucide-react';
 
 const countries = [
@@ -15,6 +16,7 @@ const countries = [
 ];
 
 const Auth = () => {
+  const { t } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,17 +48,10 @@ const Auth = () => {
           },
         });
         if (error) throw error;
-        toast({
-          title: 'Account created!',
-          description: 'Please check your email to verify your account.',
-        });
+        toast({ title: t('auth.accountCreated'), description: t('auth.checkEmail') });
       }
     } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      toast({ title: t('auth.error'), description: error.message, variant: 'destructive' });
     } finally {
       setLoading(false);
     }
@@ -68,22 +63,18 @@ const Auth = () => {
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center gap-3 mb-3 sm:mb-4">
             <img src="/logo.png" alt="FocusCheck" className="w-10 h-10 sm:w-12 sm:h-12" />
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent">
-              FocusCheck
-            </h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">FocusCheck</h1>
           </div>
-          <p className="text-muted-foreground text-xs sm:text-sm">
-            ADHD assessment platform — pending clinical trials
-          </p>
+          <p className="text-muted-foreground text-xs sm:text-sm">{t('auth.subtitle')}</p>
         </div>
 
         <Card className="shadow-[var(--shadow-card)] border-0 bg-card/80 backdrop-blur-sm">
           <CardHeader className="text-center pb-3">
             <CardTitle className="text-lg sm:text-xl">
-              {isLogin ? 'Welcome Back' : 'Create Free Account'}
+              {isLogin ? t('auth.welcomeBack') : t('auth.createAccount')}
             </CardTitle>
             <CardDescription className="text-xs sm:text-sm">
-              {isLogin ? 'Sign in to access your assessments' : 'Start your ADHD assessment journey today'}
+              {isLogin ? t('auth.signInSubtitle') : t('auth.signUpSubtitle')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -92,29 +83,29 @@ const Auth = () => {
                 <>
                   <div className="relative">
                     <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input type="text" placeholder="Full Name *" value={fullName} onChange={(e) => setFullName(e.target.value)} className="pl-10" required />
+                    <Input type="text" placeholder={t('auth.fullName')} value={fullName} onChange={(e) => setFullName(e.target.value)} className="pl-10" required />
                   </div>
                   <div className="relative">
                     <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} className="pl-10" />
+                    <Input type="tel" placeholder={t('auth.phone')} value={phone} onChange={(e) => setPhone(e.target.value)} className="pl-10" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="relative">
                       <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" />
-                      <Input type="number" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} className="pl-10" min="5" max="120" />
+                      <Input type="number" placeholder={t('auth.age')} value={age} onChange={(e) => setAge(e.target.value)} className="pl-10" min="5" max="120" />
                     </div>
                     <Select value={gender} onValueChange={setGender}>
                       <SelectTrigger>
                         <div className="flex items-center gap-2">
                           <Users className="h-4 w-4 text-muted-foreground" />
-                          <SelectValue placeholder="Gender" />
+                          <SelectValue placeholder={t('auth.gender')} />
                         </div>
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="non-binary">Non-binary</SelectItem>
-                        <SelectItem value="prefer-not">Prefer not to say</SelectItem>
+                        <SelectItem value="male">{t('auth.gender.male')}</SelectItem>
+                        <SelectItem value="female">{t('auth.gender.female')}</SelectItem>
+                        <SelectItem value="non-binary">{t('auth.gender.nonBinary')}</SelectItem>
+                        <SelectItem value="prefer-not">{t('auth.gender.preferNot')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -122,7 +113,7 @@ const Auth = () => {
                     <SelectTrigger>
                       <div className="flex items-center gap-2">
                         <Globe className="h-4 w-4 text-muted-foreground" />
-                        <SelectValue placeholder="Country" />
+                        <SelectValue placeholder={t('auth.country')} />
                       </div>
                     </SelectTrigger>
                     <SelectContent>
@@ -135,26 +126,26 @@ const Auth = () => {
               )}
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input type="email" placeholder="Email *" value={email} onChange={(e) => setEmail(e.target.value)} className="pl-10" required />
+                <Input type="email" placeholder={t('auth.email')} value={email} onChange={(e) => setEmail(e.target.value)} className="pl-10" required />
               </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input type="password" placeholder="Password *" value={password} onChange={(e) => setPassword(e.target.value)} className="pl-10" required minLength={6} />
+                <Input type="password" placeholder={t('auth.password')} value={password} onChange={(e) => setPassword(e.target.value)} className="pl-10" required minLength={6} />
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
+                {loading ? t('auth.loading') : isLogin ? t('auth.submit.signIn') : t('auth.submit.signUp')}
               </Button>
             </form>
 
             <div className="mt-4 sm:mt-6 text-center">
               <button onClick={() => setIsLogin(!isLogin)} className="text-xs sm:text-sm text-primary hover:underline">
-                {isLogin ? "Don't have an account? Sign up free" : 'Already have an account? Sign in'}
+                {isLogin ? t('auth.switchToSignUp') : t('auth.switchToSignIn')}
               </button>
             </div>
 
             {!isLogin && (
               <div className="mt-3 sm:mt-4 p-3 bg-success/10 rounded-lg text-xs text-center text-muted-foreground">
-                <strong className="text-foreground">Free account includes:</strong> Complete first assessment with results snapshot
+                <strong className="text-foreground">{t('auth.freeIncludes')}</strong> {t('auth.freeIncludesDesc')}
               </div>
             )}
           </CardContent>
@@ -162,7 +153,7 @@ const Auth = () => {
 
         <div className="mt-4 text-center">
           <button onClick={() => navigate('/')} className="text-xs sm:text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 mx-auto">
-            <ArrowLeft className="w-3 h-3" /> Back to home
+            <ArrowLeft className="w-3 h-3" /> {t('auth.backHome')}
           </button>
         </div>
       </div>
