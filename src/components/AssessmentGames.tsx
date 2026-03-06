@@ -64,6 +64,36 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
   if (currentGame === 'menu') {
     return (
       <div className="p-4 sm:p-6 lg:p-8">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-foreground">
+              {t('games.progress') || 'Assessment Progress'}
+            </span>
+            <span className="text-sm text-muted-foreground">
+              {completedGames.size}/{games.length} {t('games.complete') || 'completed'}
+            </span>
+          </div>
+          <Progress value={(completedGames.size / games.length) * 100} className="h-3" />
+          <div className="flex justify-between mt-2">
+            {games.map((game, i) => {
+              const isCompleted = completedGames.has(game.id);
+              return (
+                <div key={game.id} className="flex items-center gap-1.5 text-xs">
+                  {isCompleted ? (
+                    <CheckCircle2 className="w-4 h-4 text-success" />
+                  ) : (
+                    <div className="w-4 h-4 rounded-full border-2 border-muted-foreground/30" />
+                  )}
+                  <span className={isCompleted ? 'text-success font-medium' : 'text-muted-foreground'}>
+                    {t(game.nameKey)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="mb-8">
           <Button variant="ghost" onClick={onBack} className="flex items-center gap-2 mb-4">
             <ArrowLeft className="w-4 h-4" /> {t('games.back')}
