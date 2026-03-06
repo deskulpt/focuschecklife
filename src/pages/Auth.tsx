@@ -73,7 +73,7 @@ const Auth = () => {
             </h1>
           </div>
           <p className="text-muted-foreground text-xs sm:text-sm">
-            Clinically-validated ADHD assessment platform
+            ADHD assessment platform — pending clinical trials
           </p>
         </div>
 
