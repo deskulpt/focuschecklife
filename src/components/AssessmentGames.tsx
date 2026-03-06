@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowLeft, Brain, Target, Zap, Palette } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { ArrowLeft, Brain, Target, Zap, Palette, CheckCircle2 } from 'lucide-react';
 import { ContinuousPerformanceTest } from './games/ContinuousPerformanceTest';
 import { WorkingMemoryTest } from './games/WorkingMemoryTest';
 import { StroopTest } from './games/StroopTest';
