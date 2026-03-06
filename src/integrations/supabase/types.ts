@@ -16,31 +16,43 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          age: number | null
+          country: string | null
           created_at: string
           full_name: string | null
+          gender: string | null
           has_paid_full_test: boolean
           has_paid_pdf: boolean
           id: string
+          phone: string | null
           plan: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          age?: number | null
+          country?: string | null
           created_at?: string
           full_name?: string | null
+          gender?: string | null
           has_paid_full_test?: boolean
           has_paid_pdf?: boolean
           id?: string
+          phone?: string | null
           plan?: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          age?: number | null
+          country?: string | null
           created_at?: string
           full_name?: string | null
+          gender?: string | null
           has_paid_full_test?: boolean
           has_paid_pdf?: boolean
           id?: string
+          phone?: string | null
           plan?: string
           updated_at?: string
           user_id?: string
