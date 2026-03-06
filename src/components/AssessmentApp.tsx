@@ -27,6 +27,7 @@ const AssessmentApp = () => {
   const [assessmentData, setAssessmentData] = useState<AssessmentData | null>(null);
   const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const isFreeUser = !profile?.has_paid_full_test;
 
@@ -59,8 +60,6 @@ const AssessmentApp = () => {
     setAssessmentData(null);
   };
 
-  const { t } = useLanguage();
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-medical-light/20 to-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -68,14 +67,14 @@ const AssessmentApp = () => {
           {/* Top Bar */}
           <div className="flex items-center justify-between mb-4">
             <Button variant="ghost" size="sm" onClick={() => navigate('/')} className="gap-2">
-              <ArrowLeft className="w-4 h-4" /> Home
+              <ArrowLeft className="w-4 h-4" /> {t('nav.home')}
             </Button>
             <div className="flex items-center gap-3">
               <LanguageToggle />
               {user && (
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-muted-foreground hidden sm:inline">{user.email}</span>
-                  <Button variant="ghost" size="icon" onClick={signOut} title="Sign out">
+                  <Button variant="ghost" size="icon" onClick={signOut} title={t('landing.logout')}>
                     <LogOut className="w-4 h-4" />
                   </Button>
                 </div>
@@ -87,9 +86,7 @@ const AssessmentApp = () => {
           <div className="text-center mb-6 sm:mb-8">
             <div className="flex items-center justify-center gap-3 mb-3">
               <img src="/logo.png" alt="FocusCheck" className="w-10 h-10" />
-              <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent">
-                FocusCheck
-              </h1>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground">FocusCheck</h1>
             </div>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
               {t('app.subtitle')}
@@ -123,8 +120,7 @@ const AssessmentApp = () => {
                 onRestart={resetAssessment}
                 isFreePreview={isFreeUser}
                 onUpgrade={() => {
-                  // Placeholder for Stripe integration
-                  alert('Payment integration coming soon! For now, enjoy the full preview.');
+                  alert(t('assessment.paymentSoon'));
                 }}
               />
             )}
