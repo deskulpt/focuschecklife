@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RefreshCw, Download, AlertTriangle, Lock } from 'lucide-react';
 import type { AssessmentData } from './AssessmentApp';
 import { AssessmentResultsDashboard } from './AssessmentResultsDashboard';
+import { PromoCodeInput } from './PromoCodeInput';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AssessmentResultsProps {
@@ -88,6 +89,9 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
               <Button variant="outline" size="lg" className="gap-2">
                 <Download className="w-4 h-4" /> Get PDF Report — $20
               </Button>
+            </div>
+            <div className="max-w-sm mx-auto mt-4">
+              <PromoCodeInput />
             </div>
           </CardContent>
         </Card>

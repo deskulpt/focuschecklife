@@ -47,6 +47,74 @@ export type Database = {
         }
         Relationships: []
       }
+      promo_code_redemptions: {
+        Row: {
+          id: string
+          promo_code_id: string
+          redeemed_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          promo_code_id: string
+          redeemed_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          promo_code_id?: string
+          redeemed_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promo_code_redemptions_promo_code_id_fkey"
+            columns: ["promo_code_id"]
+            isOneToOne: false
+            referencedRelation: "promo_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      promo_codes: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          expires_at: string | null
+          grants_full_test: boolean
+          grants_pdf: boolean
+          id: string
+          is_active: boolean
+          max_uses: number | null
+          times_used: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          expires_at?: string | null
+          grants_full_test?: boolean
+          grants_pdf?: boolean
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          times_used?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          expires_at?: string | null
+          grants_full_test?: boolean
+          grants_pdf?: boolean
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          times_used?: number
+        }
+        Relationships: []
+      }
       user_assessments: {
         Row: {
           age_group: string
