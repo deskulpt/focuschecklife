@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/hooks/useAdmin';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2 } from 'lucide-react';
+import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2, Globe } from 'lucide-react';
 import { AdminAnalytics } from '@/components/admin/AdminAnalytics';
 import { AdminFaqs } from '@/components/admin/AdminFaqs';
 import { AdminArticles } from '@/components/admin/AdminArticles';
 import { AdminCoupons } from '@/components/admin/AdminCoupons';
 import { AdminSettings } from '@/components/admin/AdminSettings';
+import { AdminTranslations } from '@/components/admin/AdminTranslations';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -49,7 +50,7 @@ const Admin = () => {
 
       <div className="container mx-auto px-4 py-6">
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 max-w-2xl">
+          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 max-w-3xl">
             <TabsTrigger value="analytics" className="gap-1 text-xs sm:text-sm">
               <BarChart3 className="w-3.5 h-3.5 hidden sm:inline" /> Analytics
             </TabsTrigger>
@@ -62,6 +63,9 @@ const Admin = () => {
             <TabsTrigger value="coupons" className="gap-1 text-xs sm:text-sm">
               <Tag className="w-3.5 h-3.5 hidden sm:inline" /> Coupons
             </TabsTrigger>
+            <TabsTrigger value="translations" className="gap-1 text-xs sm:text-sm">
+              <Globe className="w-3.5 h-3.5 hidden sm:inline" /> Languages
+            </TabsTrigger>
             <TabsTrigger value="settings" className="gap-1 text-xs sm:text-sm">
               <Settings className="w-3.5 h-3.5 hidden sm:inline" /> Settings
             </TabsTrigger>
@@ -71,6 +75,7 @@ const Admin = () => {
           <TabsContent value="faqs"><AdminFaqs /></TabsContent>
           <TabsContent value="articles"><AdminArticles /></TabsContent>
           <TabsContent value="coupons"><AdminCoupons /></TabsContent>
+          <TabsContent value="translations"><AdminTranslations /></TabsContent>
           <TabsContent value="settings"><AdminSettings /></TabsContent>
         </Tabs>
       </div>
