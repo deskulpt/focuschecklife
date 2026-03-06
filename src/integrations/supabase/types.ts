@@ -77,6 +77,33 @@ export type Database = {
         }
         Relationships: []
       }
+      languages: {
+        Row: {
+          code: string
+          created_at: string
+          flag: string
+          id: string
+          is_enabled: boolean
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          flag?: string
+          id?: string
+          is_enabled?: boolean
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          flag?: string
+          id?: string
+          is_enabled?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
       page_visits: {
         Row: {
           created_at: string
@@ -240,6 +267,38 @@ export type Database = {
           value?: string
         }
         Relationships: []
+      }
+      translations: {
+        Row: {
+          id: string
+          key: string
+          language_code: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          id?: string
+          key: string
+          language_code: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          id?: string
+          key?: string
+          language_code?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "translations_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
       }
       user_assessments: {
         Row: {
