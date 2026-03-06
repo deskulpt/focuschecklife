@@ -1,32 +1,25 @@
-import { useLanguage, Language } from '@/contexts/LanguageContext';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Globe } from 'lucide-react';
 
 export const LanguageToggle = () => {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, availableLanguages } = useLanguage();
+
+  if (availableLanguages.length <= 1) return null;
 
   return (
-    <div className="flex items-center gap-2">
-      <ToggleGroup 
-        type="single" 
-        value={language} 
-        onValueChange={(value) => value && setLanguage(value as Language)}
-        className="bg-muted/50 p-1 rounded-lg"
-      >
-        <ToggleGroupItem 
-          value="en" 
-          aria-label="English"
-          className="px-3 py-1.5 text-sm font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground rounded-md transition-all"
-        >
-          🇺🇸 EN
-        </ToggleGroupItem>
-        <ToggleGroupItem 
-          value="pt-BR" 
-          aria-label="Português Brasileiro"
-          className="px-3 py-1.5 text-sm font-medium data-[state=on]:bg-primary data-[state=on]:text-primary-foreground rounded-md transition-all"
-        >
-          🇧🇷 PT
-        </ToggleGroupItem>
-      </ToggleGroup>
-    </div>
+    <Select value={language} onValueChange={setLanguage}>
+      <SelectTrigger className="w-auto min-w-[120px] h-9 bg-muted/50 border-border/50 text-sm">
+        <Globe className="w-3.5 h-3.5 mr-1.5 text-muted-foreground" />
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {availableLanguages.map(lang => (
+          <SelectItem key={lang.code} value={lang.code}>
+            {lang.flag} {lang.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
