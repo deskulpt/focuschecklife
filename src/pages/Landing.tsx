@@ -119,7 +119,7 @@ const Landing = () => {
       {/* Hero */}
       <section className="container mx-auto px-4 py-12 sm:py-16 md:py-24 text-center">
         <Badge className="mb-4 sm:mb-6 bg-primary/10 text-primary border-primary/20 px-3 sm:px-4 py-1.5 text-xs sm:text-sm">
-          ✨ Clinically Validated • DSM-5 Based
+          ✨ Pending Clinical Trials • DSM-5 Based
         </Badge>
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
           <span className="bg-gradient-to-r from-primary to-medical-teal bg-clip-text text-transparent">
