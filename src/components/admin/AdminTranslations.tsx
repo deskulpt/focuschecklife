@@ -23,20 +23,74 @@ interface Translation {
 
 // All known translation keys from the app
 const ALL_KEYS = [
+  // App core
   'app.title','app.subtitle','disclaimer.title','disclaimer.text',
+  // Navigation
+  'nav.home','nav.signIn','nav.getStarted','landing.myAssessment','landing.logout',
+  // Hero
+  'hero.badge','hero.title1','hero.title2','hero.subtitle','hero.cta','hero.learnMore','hero.noCreditCard',
+  // Trust badges
+  'trust.dsm5','trust.dsm5Sub','trust.cognitive','trust.cognitiveSub','trust.ageGroups','trust.ageGroupsSub','trust.pdf','trust.pdfSub',
+  // Pricing
+  'pricing.title','pricing.subtitle',
+  'pricing.free.title','pricing.free.price','pricing.free.subtitle','pricing.free.f1','pricing.free.f2','pricing.free.f3','pricing.free.f4','pricing.free.cta',
+  'pricing.full.title','pricing.full.price','pricing.full.subtitle','pricing.full.badge','pricing.full.f1','pricing.full.f2','pricing.full.f3','pricing.full.f4','pricing.full.f5','pricing.full.cta',
+  'pricing.pdf.title','pricing.pdf.price','pricing.pdf.subtitle','pricing.pdf.f1','pricing.pdf.f2','pricing.pdf.f3','pricing.pdf.f4','pricing.pdf.f5','pricing.pdf.cta',
+  // Learn
+  'learn.title','learn.subtitle',
+  'learn.a1.title','learn.a1.content','learn.a2.title','learn.a2.content','learn.a3.title','learn.a3.content',
+  'learn.a4.title','learn.a4.content','learn.a5.title','learn.a5.content','learn.a6.title','learn.a6.content',
+  // FAQ
+  'faq.title','faq.subtitle',
+  'faq.q1','faq.a1','faq.q2','faq.a2','faq.q3','faq.a3','faq.q4','faq.a4',
+  'faq.q5','faq.a5','faq.q6','faq.a6','faq.q7','faq.a7','faq.q8','faq.a8',
+  // CTA & Footer
+  'cta.title','cta.subtitle','cta.button',
+  'footer.disclaimer','footer.copyright',
+  // Auth
+  'auth.welcomeBack','auth.createAccount','auth.signInSubtitle','auth.signUpSubtitle','auth.subtitle',
+  'auth.fullName','auth.phone','auth.age','auth.gender','auth.gender.male','auth.gender.female','auth.gender.nonBinary','auth.gender.preferNot',
+  'auth.country','auth.email','auth.password','auth.submit.signIn','auth.submit.signUp','auth.loading',
+  'auth.switchToSignUp','auth.switchToSignIn','auth.freeIncludes','auth.freeIncludesDesc','auth.backHome',
+  'auth.accountCreated','auth.checkEmail','auth.error',
+  // Age selection
   'age.title','age.subtitle','age.child.title','age.child.description','age.teen.title','age.teen.description','age.adult.title','age.adult.description','age.questions','age.time','age.begin','age.research',
-  'survey.question','survey.of','survey.previous','survey.back','survey.instructions.child','survey.instructions.teen','survey.instructions.adult','survey.progress','survey.category.inattention','survey.category.hyperactivity','survey.category.impulsivity','survey.category.functional_impairment',
+  // Survey
+  'survey.question','survey.of','survey.previous','survey.back','survey.instructions.child','survey.instructions.teen','survey.instructions.adult','survey.progress','survey.answered','survey.selectAnswer',
+  'survey.category.inattention','survey.category.hyperactivity','survey.category.impulsivity','survey.category.functional_impairment',
+  // Scale
   'scale.never','scale.rarely','scale.sometimes','scale.often','scale.veryOften',
-  'games.title','games.subtitle','games.back','games.backToMenu','games.game','games.test1.title','games.test1.description','games.test1.time','games.test2.title','games.test2.description','games.test2.time','games.test3.title','games.test3.description','games.test3.time','games.complete','games.pending','games.start','games.viewResults','games.completeAll','games.research','games.basedOn','games.note',
+  // Games
+  'games.title','games.subtitle','games.back','games.backToMenu','games.game','games.progress','games.completed',
+  'games.test1.title','games.test1.description','games.test1.time','games.test2.title','games.test2.description','games.test2.time','games.test3.title','games.test3.description','games.test3.time',
+  'games.complete','games.pending','games.start','games.viewResults','games.completeAll','games.research','games.basedOn','games.note','games.allComplete',
+  // CPT
   'cpt.title','cpt.description','cpt.instructions','cpt.start','cpt.respond','cpt.hits','cpt.misses','cpt.falseAlarms','cpt.avgReaction','cpt.trial','cpt.watching',
+  // Working Memory
   'wm.title','wm.description','wm.instructions.title','wm.instructions.1','wm.instructions.2','wm.instructions.3','wm.instructions.4','wm.start','wm.watch','wm.repeat','wm.level','wm.trial','wm.correct','wm.maxLevel',
+  // Stroop
   'stroop.title','stroop.description','stroop.instructions.title','stroop.instructions.1','stroop.instructions.2','stroop.instructions.3','stroop.start','stroop.selectColor','stroop.trial','stroop.correct','stroop.avgTime',
-  'results.title','results.completed','results.ageGroup.child','results.ageGroup.teen','results.ageGroup.adult','results.overallScore','results.overallRisk','results.low','results.moderate','results.high','results.categoryBreakdown','results.cognitivePerformance','results.cognitiveDescription','results.performanceComparison','results.symptomProfile','results.score','results.yourScore','results.clinicalThreshold','results.basedOn','results.clinicalCriteria','results.validatedScales','results.retake','results.save','results.medicalDisclaimer','results.disclaimerText',
+  // Results
+  'results.title','results.completed','results.ageGroup.child','results.ageGroup.teen','results.ageGroup.adult','results.overallScore','results.overallRisk','results.low','results.moderate','results.high',
+  'results.categoryBreakdown','results.cognitivePerformance','results.cognitiveDescription','results.performanceComparison','results.symptomProfile','results.score','results.yourScore','results.clinicalThreshold',
+  'results.basedOn','results.clinicalCriteria','results.validatedScales','results.retake','results.save','results.medicalDisclaimer','results.disclaimerText',
+  'results.unlockCta','results.getPdf','results.printDisabled','results.upgradeDescription',
+  // Dashboard
   'dashboard.high.title','dashboard.high.description','dashboard.high.recommendation','dashboard.moderate.title','dashboard.moderate.description','dashboard.moderate.recommendation','dashboard.low.title','dashboard.low.description','dashboard.low.recommendation',
-  'dashboard.sustainedAttention','dashboard.impulseControl','dashboard.workingMemory','dashboard.cognitiveFlexibility','dashboard.reactionTime','dashboard.accuracy','dashboard.level','dashboard.attentionTest','dashboard.memoryTest','dashboard.flexibilityTest','dashboard.correctHits','dashboard.falseAlarms','dashboard.missed','dashboard.avgTime','dashboard.correct','dashboard.incorrect','dashboard.maxLevelAchieved','dashboard.congruent','dashboard.incongruent','dashboard.clinicalNote','dashboard.clinicalNoteText','dashboard.accuracyPercent','dashboard.performanceScore','dashboard.attention','dashboard.memory','dashboard.flexibility',
-  'category.inattention.low','category.inattention.moderate','category.inattention.high','category.hyperactivity.low','category.hyperactivity.moderate','category.hyperactivity.high','category.impulsivity.low','category.impulsivity.moderate','category.impulsivity.high','category.functional_impairment.low','category.functional_impairment.moderate','category.functional_impairment.high',
+  'dashboard.sustainedAttention','dashboard.impulseControl','dashboard.workingMemory','dashboard.cognitiveFlexibility','dashboard.reactionTime','dashboard.accuracy','dashboard.level',
+  'dashboard.attentionTest','dashboard.memoryTest','dashboard.flexibilityTest','dashboard.correctHits','dashboard.falseAlarms','dashboard.missed','dashboard.avgTime','dashboard.correct','dashboard.incorrect',
+  'dashboard.maxLevelAchieved','dashboard.congruent','dashboard.incongruent','dashboard.clinicalNote','dashboard.clinicalNoteText','dashboard.accuracyPercent','dashboard.performanceScore','dashboard.attention','dashboard.memory','dashboard.flexibility',
+  // Category descriptions
+  'category.inattention.low','category.inattention.moderate','category.inattention.high','category.hyperactivity.low','category.hyperactivity.moderate','category.hyperactivity.high',
+  'category.impulsivity.low','category.impulsivity.moderate','category.impulsivity.high','category.functional_impairment.low','category.functional_impairment.moderate','category.functional_impairment.high',
+  // Paywall
   'paywall.unlockTitle','paywall.unlockDescription','paywall.oneTime',
-  'landing.myAssessment','landing.logout',
+  // Promo
+  'promo.title','promo.placeholder','promo.apply','promo.redeemed','promo.successTitle','promo.successDesc',
+  'promo.invalidCode','promo.invalidCodeDesc','promo.codeExpired','promo.codeExpiredDesc','promo.maxUsesDesc',
+  'promo.alreadyRedeemed','promo.alreadyRedeemedDesc','promo.error','promo.errorDesc',
+  // Assessment flow
+  'assessment.paymentSoon',
 ];
 
 export const AdminTranslations = () => {
