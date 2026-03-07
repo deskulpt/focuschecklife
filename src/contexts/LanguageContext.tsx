@@ -287,9 +287,18 @@ const fallbackEN: Record<string, string> = {
   'results.medicalDisclaimer': 'Medical Disclaimer',
   'results.disclaimerText': 'This assessment is for educational and informational purposes only. It is not intended to diagnose, treat, or replace professional medical advice. ADHD diagnosis requires comprehensive evaluation by a qualified healthcare professional, including clinical interviews, medical history, and sometimes additional testing. If you have concerns about ADHD symptoms, please consult with a licensed healthcare provider.',
   'results.unlockCta': 'Unlock Full Results — $5',
-  'results.getPdf': 'Get PDF Report — $20',
-  'results.printDisabled': 'Printing is disabled. Please purchase the Professional PDF Report ($20) for a downloadable and printable version.',
+  'results.printDisabled': 'Printing is disabled for the free preview.',
   'results.upgradeDescription': 'Get detailed category breakdowns, cognitive performance analysis, symptom radar charts, and personalized clinical recommendations.',
+
+  // Consent
+  'consent.title': 'Terms & Privacy Consent',
+  'consent.intro': 'Before we save your assessment results, please review our data handling practices:',
+  'consent.point1': 'Your assessment data is stored securely and linked to your account.',
+  'consent.point2': 'Data is used solely to display your results and is never shared with third parties.',
+  'consent.point3': 'If you decline, your results will still be shown but will not be saved — they will be lost on refresh.',
+  'consent.point4': 'Saved assessments that are not accessed for 7 days will be automatically deleted.',
+  'consent.accept': 'Accept & Save Results',
+  'consent.decline': "Decline — Don't Save",
 
   // Dashboard
   'dashboard.high.title': 'Significant ADHD Symptoms Indicated',
