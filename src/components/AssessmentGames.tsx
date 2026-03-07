@@ -33,8 +33,8 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
     { id: 'stroop', nameKey: 'games.test3.title', descriptionKey: 'games.test3.description', icon: Palette, color: 'from-pink-500 to-pink-600', scientificName: 'Stroop Color-Word Test' }
   ];
 
-  const handleGameComplete = (gameId: string, result: any) => {
-    const newResults = { ...gameResults, [gameId]: result };
+  const handleGameComplete = (gameId: string, resultKey: string, result: any) => {
+    const newResults = { ...gameResults, [resultKey]: result };
     setGameResults(newResults);
     setCompletedGames(prev => new Set([...prev, gameId]));
     setCurrentGame('menu');
@@ -139,9 +139,9 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
       <Button variant="ghost" onClick={() => setCurrentGame('menu')} className="flex items-center gap-2 mb-6">
         <ArrowLeft className="w-4 h-4" /> {t('games.backToMenu')}
       </Button>
-      {currentGame === 'cpt' && <ContinuousPerformanceTest onComplete={(result) => handleGameComplete('cpt', result)} />}
-      {currentGame === 'memory' && <WorkingMemoryTest onComplete={(result) => handleGameComplete('workingMemory', result)} />}
-      {currentGame === 'stroop' && <StroopTest onComplete={(result) => handleGameComplete('stroop', result)} />}
+      {currentGame === 'cpt' && <ContinuousPerformanceTest onComplete={(result) => handleGameComplete('cpt', 'cpt', result)} />}
+      {currentGame === 'memory' && <WorkingMemoryTest onComplete={(result) => handleGameComplete('memory', 'workingMemory', result)} />}
+      {currentGame === 'stroop' && <StroopTest onComplete={(result) => handleGameComplete('stroop', 'stroop', result)} />}
     </div>
   );
 };
