@@ -182,7 +182,7 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false }: Asse
 const CognitiveAndDetailedResults = ({ data, categoryResults, pieChartData, barChartData, radarData, getCategoryIcon, t }: any) => (
   <>
     {/* Cognitive Performance Tests Results */}
-    {data.gameResults && (
+    {data.gameResults && data.gameResults.cpt && data.gameResults.workingMemory && data.gameResults.stroop && (
       <Card className="shadow-[var(--shadow-card)] border-primary/20">
         <CardHeader>
           <div className="flex items-center gap-3">
