@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { RefreshCw, Download, AlertTriangle, Lock } from 'lucide-react';
+import { RefreshCw, AlertTriangle, Lock } from 'lucide-react';
 import type { AssessmentData } from './AssessmentApp';
 import { AssessmentResultsDashboard } from './AssessmentResultsDashboard';
 import { PromoCodeInput } from './PromoCodeInput';
@@ -12,9 +12,10 @@ interface AssessmentResultsProps {
   onRestart: () => void;
   isFreePreview?: boolean;
   onUpgrade?: () => void;
+  onPromoRedeemed?: () => void;
 }
 
-export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUpgrade }: AssessmentResultsProps) => {
+export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUpgrade, onPromoRedeemed }: AssessmentResultsProps) => {
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -65,16 +66,11 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
           <CardContent className="p-6 text-center space-y-4">
             <h3 className="text-xl font-bold">{t('paywall.unlockTitle')}</h3>
             <p className="text-sm text-muted-foreground max-w-lg mx-auto">{t('results.upgradeDescription')}</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button onClick={onUpgrade} size="lg" className="gap-2">
-                <Lock className="w-4 h-4" /> {t('results.unlockCta')}
-              </Button>
-              <Button variant="outline" size="lg" className="gap-2">
-                <Download className="w-4 h-4" /> {t('results.getPdf')}
-              </Button>
-            </div>
+            <Button onClick={onUpgrade} size="lg" className="gap-2">
+              <Lock className="w-4 h-4" /> {t('results.unlockCta')}
+            </Button>
             <div className="max-w-sm mx-auto mt-4">
-              <PromoCodeInput />
+              <PromoCodeInput onRedeemed={onPromoRedeemed} />
             </div>
           </CardContent>
         </Card>
@@ -109,15 +105,10 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
         </Card>
       )}
 
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <div className="flex justify-center">
         <Button onClick={onRestart} variant="outline" className="flex items-center gap-2">
           <RefreshCw className="w-4 h-4" /> {t('results.retake')}
         </Button>
-        {!isFreePreview && (
-          <Button variant="secondary" className="flex items-center gap-2 opacity-50 cursor-not-allowed" disabled>
-            <Download className="w-4 h-4" /> {t('results.save')} (PDF — $20)
-          </Button>
-        )}
       </div>
 
       <div className="mt-8 p-6 bg-destructive/5 border border-destructive/20 rounded-lg">

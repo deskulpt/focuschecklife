@@ -8,7 +8,11 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-export const PromoCodeInput = () => {
+interface PromoCodeInputProps {
+  onRedeemed?: () => void;
+}
+
+export const PromoCodeInput = ({ onRedeemed }: PromoCodeInputProps) => {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [redeemed, setRedeemed] = useState(false);
@@ -65,6 +69,7 @@ export const PromoCodeInput = () => {
 
       setRedeemed(true);
       refetchProfile();
+      onRedeemed?.();
       toast({ title: t('promo.successTitle'), description: t('promo.successDesc') });
     } catch {
       toast({ title: t('promo.error'), description: t('promo.errorDesc'), variant: 'destructive' });

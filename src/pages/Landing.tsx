@@ -112,12 +112,11 @@ const Landing = () => {
 
       {/* Trust Badges */}
       <section className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-3 gap-3 sm:gap-4">
           {[
             { icon: Shield, label: t('trust.dsm5'), sub: t('trust.dsm5Sub') },
             { icon: Brain, label: t('trust.cognitive'), sub: t('trust.cognitiveSub') },
             { icon: Users, label: t('trust.ageGroups'), sub: t('trust.ageGroupsSub') },
-            { icon: FileText, label: t('trust.pdf'), sub: t('trust.pdfSub') },
           ].map((item, i) => (
             <Card key={i} className="text-center border-border/50 bg-card/60">
               <CardContent className="pt-4 sm:pt-6 pb-3 sm:pb-4 px-2 sm:px-4">
@@ -136,7 +135,7 @@ const Landing = () => {
         <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-xl mx-auto text-sm sm:text-base">
           {t('pricing.subtitle')}
         </p>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto">
           {/* Free */}
           <Card className="border-border/50 relative">
             <CardHeader className="pb-3">
@@ -174,22 +173,6 @@ const Landing = () => {
             </CardContent>
           </Card>
 
-          {/* PDF */}
-          <Card className="border-border/50 relative sm:col-span-2 md:col-span-1">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base sm:text-lg">{t('pricing.pdf.title')}</CardTitle>
-              <div className="text-2xl sm:text-3xl font-bold">{t('pricing.pdf.price')}</div>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.pdf.subtitle')}</p>
-            </CardHeader>
-            <CardContent className="space-y-2 sm:space-y-3">
-              {['pricing.pdf.f1', 'pricing.pdf.f2', 'pricing.pdf.f3', 'pricing.pdf.f4', 'pricing.pdf.f5'].map((k, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
-                </div>
-              ))}
-              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>{t('pricing.pdf.cta')}</Button>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
