@@ -74,7 +74,8 @@ const ALL_KEYS = [
   'results.title','results.completed','results.ageGroup.child','results.ageGroup.teen','results.ageGroup.adult','results.overallScore','results.overallRisk','results.low','results.moderate','results.high',
   'results.categoryBreakdown','results.cognitivePerformance','results.cognitiveDescription','results.performanceComparison','results.symptomProfile','results.score','results.yourScore','results.clinicalThreshold',
   'results.basedOn','results.clinicalCriteria','results.validatedScales','results.retake','results.save','results.medicalDisclaimer','results.disclaimerText',
-  'results.unlockCta','results.getPdf','results.printDisabled','results.upgradeDescription',
+  'results.unlockCta','results.printDisabled','results.upgradeDescription',
+  'consent.title','consent.intro','consent.point1','consent.point2','consent.point3','consent.point4','consent.accept','consent.decline',
   // Dashboard
   'dashboard.high.title','dashboard.high.description','dashboard.high.recommendation','dashboard.moderate.title','dashboard.moderate.description','dashboard.moderate.recommendation','dashboard.low.title','dashboard.low.description','dashboard.low.recommendation',
   'dashboard.sustainedAttention','dashboard.impulseControl','dashboard.workingMemory','dashboard.cognitiveFlexibility','dashboard.reactionTime','dashboard.accuracy','dashboard.level',
