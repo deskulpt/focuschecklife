@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AgeSelection } from './AgeSelection';
 import { AssessmentSurvey } from './AssessmentSurvey';
 import { AssessmentGames, GameResults } from './AssessmentGames';
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { LogOut, ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 export type AgeGroup = 'child' | 'teen' | 'adult';
 
@@ -32,6 +33,8 @@ const AssessmentApp = () => {
   const { user, profile, signOut, refetchProfile } = useAuth();
   const navigate = useNavigate();
   const { t } = useLanguage();
+
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const isFreeUser = !profile?.has_paid_full_test;
 
@@ -186,8 +189,19 @@ const AssessmentApp = () => {
                 data={assessmentData} 
                 onRestart={resetAssessment}
                 isFreePreview={isFreeUser}
-                onUpgrade={() => {
-                  alert(t('assessment.paymentSoon'));
+                onUpgrade={async () => {
+                  setPaymentLoading(true);
+                  try {
+                    const { data, error } = await supabase.functions.invoke('create-payment');
+                    if (error) throw error;
+                    if (data?.url) {
+                      window.open(data.url, '_blank');
+                    }
+                  } catch (err: any) {
+                    toast.error(t('payment.errorTitle'));
+                  } finally {
+                    setPaymentLoading(false);
+                  }
                 }}
                 onPromoRedeemed={handlePromoRedeemed}
               />

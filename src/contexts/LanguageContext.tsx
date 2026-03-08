@@ -362,8 +362,14 @@ const fallbackEN: Record<string, string> = {
   'promo.error': 'Error',
   'promo.errorDesc': 'Something went wrong. Please try again.',
 
-  // Assessment flow
-  'assessment.paymentSoon': 'Payment integration coming soon! For now, enjoy the full preview.',
+  // Payment
+  'payment.verifying': 'Verifying your payment...',
+  'payment.successTitle': 'Payment Successful!',
+  'payment.successDesc': 'Your full assessment access has been unlocked. View your detailed results now.',
+  'payment.viewResults': 'View My Results',
+  'payment.errorTitle': 'Payment Verification Failed',
+  'payment.errorDesc': 'We couldn\'t verify your payment. Please try again or contact support.',
+  'payment.backToAssessment': 'Back to Assessment',
 };
 
 const fallbackPTBR: Record<string, string> = {
@@ -712,8 +718,14 @@ const fallbackPTBR: Record<string, string> = {
   'promo.error': 'Erro',
   'promo.errorDesc': 'Algo deu errado. Por favor, tente novamente.',
 
-  // Assessment flow
-  'assessment.paymentSoon': 'Integração de pagamento em breve! Por enquanto, aproveite a visualização completa.',
+  // Payment
+  'payment.verifying': 'Verificando seu pagamento...',
+  'payment.successTitle': 'Pagamento Realizado com Sucesso!',
+  'payment.successDesc': 'Seu acesso completo à avaliação foi desbloqueado. Veja seus resultados detalhados agora.',
+  'payment.viewResults': 'Ver Meus Resultados',
+  'payment.errorTitle': 'Falha na Verificação do Pagamento',
+  'payment.errorDesc': 'Não conseguimos verificar seu pagamento. Tente novamente ou entre em contato com o suporte.',
+  'payment.backToAssessment': 'Voltar à Avaliação',
 };
 
 const hardcodedFallbacks: Record<string, Record<string, string>> = {
