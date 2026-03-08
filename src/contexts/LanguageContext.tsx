@@ -718,8 +718,14 @@ const fallbackPTBR: Record<string, string> = {
   'promo.error': 'Erro',
   'promo.errorDesc': 'Algo deu errado. Por favor, tente novamente.',
 
-  // Assessment flow
-  'assessment.paymentSoon': 'Integração de pagamento em breve! Por enquanto, aproveite a visualização completa.',
+  // Payment
+  'payment.verifying': 'Verificando seu pagamento...',
+  'payment.successTitle': 'Pagamento Realizado com Sucesso!',
+  'payment.successDesc': 'Seu acesso completo à avaliação foi desbloqueado. Veja seus resultados detalhados agora.',
+  'payment.viewResults': 'Ver Meus Resultados',
+  'payment.errorTitle': 'Falha na Verificação do Pagamento',
+  'payment.errorDesc': 'Não conseguimos verificar seu pagamento. Tente novamente ou entre em contato com o suporte.',
+  'payment.backToAssessment': 'Voltar à Avaliação',
 };
 
 const hardcodedFallbacks: Record<string, Record<string, string>> = {
