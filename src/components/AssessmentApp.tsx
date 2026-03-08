@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AgeSelection } from './AgeSelection';
 import { AssessmentSurvey } from './AssessmentSurvey';
 import { AssessmentGames, GameResults } from './AssessmentGames';
