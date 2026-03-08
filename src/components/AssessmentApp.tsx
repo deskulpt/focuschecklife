@@ -189,8 +189,19 @@ const AssessmentApp = () => {
                 data={assessmentData} 
                 onRestart={resetAssessment}
                 isFreePreview={isFreeUser}
-                onUpgrade={() => {
-                  alert(t('assessment.paymentSoon'));
+                onUpgrade={async () => {
+                  setPaymentLoading(true);
+                  try {
+                    const { data, error } = await supabase.functions.invoke('create-payment');
+                    if (error) throw error;
+                    if (data?.url) {
+                      window.open(data.url, '_blank');
+                    }
+                  } catch (err: any) {
+                    toast.error(t('payment.errorTitle'));
+                  } finally {
+                    setPaymentLoading(false);
+                  }
                 }}
                 onPromoRedeemed={handlePromoRedeemed}
               />
