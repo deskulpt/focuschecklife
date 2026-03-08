@@ -34,6 +34,8 @@ const AssessmentApp = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
   const isFreeUser = !profile?.has_paid_full_test;
 
   // Load saved assessment on mount
