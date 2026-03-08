@@ -362,8 +362,14 @@ const fallbackEN: Record<string, string> = {
   'promo.error': 'Error',
   'promo.errorDesc': 'Something went wrong. Please try again.',
 
-  // Assessment flow
-  'assessment.paymentSoon': 'Payment integration coming soon! For now, enjoy the full preview.',
+  // Payment
+  'payment.verifying': 'Verifying your payment...',
+  'payment.successTitle': 'Payment Successful!',
+  'payment.successDesc': 'Your full assessment access has been unlocked. View your detailed results now.',
+  'payment.viewResults': 'View My Results',
+  'payment.errorTitle': 'Payment Verification Failed',
+  'payment.errorDesc': 'We couldn\'t verify your payment. Please try again or contact support.',
+  'payment.backToAssessment': 'Back to Assessment',
 };
 
 const fallbackPTBR: Record<string, string> = {
