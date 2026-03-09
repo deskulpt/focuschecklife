@@ -490,7 +490,7 @@ const fallbackPTBR: Record<string, string> = {
   'faq.q1': 'O que é a avaliação de TDAH FocusCheck?',
   'faq.a1': 'O FocusCheck é uma ferramenta abrangente de triagem online de TDAH que combina questionários clinicamente validados (baseados nos critérios do DSM-5, ASRS-v1.1 e Escalas de Conners) com testes de desempenho cognitivo, incluindo o Teste de Desempenho Contínuo (CPT), Teste de Stroop e Teste de Memória de Trabalho N-Back.',
   'faq.q2': 'Este teste de TDAH é gratuito?',
-  'faq.a2': 'Sim! A avaliação básica, incluindo todos os questionários e jogos cognitivos, é completamente gratuita. Você receberá um resumo dos resultados sem custo. Detalhamentos completos com análise cognitiva e recomendações clínicas estão disponíveis por R$25.',
+  'faq.a2': 'Sim! A avaliação básica, incluindo todos os questionários e jogos cognitivos, é completamente gratuita. Você receberá um resumo dos resultados sem custo. Detalhamentos completos com análise cognitiva e recomendações personalizadas estão disponíveis por R$25.',
   'faq.q3': 'Quanto tempo leva a avaliação de TDAH?',
   'faq.a3': 'A avaliação completa leva aproximadamente 15-20 minutos, incluindo o questionário (5-15 minutos dependendo da faixa etária) e três testes de desempenho cognitivo (cerca de 5 minutos no total).',
   'faq.q4': 'Este teste pode diagnosticar TDAH?',
