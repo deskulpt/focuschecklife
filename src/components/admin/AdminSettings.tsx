@@ -85,6 +85,43 @@ export const AdminSettings = () => {
           <Button onClick={saveAll} disabled={loading}><Save className="w-4 h-4 mr-2" /> Save Settings</Button>
         </CardContent>
       </Card>
+
+      {/* Booking / Appointment Settings */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <CalendarCheck className="w-5 h-5" /> Book Appointment Feature
+          </CardTitle>
+          <CardDescription>Enable a "Book Clinical Consultation" CTA shown after full assessment results. Users will be directed to an external booking URL.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-medium">Enable Booking CTA</label>
+            <Switch
+              checked={settings['booking_enabled'] === 'true'}
+              onCheckedChange={(checked) => updateSetting('booking_enabled', checked ? 'true' : 'false')}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium mb-1 block">Clinic / Partner Name</label>
+            <Input
+              placeholder="e.g. MindCare Clinic"
+              value={settings['booking_clinic_name'] || ''}
+              onChange={(e) => updateSetting('booking_clinic_name', e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium mb-1 block">Booking URL</label>
+            <Input
+              placeholder="https://calendly.com/your-clinic"
+              value={settings['booking_url'] || ''}
+              onChange={(e) => updateSetting('booking_url', e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground mt-1">External link where users can book an appointment (Calendly, Cal.com, clinic website, etc.)</p>
+          </div>
+          <Button onClick={saveAll} disabled={loading}><Save className="w-4 h-4 mr-2" /> Save Settings</Button>
+        </CardContent>
+      </Card>
     </div>
   );
 };

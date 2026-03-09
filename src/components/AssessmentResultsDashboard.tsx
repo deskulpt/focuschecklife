@@ -825,6 +825,9 @@ const DetailedResults = ({
         </CardContent>
       </Card>
 
+      {/* Book Appointment CTA */}
+      {!isFreePreview && <BookAppointment />}
+
       {/* Important Note */}
       <div className="p-4 bg-medical-light rounded-lg border border-primary/10">
         <p className="text-xs text-muted-foreground">
