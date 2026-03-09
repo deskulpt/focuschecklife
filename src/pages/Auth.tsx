@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users } from 'lucide-react';
@@ -25,12 +26,18 @@ const Auth = () => {
   const [country, setCountry] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isLogin && !acceptTerms) {
+      toast({ title: t('auth.error'), description: t('auth.mustAcceptTerms'), variant: 'destructive' });
+      return;
+    }
     setLoading(true);
 
     try {
@@ -43,7 +50,7 @@ const Auth = () => {
           email,
           password,
           options: {
-            data: { full_name: fullName, phone, country, age: parseInt(age) || null, gender },
+            data: { full_name: fullName, phone, country, age: parseInt(age) || null, gender, marketing_consent: marketingConsent },
             emailRedirectTo: window.location.origin,
           },
         });
@@ -132,7 +139,38 @@ const Auth = () => {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input type="password" placeholder={t('auth.password')} value={password} onChange={(e) => setPassword(e.target.value)} className="pl-10" required minLength={6} />
               </div>
-              <Button type="submit" className="w-full" disabled={loading}>
+
+              {!isLogin && (
+                <div className="space-y-3 pt-1">
+                  <div className="flex items-start gap-2">
+                    <Checkbox
+                      id="terms"
+                      checked={acceptTerms}
+                      onCheckedChange={(checked) => setAcceptTerms(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <label htmlFor="terms" className="text-xs text-muted-foreground leading-tight cursor-pointer">
+                      {t('auth.agreeTerms')}{' '}
+                      <Link to="/terms" className="text-primary hover:underline" target="_blank">{t('auth.termsLink')}</Link>
+                      {' '}{t('auth.and')}{' '}
+                      <Link to="/privacy" className="text-primary hover:underline" target="_blank">{t('auth.privacyLink')}</Link>
+                    </label>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Checkbox
+                      id="marketing"
+                      checked={marketingConsent}
+                      onCheckedChange={(checked) => setMarketingConsent(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <label htmlFor="marketing" className="text-xs text-muted-foreground leading-tight cursor-pointer">
+                      {t('auth.marketingConsent')}
+                    </label>
+                  </div>
+                </div>
+              )}
+
+              <Button type="submit" className="w-full" disabled={loading || (!isLogin && !acceptTerms)}>
                 {loading ? t('auth.loading') : isLogin ? t('auth.submit.signIn') : t('auth.submit.signUp')}
               </Button>
             </form>
