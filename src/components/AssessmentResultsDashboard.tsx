@@ -824,7 +824,7 @@ const DetailedResults = ({
         </CardContent>
       </Card>
 
-      {/* Clinical Note */}
+      {/* Important Note */}
       <div className="p-4 bg-medical-light rounded-lg border border-primary/10">
         <p className="text-xs text-muted-foreground">
           <strong>{t('dashboard.clinicalNote')}</strong> {t('dashboard.clinicalNoteText')}

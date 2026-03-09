@@ -86,7 +86,7 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
               <div>
                 <h4 className="font-semibold mb-2">{t('results.clinicalCriteria')}</h4>
                 <ul className="space-y-1 text-muted-foreground">
-                  <li>• DSM-5 Diagnostic Criteria for ADHD</li>
+                  <li>• DSM-5 Criteria for ADHD</li>
                   <li>• American Psychiatric Association Guidelines</li>
                   <li>• WHO International Classification</li>
                 </ul>
