@@ -430,7 +430,7 @@ const fallbackPTBR: Record<string, string> = {
   'landing.logout': 'Sair',
 
   // Hero
-  'hero.badge': '✨ Ensaios Clínicos Pendentes • Baseado no DSM-5',
+  'hero.badge': '✨ Baseado em Pesquisas • Alinhado ao DSM-5',
   'hero.title1': 'Conheça Seu TDAH.',
   'hero.title2': 'Assuma o Controle do Seu Foco.',
   'hero.subtitle': 'A avaliação online de TDAH mais abrangente, combinando questionários validados com testes de desempenho cognitivo. Obtenha insights acionáveis em menos de 20 minutos.',
