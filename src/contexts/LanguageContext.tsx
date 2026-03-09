@@ -342,7 +342,7 @@ const fallbackEN: Record<string, string> = {
 
   // Paywall
   'paywall.unlockTitle': 'Unlock Full Results',
-  'paywall.unlockDescription': 'Get detailed category breakdown, cognitive performance analysis, symptom radar chart, and clinical recommendations.',
+  'paywall.unlockDescription': 'Get detailed category breakdown, cognitive performance analysis, symptom radar chart, and personalized recommendations.',
   'paywall.oneTime': 'one-time',
 
   // Promo
