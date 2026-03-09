@@ -741,7 +741,7 @@ const fallbackPTBR: Record<string, string> = {
 
   // Paywall
   'paywall.unlockTitle': 'Desbloqueie os Resultados Completos',
-  'paywall.unlockDescription': 'Obtenha detalhamento por categoria, análise de desempenho cognitivo, gráfico radar de sintomas e recomendações clínicas.',
+  'paywall.unlockDescription': 'Obtenha detalhamento por categoria, análise de desempenho cognitivo, gráfico radar de sintomas e recomendações personalizadas.',
   'paywall.oneTime': 'pagamento único',
 
   // Promo
