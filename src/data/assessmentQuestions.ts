@@ -444,7 +444,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você tem problemas no trabalho ou escola por dificuldade de concentração?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_20',
@@ -453,7 +453,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você tem problemas de relacionamento por não completar tarefas ou não cumprir compromissos?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_21',
@@ -462,7 +462,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você evita atividades sociais por se preocupar com seu comportamento ou problemas de atenção?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_22',
@@ -471,7 +471,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você se sente sobrecarregado por tarefas e responsabilidades diárias?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_23',
@@ -480,7 +480,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você começa vários projetos, mas tem dificuldade em completá-los?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_24',
@@ -489,7 +489,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você tem problemas para gerenciar dinheiro, pagar contas ou cumprir obrigações financeiras no prazo?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_25',
@@ -498,7 +498,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você perde a noção do tempo e chega atrasado a compromissos ou reuniões?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_26',
@@ -507,7 +507,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você toma decisões impulsivas das quais se arrepende depois?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_27',
@@ -516,7 +516,7 @@ export const adultQuestions: Question[] = [
       'pt-BR': 'Com que frequência você tem dificuldade para dormir devido a pensamentos acelerados ou inquietação?'
     },
     category: 'functional_impairment',
-    source: 'Clinical assessment criteria'
+    source: 'Functional impairment criteria'
   },
   {
     id: 'adult_28',
