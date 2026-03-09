@@ -263,7 +263,7 @@ export const teenQuestions: Question[] = [
       'pt-BR': 'Procrastina ou deixa as coisas para a última hora'
     },
     category: 'functional_impairment',
-    source: 'Clinical observation criteria'
+    source: 'Behavioral observation criteria'
   }
 ];
 
