@@ -66,7 +66,7 @@ const fallbackEN: Record<string, string> = {
   'pricing.full.f2': 'Detailed category breakdown',
   'pricing.full.f3': 'Cognitive performance analysis',
   'pricing.full.f4': 'Symptom profile radar chart',
-  'pricing.full.f5': 'Clinical recommendations',
+  'pricing.full.f5': 'Personalized insights & recommendations',
   'pricing.full.cta': 'Get Full Results',
 
   // Learn
