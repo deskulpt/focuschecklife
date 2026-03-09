@@ -19,9 +19,9 @@ interface LanguageContextType {
 const fallbackEN: Record<string, string> = {
   // App
   'app.title': 'FocusCheck ADHD Assessment',
-  'app.subtitle': 'A comprehensive, research-based assessment tool using validated clinical questionnaires and cognitive tests to help identify potential ADHD symptoms across different age groups.',
+  'app.subtitle': 'A comprehensive, research-based screening tool using validated questionnaires and cognitive tests to help identify potential ADHD symptoms across different age groups.',
   'disclaimer.title': 'Important Disclaimer:',
-  'disclaimer.text': 'This assessment is for informational purposes only and is not a substitute for professional medical diagnosis. If you have concerns about ADHD symptoms, please consult with a qualified healthcare professional or mental health provider.',
+  'disclaimer.text': 'This screening is for informational and educational purposes only and is not a substitute for professional evaluation. If you have concerns about ADHD symptoms, please consult with a qualified healthcare professional.',
 
   // Navigation
   'nav.home': 'Home',
