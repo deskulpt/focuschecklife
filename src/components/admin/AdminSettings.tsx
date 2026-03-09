@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { supabase } from '@/integrations/supabase/client';
-import { Save } from 'lucide-react';
+import { Save, CalendarCheck } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export const AdminSettings = () => {
