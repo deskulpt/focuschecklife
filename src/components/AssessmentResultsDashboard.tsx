@@ -413,8 +413,8 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false }: Asse
                 <h3 className="text-lg font-bold mb-2">{t('paywall.unlockTitle') || 'Unlock Full Results'}</h3>
                 <p className="text-sm text-muted-foreground mb-4">
                   {language === 'pt-BR'
-                    ? 'Desbloqueie análise detalhada por categoria, insights cognitivos com explicações, interpretação por IA, perfil de sintomas e recomendações clínicas personalizadas.'
-                    : 'Unlock detailed category analysis, cognitive insights with explanations, AI-powered interpretation, symptom radar profile, and personalized clinical recommendations.'}
+                    ? 'Desbloqueie análise detalhada por categoria, insights cognitivos com explicações, interpretação por IA, perfil de sintomas e recomendações personalizadas.'
+                    : 'Unlock detailed category analysis, cognitive insights with explanations, AI-powered interpretation, symptom radar profile, and personalized recommendations.'}
                 </p>
                 <p className="text-2xl font-bold text-primary mb-4">
                   {language === 'pt-BR' ? 'R$25' : '$5'} <span className="text-sm font-normal text-muted-foreground">{t('paywall.oneTime') || 'one-time'}</span>
