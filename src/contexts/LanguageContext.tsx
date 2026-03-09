@@ -111,7 +111,7 @@ const fallbackEN: Record<string, string> = {
   'cta.button': 'Begin Your Assessment',
 
   // Footer
-  'footer.disclaimer': 'This tool is for informational purposes only and does not constitute medical advice. Always consult a qualified healthcare professional for diagnosis and treatment.',
+  'footer.disclaimer': 'This tool is for informational and educational purposes only and does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional for diagnosis and treatment.',
   'footer.copyright': 'FocusCheck. All rights reserved.',
 
   // Auth
