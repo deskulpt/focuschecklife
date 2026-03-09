@@ -75,6 +75,7 @@ const Admin = () => {
             </TabsTrigger>
           </TabsList>
 
+          <TabsContent value="crm"><AdminCRM /></TabsContent>
           <TabsContent value="analytics"><AdminAnalytics /></TabsContent>
           <TabsContent value="faqs"><AdminFaqs /></TabsContent>
           <TabsContent value="articles"><AdminArticles /></TabsContent>
