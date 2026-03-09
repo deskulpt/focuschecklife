@@ -9,6 +9,7 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Toolti
 import type { AssessmentData } from './AssessmentApp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
+import { BookAppointment } from '@/components/BookAppointment';
 
 interface AssessmentResultsDashboardProps {
   data: AssessmentData;
@@ -823,6 +824,9 @@ const DetailedResults = ({
           </div>
         </CardContent>
       </Card>
+
+      {/* Book Appointment CTA */}
+      <BookAppointment />
 
       {/* Important Note */}
       <div className="p-4 bg-medical-light rounded-lg border border-primary/10">
