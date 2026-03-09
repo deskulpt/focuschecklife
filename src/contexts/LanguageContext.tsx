@@ -518,7 +518,7 @@ const fallbackPTBR: Record<string, string> = {
   'auth.createAccount': 'Criar Conta Gratuita',
   'auth.signInSubtitle': 'Entre para acessar suas avaliações',
   'auth.signUpSubtitle': 'Comece sua jornada de avaliação de TDAH hoje',
-  'auth.subtitle': 'Plataforma de avaliação de TDAH — ensaios clínicos pendentes',
+  'auth.subtitle': 'Plataforma de triagem de TDAH — apenas para fins informativos',
   'auth.fullName': 'Nome Completo *',
   'auth.phone': 'Telefone',
   'auth.age': 'Idade',
