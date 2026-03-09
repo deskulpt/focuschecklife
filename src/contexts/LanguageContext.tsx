@@ -510,7 +510,7 @@ const fallbackPTBR: Record<string, string> = {
   'cta.button': 'Iniciar Sua Avaliação',
 
   // Footer
-  'footer.disclaimer': 'Esta ferramenta é apenas para fins informativos e não constitui aconselhamento médico. Consulte sempre um profissional de saúde qualificado para diagnóstico e tratamento.',
+  'footer.disclaimer': 'Esta ferramenta é apenas para fins informativos e educacionais e não constitui aconselhamento médico, diagnóstico ou tratamento. Consulte sempre um profissional de saúde qualificado.',
   'footer.copyright': 'FocusCheck. Todos os direitos reservados.',
 
   // Auth
