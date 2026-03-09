@@ -91,7 +91,7 @@ const fallbackEN: Record<string, string> = {
   'faq.q1': 'What is FocusCheck ADHD assessment?',
   'faq.a1': "FocusCheck is a comprehensive online ADHD screening tool that combines clinically validated questionnaires (based on DSM-5 criteria, ASRS-v1.1, and Conners' Rating Scales) with cognitive performance tests including the Continuous Performance Test (CPT), Stroop Color-Word Test, and N-Back Working Memory Test.",
   'faq.q2': 'Is this ADHD test free?',
-  'faq.a2': "Yes! The basic assessment including all questionnaires and cognitive games is completely free. You'll receive a results snapshot at no cost. Detailed breakdowns with cognitive analysis and clinical recommendations are available for $5.",
+  'faq.a2': "Yes! The basic assessment including all questionnaires and cognitive games is completely free. You'll receive a results snapshot at no cost. Detailed breakdowns with cognitive analysis and personalized recommendations are available for $5.",
   'faq.q3': 'How long does the ADHD assessment take?',
   'faq.a3': 'The complete assessment takes approximately 15-20 minutes, including the questionnaire (5-15 minutes depending on age group) and three cognitive performance tests (about 5 minutes total).',
   'faq.q4': 'Can this test diagnose ADHD?',
