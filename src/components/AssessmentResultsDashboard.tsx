@@ -600,8 +600,8 @@ const DetailedResults = ({
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
             {language === 'pt-BR'
-              ? 'Estes testes computadorizados medem aspectos objetivos do funcionamento cognitivo, semelhantes aos utilizados em avaliações clínicas profissionais de TDAH.'
-              : 'These computerized tests measure objective aspects of cognitive functioning, similar to those used in professional ADHD clinical assessments.'}
+              ? 'Estes testes computadorizados medem aspectos objetivos do funcionamento cognitivo, semelhantes aos utilizados em avaliações profissionais de TDAH.'
+              : 'These computerized tests measure objective aspects of cognitive functioning, similar to those used in professional ADHD assessments.'}
           </p>
 
           {/* CPT Card */}
