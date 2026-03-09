@@ -815,6 +815,12 @@ const fallbackPTBR: Record<string, string> = {
   'privacy.s6.title': '6. Seus Direitos',
   'privacy.s6.text': 'Você pode solicitar a exclusão de sua conta e dados associados a qualquer momento entrando em contato conosco. Você tem o direito de acessar, corrigir ou excluir suas informações pessoais.',
 
+  // Booking
+  'booking.title': 'Agende uma Consulta Profissional',
+  'booking.description': 'Faça uma avaliação clínica completa com um profissional de saúde mental licenciado para discutir seus resultados.',
+  'booking.descriptionWithClinic': 'Agende uma consulta com {clinic} para discutir seus resultados com um profissional de saúde mental licenciado.',
+  'booking.cta': 'Agendar Consulta',
+
   // Footer links
   'footer.terms': 'Termos de Serviço',
   'footer.privacy': 'Política de Privacidade',
