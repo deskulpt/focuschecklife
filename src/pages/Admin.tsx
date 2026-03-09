@@ -51,7 +51,10 @@ const Admin = () => {
 
       <div className="container mx-auto px-4 py-6">
         <Tabs defaultValue="analytics" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 max-w-3xl">
+          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-7 max-w-4xl">
+            <TabsTrigger value="crm" className="gap-1 text-xs sm:text-sm">
+              <Users className="w-3.5 h-3.5 hidden sm:inline" /> CRM
+            </TabsTrigger>
             <TabsTrigger value="analytics" className="gap-1 text-xs sm:text-sm">
               <BarChart3 className="w-3.5 h-3.5 hidden sm:inline" /> Analytics
             </TabsTrigger>
