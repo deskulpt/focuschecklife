@@ -31,7 +31,7 @@ const fallbackEN: Record<string, string> = {
   'landing.logout': 'Logout',
 
   // Hero
-  'hero.badge': '✨ Pending Clinical Trials • DSM-5 Based',
+  'hero.badge': '✨ Research-Based • DSM-5 Aligned',
   'hero.title1': 'Know Your ADHD.',
   'hero.title2': 'Take Control of Your Focus.',
   'hero.subtitle': 'The most comprehensive online ADHD assessment combining validated questionnaires with cognitive performance tests. Get actionable insights in under 20 minutes.',
