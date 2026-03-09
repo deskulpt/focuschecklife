@@ -370,6 +370,49 @@ const fallbackEN: Record<string, string> = {
   'payment.errorTitle': 'Payment Verification Failed',
   'payment.errorDesc': 'We couldn\'t verify your payment. Please try again or contact support.',
   'payment.backToAssessment': 'Back to Assessment',
+
+  // Auth consent
+  'auth.agreeTerms': 'I agree to the',
+  'auth.termsLink': 'Terms of Service',
+  'auth.and': 'and',
+  'auth.privacyLink': 'Privacy Policy',
+  'auth.marketingConsent': 'I agree to receive product updates, tips, and promotional emails. You can unsubscribe at any time.',
+  'auth.mustAcceptTerms': 'You must accept the Terms of Service and Privacy Policy to create an account.',
+
+  // Terms page
+  'terms.title': 'Terms of Service',
+  'terms.lastUpdated': 'Last Updated',
+  'terms.s1.title': '1. Acceptance of Terms',
+  'terms.s1.text': 'By accessing or using FocusCheck ("the Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.',
+  'terms.s2.title': '2. Description of Service',
+  'terms.s2.text': 'FocusCheck is an online ADHD screening tool that provides informational and educational self-assessments based on validated questionnaires and cognitive exercises. FocusCheck is NOT a medical device, does NOT provide medical diagnoses, and is NOT operated by licensed medical professionals. Results are for personal awareness only and should NOT be used as a substitute for professional evaluation.',
+  'terms.s3.title': '3. No Medical Advice',
+  'terms.s3.text': 'The Service does not provide medical advice, diagnosis, or treatment. All content and results are for informational and educational purposes only. You should consult a qualified healthcare professional before making any health-related decisions based on information from this Service.',
+  'terms.s4.title': '4. User Accounts & Data',
+  'terms.s4.text': 'You are responsible for maintaining the confidentiality of your account credentials. Assessment data you choose to save is stored securely and linked to your account. Saved data not accessed for 7 days may be automatically deleted. You may decline to save your data at any time.',
+  'terms.s5.title': '5. Payments & Refunds',
+  'terms.s5.text': 'The full assessment unlock is a one-time payment processed via Stripe. Payments are non-refundable once assessment results have been delivered. All prices are displayed in your local currency equivalent where available.',
+  'terms.s6.title': '6. Limitation of Liability',
+  'terms.s6.text': 'FocusCheck and its operators shall not be liable for any decisions made based on the screening results. The Service is provided "as is" without warranties of any kind. We do not guarantee the accuracy, completeness, or usefulness of any assessment results.',
+
+  // Privacy page
+  'privacy.title': 'Privacy Policy',
+  'privacy.s1.title': '1. Information We Collect',
+  'privacy.s1.text': 'We collect information you provide during account creation (name, email, age, gender, country, phone) and assessment data (survey responses, cognitive test results). We also collect usage data such as page visits, session IDs, and referrer information for analytics.',
+  'privacy.s2.title': '2. How We Use Your Information',
+  'privacy.s2.text': 'Your personal information is used to create and manage your account, display your assessment results, process payments, and if you opted in, send you product updates and promotional communications. We do not sell your personal data to third parties.',
+  'privacy.s3.title': '3. Data Storage & Security',
+  'privacy.s3.text': 'Your data is stored securely with encryption and row-level security policies. Only you can access your assessment results through your authenticated account. Assessment data not accessed for 7 days may be automatically purged.',
+  'privacy.s4.title': '4. Marketing Communications',
+  'privacy.s4.text': 'If you opted in during registration, we may send you product updates, tips, and promotional emails. You can unsubscribe at any time by clicking the unsubscribe link in any email or by contacting us.',
+  'privacy.s5.title': '5. Third-Party Services',
+  'privacy.s5.text': 'We use third-party services for payment processing (Stripe), analytics, and infrastructure hosting. These services have their own privacy policies. We do not share your health-related assessment data with any third party.',
+  'privacy.s6.title': '6. Your Rights',
+  'privacy.s6.text': 'You may request deletion of your account and associated data at any time by contacting us. You have the right to access, correct, or delete your personal information. If you are in the EU/EEA, you have additional rights under GDPR.',
+
+  // Footer links
+  'footer.terms': 'Terms of Service',
+  'footer.privacy': 'Privacy Policy',
 };
 
 const fallbackPTBR: Record<string, string> = {
