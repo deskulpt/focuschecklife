@@ -465,7 +465,7 @@ const fallbackPTBR: Record<string, string> = {
   'pricing.full.f2': 'Detalhamento por categoria',
   'pricing.full.f3': 'Análise de desempenho cognitivo',
   'pricing.full.f4': 'Gráfico radar de sintomas',
-  'pricing.full.f5': 'Recomendações clínicas',
+  'pricing.full.f5': 'Insights e recomendações personalizadas',
   'pricing.full.cta': 'Obter Resultados Completos',
 
   // Learn
