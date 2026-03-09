@@ -769,6 +769,49 @@ const fallbackPTBR: Record<string, string> = {
   'payment.errorTitle': 'Falha na Verificação do Pagamento',
   'payment.errorDesc': 'Não conseguimos verificar seu pagamento. Tente novamente ou entre em contato com o suporte.',
   'payment.backToAssessment': 'Voltar à Avaliação',
+
+  // Auth consent
+  'auth.agreeTerms': 'Eu concordo com os',
+  'auth.termsLink': 'Termos de Serviço',
+  'auth.and': 'e',
+  'auth.privacyLink': 'Política de Privacidade',
+  'auth.marketingConsent': 'Concordo em receber atualizações do produto, dicas e e-mails promocionais. Você pode cancelar a inscrição a qualquer momento.',
+  'auth.mustAcceptTerms': 'Você deve aceitar os Termos de Serviço e a Política de Privacidade para criar uma conta.',
+
+  // Terms page
+  'terms.title': 'Termos de Serviço',
+  'terms.lastUpdated': 'Última Atualização',
+  'terms.s1.title': '1. Aceitação dos Termos',
+  'terms.s1.text': 'Ao acessar ou usar o FocusCheck ("o Serviço"), você concorda em cumprir estes Termos de Serviço. Se não concordar, por favor não use o Serviço.',
+  'terms.s2.title': '2. Descrição do Serviço',
+  'terms.s2.text': 'O FocusCheck é uma ferramenta online de triagem de TDAH que fornece autoavaliações informativas e educacionais baseadas em questionários validados e exercícios cognitivos. O FocusCheck NÃO é um dispositivo médico, NÃO fornece diagnósticos médicos e NÃO é operado por profissionais médicos licenciados. Os resultados são apenas para conscientização pessoal e NÃO devem ser usados como substituto para avaliação profissional.',
+  'terms.s3.title': '3. Sem Aconselhamento Médico',
+  'terms.s3.text': 'O Serviço não fornece aconselhamento médico, diagnóstico ou tratamento. Todo o conteúdo e resultados são apenas para fins informativos e educacionais. Você deve consultar um profissional de saúde qualificado antes de tomar qualquer decisão relacionada à saúde com base nas informações deste Serviço.',
+  'terms.s4.title': '4. Contas de Usuário e Dados',
+  'terms.s4.text': 'Você é responsável por manter a confidencialidade das credenciais da sua conta. Os dados de avaliação que você optar por salvar são armazenados com segurança e vinculados à sua conta. Dados salvos não acessados por 7 dias podem ser automaticamente excluídos. Você pode recusar salvar seus dados a qualquer momento.',
+  'terms.s5.title': '5. Pagamentos e Reembolsos',
+  'terms.s5.text': 'O desbloqueio da avaliação completa é um pagamento único processado via Stripe. Os pagamentos não são reembolsáveis após a entrega dos resultados da avaliação. Todos os preços são exibidos na moeda local equivalente quando disponível.',
+  'terms.s6.title': '6. Limitação de Responsabilidade',
+  'terms.s6.text': 'O FocusCheck e seus operadores não serão responsáveis por qualquer decisão tomada com base nos resultados da triagem. O Serviço é fornecido "como está" sem garantias de qualquer tipo. Não garantimos a precisão, completude ou utilidade de quaisquer resultados de avaliação.',
+
+  // Privacy page
+  'privacy.title': 'Política de Privacidade',
+  'privacy.s1.title': '1. Informações que Coletamos',
+  'privacy.s1.text': 'Coletamos informações fornecidas durante a criação da conta (nome, e-mail, idade, gênero, país, telefone) e dados de avaliação (respostas do questionário, resultados dos testes cognitivos). Também coletamos dados de uso, como visitas a páginas, IDs de sessão e informações de referência para análise.',
+  'privacy.s2.title': '2. Como Usamos Suas Informações',
+  'privacy.s2.text': 'Suas informações pessoais são usadas para criar e gerenciar sua conta, exibir seus resultados de avaliação, processar pagamentos e, se você optou, enviar atualizações do produto e comunicações promocionais. Não vendemos seus dados pessoais a terceiros.',
+  'privacy.s3.title': '3. Armazenamento e Segurança de Dados',
+  'privacy.s3.text': 'Seus dados são armazenados com segurança com criptografia e políticas de segurança em nível de linha. Somente você pode acessar seus resultados de avaliação através da sua conta autenticada. Dados de avaliação não acessados por 7 dias podem ser automaticamente removidos.',
+  'privacy.s4.title': '4. Comunicações de Marketing',
+  'privacy.s4.text': 'Se você optou durante o registro, podemos enviar atualizações do produto, dicas e e-mails promocionais. Você pode cancelar a inscrição a qualquer momento clicando no link de cancelamento em qualquer e-mail ou entrando em contato conosco.',
+  'privacy.s5.title': '5. Serviços de Terceiros',
+  'privacy.s5.text': 'Usamos serviços de terceiros para processamento de pagamentos (Stripe), análise e hospedagem de infraestrutura. Esses serviços têm suas próprias políticas de privacidade. Não compartilhamos seus dados de avaliação relacionados à saúde com terceiros.',
+  'privacy.s6.title': '6. Seus Direitos',
+  'privacy.s6.text': 'Você pode solicitar a exclusão de sua conta e dados associados a qualquer momento entrando em contato conosco. Você tem o direito de acessar, corrigir ou excluir suas informações pessoais.',
+
+  // Footer links
+  'footer.terms': 'Termos de Serviço',
+  'footer.privacy': 'Política de Privacidade',
 };
 
 const hardcodedFallbacks: Record<string, Record<string, string>> = {
