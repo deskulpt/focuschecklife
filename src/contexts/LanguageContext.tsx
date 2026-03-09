@@ -119,7 +119,7 @@ const fallbackEN: Record<string, string> = {
   'auth.createAccount': 'Create Free Account',
   'auth.signInSubtitle': 'Sign in to access your assessments',
   'auth.signUpSubtitle': 'Start your ADHD assessment journey today',
-  'auth.subtitle': 'ADHD assessment platform — pending clinical trials',
+  'auth.subtitle': 'ADHD screening platform — for informational purposes only',
   'auth.fullName': 'Full Name *',
   'auth.phone': 'Phone Number',
   'auth.age': 'Age',
