@@ -1,4 +1,4 @@
-// Research-based ADHD assessment questions derived from validated clinical tools
+// Research-based ADHD screening questions derived from validated assessment tools
 // Sources: DSM-5, Conners' Rating Scales, ADHD-RS, ASRS-v1.1, Vanderbilt Assessment Scales
 
 export interface Question {
