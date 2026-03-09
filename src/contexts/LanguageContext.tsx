@@ -418,9 +418,9 @@ const fallbackEN: Record<string, string> = {
 const fallbackPTBR: Record<string, string> = {
   // App
   'app.title': 'Avaliação de TDAH FocusCheck',
-  'app.subtitle': 'Uma ferramenta de avaliação abrangente, baseada em pesquisas, utilizando questionários clínicos validados e testes cognitivos para ajudar a identificar potenciais sintomas de TDAH em diferentes faixas etárias.',
+  'app.subtitle': 'Uma ferramenta de triagem abrangente, baseada em pesquisas, utilizando questionários validados e testes cognitivos para ajudar a identificar potenciais sintomas de TDAH em diferentes faixas etárias.',
   'disclaimer.title': 'Aviso Importante:',
-  'disclaimer.text': 'Esta avaliação é apenas para fins informativos e não substitui o diagnóstico médico profissional. Consulte um profissional de saúde qualificado.',
+  'disclaimer.text': 'Esta triagem é apenas para fins informativos e educacionais e não substitui a avaliação profissional. Consulte um profissional de saúde qualificado.',
 
   // Navigation
   'nav.home': 'Início',
