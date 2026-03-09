@@ -246,6 +246,11 @@ const Landing = () => {
             <span className="font-semibold text-foreground">FocusCheck</span>
           </div>
           <p className="max-w-xl mx-auto mb-3 sm:mb-4">{t('footer.disclaimer')}</p>
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <a href="/terms" className="text-primary hover:underline">{t('footer.terms')}</a>
+            <span>•</span>
+            <a href="/privacy" className="text-primary hover:underline">{t('footer.privacy')}</a>
+          </div>
           <p>© {new Date().getFullYear()} {t('footer.copyright')}</p>
         </div>
       </footer>

@@ -19,9 +19,9 @@ interface LanguageContextType {
 const fallbackEN: Record<string, string> = {
   // App
   'app.title': 'FocusCheck ADHD Assessment',
-  'app.subtitle': 'A comprehensive, research-based assessment tool using validated clinical questionnaires and cognitive tests to help identify potential ADHD symptoms across different age groups.',
+  'app.subtitle': 'A comprehensive, research-based screening tool using validated questionnaires and cognitive tests to help identify potential ADHD symptoms across different age groups.',
   'disclaimer.title': 'Important Disclaimer:',
-  'disclaimer.text': 'This assessment is for informational purposes only and is not a substitute for professional medical diagnosis. If you have concerns about ADHD symptoms, please consult with a qualified healthcare professional or mental health provider.',
+  'disclaimer.text': 'This screening is for informational and educational purposes only and is not a substitute for professional evaluation. If you have concerns about ADHD symptoms, please consult with a qualified healthcare professional.',
 
   // Navigation
   'nav.home': 'Home',
@@ -31,7 +31,7 @@ const fallbackEN: Record<string, string> = {
   'landing.logout': 'Logout',
 
   // Hero
-  'hero.badge': '✨ Pending Clinical Trials • DSM-5 Based',
+  'hero.badge': '✨ Research-Based • DSM-5 Aligned',
   'hero.title1': 'Know Your ADHD.',
   'hero.title2': 'Take Control of Your Focus.',
   'hero.subtitle': 'The most comprehensive online ADHD assessment combining validated questionnaires with cognitive performance tests. Get actionable insights in under 20 minutes.',
@@ -66,7 +66,7 @@ const fallbackEN: Record<string, string> = {
   'pricing.full.f2': 'Detailed category breakdown',
   'pricing.full.f3': 'Cognitive performance analysis',
   'pricing.full.f4': 'Symptom profile radar chart',
-  'pricing.full.f5': 'Clinical recommendations',
+  'pricing.full.f5': 'Personalized insights & recommendations',
   'pricing.full.cta': 'Get Full Results',
 
   // Learn
@@ -78,8 +78,8 @@ const fallbackEN: Record<string, string> = {
   'learn.a2.content': 'Our multi-dimensional assessment evaluates four key areas: inattention, hyperactivity, impulsivity, and functional impairment. Combined with cognitive tests (CPT, Stroop, Working Memory), you get a comprehensive picture of how your brain processes information, maintains attention, and controls impulses.',
   'learn.a3.title': 'Working With Your Practitioner',
   'learn.a3.content': 'Your FocusCheck results are designed to be shared with healthcare professionals. The detailed breakdown helps your doctor or therapist understand your specific symptom profile, enabling more targeted treatment plans. Bring your results to your next appointment for a more productive conversation.',
-  'learn.a4.title': 'Our Clinical Methodology',
-  'learn.a4.content': "FocusCheck uses DSM-5 diagnostic criteria, the Adult ADHD Self-Report Scale (ASRS-v1.1), Conners' Rating Scales, and Vanderbilt Assessment Scales. Our cognitive tests mirror those used in clinical settings — the Continuous Performance Test, N-Back Working Memory Test, and Stroop Color-Word Test.",
+  'learn.a4.title': 'Our Methodology',
+  'learn.a4.content': "FocusCheck is aligned with DSM-5 criteria and uses established screening scales including the Adult ADHD Self-Report Scale (ASRS-v1.1), Conners' Rating Scales, and Vanderbilt Assessment Scales. Our cognitive tests mirror validated research tools — the Continuous Performance Test, N-Back Working Memory Test, and Stroop Color-Word Test.",
   'learn.a5.title': 'Life After Diagnosis',
   'learn.a5.content': 'Understanding your ADHD profile opens doors to effective strategies: cognitive behavioral therapy, medication options, workplace accommodations, organizational tools, and mindfulness practices. Many adults report feeling "finally understood" after getting clarity on their symptoms.',
   'learn.a6.title': 'ADHD Is Not a Limitation',
@@ -91,7 +91,7 @@ const fallbackEN: Record<string, string> = {
   'faq.q1': 'What is FocusCheck ADHD assessment?',
   'faq.a1': "FocusCheck is a comprehensive online ADHD screening tool that combines clinically validated questionnaires (based on DSM-5 criteria, ASRS-v1.1, and Conners' Rating Scales) with cognitive performance tests including the Continuous Performance Test (CPT), Stroop Color-Word Test, and N-Back Working Memory Test.",
   'faq.q2': 'Is this ADHD test free?',
-  'faq.a2': "Yes! The basic assessment including all questionnaires and cognitive games is completely free. You'll receive a results snapshot at no cost. Detailed breakdowns with cognitive analysis and clinical recommendations are available for $5.",
+  'faq.a2': "Yes! The basic assessment including all questionnaires and cognitive games is completely free. You'll receive a results snapshot at no cost. Detailed breakdowns with cognitive analysis and personalized recommendations are available for $5.",
   'faq.q3': 'How long does the ADHD assessment take?',
   'faq.a3': 'The complete assessment takes approximately 15-20 minutes, including the questionnaire (5-15 minutes depending on age group) and three cognitive performance tests (about 5 minutes total).',
   'faq.q4': 'Can this test diagnose ADHD?',
@@ -111,7 +111,7 @@ const fallbackEN: Record<string, string> = {
   'cta.button': 'Begin Your Assessment',
 
   // Footer
-  'footer.disclaimer': 'This tool is for informational purposes only and does not constitute medical advice. Always consult a qualified healthcare professional for diagnosis and treatment.',
+  'footer.disclaimer': 'This tool is for informational and educational purposes only and does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional for diagnosis and treatment.',
   'footer.copyright': 'FocusCheck. All rights reserved.',
 
   // Auth
@@ -119,7 +119,7 @@ const fallbackEN: Record<string, string> = {
   'auth.createAccount': 'Create Free Account',
   'auth.signInSubtitle': 'Sign in to access your assessments',
   'auth.signUpSubtitle': 'Start your ADHD assessment journey today',
-  'auth.subtitle': 'ADHD assessment platform — pending clinical trials',
+  'auth.subtitle': 'ADHD screening platform — for informational purposes only',
   'auth.fullName': 'Full Name *',
   'auth.phone': 'Phone Number',
   'auth.age': 'Age',
@@ -267,17 +267,17 @@ const fallbackEN: Record<string, string> = {
   'results.symptomProfile': 'Symptom Profile',
   'results.score': 'Score',
   'results.yourScore': 'Your Score',
-  'results.clinicalThreshold': 'Clinical Threshold',
+  'results.clinicalThreshold': 'Reference Threshold',
   'results.basedOn': 'Assessment Based On',
-  'results.clinicalCriteria': 'Clinical Criteria:',
+  'results.clinicalCriteria': 'Reference Criteria:',
   'results.validatedScales': 'Validated Scales:',
   'results.retake': 'Take Assessment Again',
   'results.save': 'Save Results',
-  'results.medicalDisclaimer': 'Medical Disclaimer',
-  'results.disclaimerText': 'This assessment is for educational and informational purposes only. It is not intended to diagnose, treat, or replace professional medical advice. ADHD diagnosis requires comprehensive evaluation by a qualified healthcare professional, including clinical interviews, medical history, and sometimes additional testing. If you have concerns about ADHD symptoms, please consult with a licensed healthcare provider.',
+  'results.medicalDisclaimer': 'Important Disclaimer',
+  'results.disclaimerText': 'This screening is for educational and informational purposes only. It is not intended to diagnose, treat, or replace professional evaluation. ADHD diagnosis requires comprehensive evaluation by a qualified healthcare professional, including interviews, history review, and sometimes additional testing. If you have concerns about ADHD symptoms, please consult with a licensed healthcare provider.',
   'results.unlockCta': 'Unlock Full Results — $5',
   'results.printDisabled': 'Printing is disabled for the free preview.',
-  'results.upgradeDescription': 'Get detailed category breakdowns, cognitive performance analysis, symptom radar charts, and personalized clinical recommendations.',
+  'results.upgradeDescription': 'Get detailed category breakdowns, cognitive performance analysis, symptom radar charts, and personalized recommendations.',
 
   // Consent
   'consent.title': 'Terms & Privacy Consent',
@@ -318,8 +318,8 @@ const fallbackEN: Record<string, string> = {
   'dashboard.maxLevelAchieved': 'Max Level Achieved',
   'dashboard.congruent': 'Congruent',
   'dashboard.incongruent': 'Incongruent',
-  'dashboard.clinicalNote': 'Clinical Note:',
-  'dashboard.clinicalNoteText': 'These computerized tests provide objective measurements similar to those used by professionals in ADHD assessment. The Continuous Performance Test (CPT) measures sustained attention, the Working Memory Test assesses memory capacity, and the Stroop Test evaluates cognitive flexibility and inhibition control.',
+  'dashboard.clinicalNote': 'Note:',
+  'dashboard.clinicalNoteText': 'These computerized tests provide objective measurements similar to those used by professionals in ADHD screening. The Continuous Performance Test (CPT) measures sustained attention, the Working Memory Test assesses memory capacity, and the Stroop Test evaluates cognitive flexibility and inhibition control. Results should be discussed with a qualified professional.',
   'dashboard.accuracyPercent': 'Accuracy %',
   'dashboard.performanceScore': 'Performance Score',
   'dashboard.attention': 'Attention',
@@ -342,7 +342,7 @@ const fallbackEN: Record<string, string> = {
 
   // Paywall
   'paywall.unlockTitle': 'Unlock Full Results',
-  'paywall.unlockDescription': 'Get detailed category breakdown, cognitive performance analysis, symptom radar chart, and clinical recommendations.',
+  'paywall.unlockDescription': 'Get detailed category breakdown, cognitive performance analysis, symptom radar chart, and personalized recommendations.',
   'paywall.oneTime': 'one-time',
 
   // Promo
@@ -370,14 +370,57 @@ const fallbackEN: Record<string, string> = {
   'payment.errorTitle': 'Payment Verification Failed',
   'payment.errorDesc': 'We couldn\'t verify your payment. Please try again or contact support.',
   'payment.backToAssessment': 'Back to Assessment',
+
+  // Auth consent
+  'auth.agreeTerms': 'I agree to the',
+  'auth.termsLink': 'Terms of Service',
+  'auth.and': 'and',
+  'auth.privacyLink': 'Privacy Policy',
+  'auth.marketingConsent': 'I agree to receive product updates, tips, and promotional emails. You can unsubscribe at any time.',
+  'auth.mustAcceptTerms': 'You must accept the Terms of Service and Privacy Policy to create an account.',
+
+  // Terms page
+  'terms.title': 'Terms of Service',
+  'terms.lastUpdated': 'Last Updated',
+  'terms.s1.title': '1. Acceptance of Terms',
+  'terms.s1.text': 'By accessing or using FocusCheck ("the Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.',
+  'terms.s2.title': '2. Description of Service',
+  'terms.s2.text': 'FocusCheck is an online ADHD screening tool that provides informational and educational self-assessments based on validated questionnaires and cognitive exercises. FocusCheck is NOT a medical device, does NOT provide medical diagnoses, and is NOT operated by licensed medical professionals. Results are for personal awareness only and should NOT be used as a substitute for professional evaluation.',
+  'terms.s3.title': '3. No Medical Advice',
+  'terms.s3.text': 'The Service does not provide medical advice, diagnosis, or treatment. All content and results are for informational and educational purposes only. You should consult a qualified healthcare professional before making any health-related decisions based on information from this Service.',
+  'terms.s4.title': '4. User Accounts & Data',
+  'terms.s4.text': 'You are responsible for maintaining the confidentiality of your account credentials. Assessment data you choose to save is stored securely and linked to your account. Saved data not accessed for 7 days may be automatically deleted. You may decline to save your data at any time.',
+  'terms.s5.title': '5. Payments & Refunds',
+  'terms.s5.text': 'The full assessment unlock is a one-time payment processed via Stripe. Payments are non-refundable once assessment results have been delivered. All prices are displayed in your local currency equivalent where available.',
+  'terms.s6.title': '6. Limitation of Liability',
+  'terms.s6.text': 'FocusCheck and its operators shall not be liable for any decisions made based on the screening results. The Service is provided "as is" without warranties of any kind. We do not guarantee the accuracy, completeness, or usefulness of any assessment results.',
+
+  // Privacy page
+  'privacy.title': 'Privacy Policy',
+  'privacy.s1.title': '1. Information We Collect',
+  'privacy.s1.text': 'We collect information you provide during account creation (name, email, age, gender, country, phone) and assessment data (survey responses, cognitive test results). We also collect usage data such as page visits, session IDs, and referrer information for analytics.',
+  'privacy.s2.title': '2. How We Use Your Information',
+  'privacy.s2.text': 'Your personal information is used to create and manage your account, display your assessment results, process payments, and if you opted in, send you product updates and promotional communications. We do not sell your personal data to third parties.',
+  'privacy.s3.title': '3. Data Storage & Security',
+  'privacy.s3.text': 'Your data is stored securely with encryption and row-level security policies. Only you can access your assessment results through your authenticated account. Assessment data not accessed for 7 days may be automatically purged.',
+  'privacy.s4.title': '4. Marketing Communications',
+  'privacy.s4.text': 'If you opted in during registration, we may send you product updates, tips, and promotional emails. You can unsubscribe at any time by clicking the unsubscribe link in any email or by contacting us.',
+  'privacy.s5.title': '5. Third-Party Services',
+  'privacy.s5.text': 'We use third-party services for payment processing (Stripe), analytics, and infrastructure hosting. These services have their own privacy policies. We do not share your health-related assessment data with any third party.',
+  'privacy.s6.title': '6. Your Rights',
+  'privacy.s6.text': 'You may request deletion of your account and associated data at any time by contacting us. You have the right to access, correct, or delete your personal information. If you are in the EU/EEA, you have additional rights under GDPR.',
+
+  // Footer links
+  'footer.terms': 'Terms of Service',
+  'footer.privacy': 'Privacy Policy',
 };
 
 const fallbackPTBR: Record<string, string> = {
   // App
   'app.title': 'Avaliação de TDAH FocusCheck',
-  'app.subtitle': 'Uma ferramenta de avaliação abrangente, baseada em pesquisas, utilizando questionários clínicos validados e testes cognitivos para ajudar a identificar potenciais sintomas de TDAH em diferentes faixas etárias.',
+  'app.subtitle': 'Uma ferramenta de triagem abrangente, baseada em pesquisas, utilizando questionários validados e testes cognitivos para ajudar a identificar potenciais sintomas de TDAH em diferentes faixas etárias.',
   'disclaimer.title': 'Aviso Importante:',
-  'disclaimer.text': 'Esta avaliação é apenas para fins informativos e não substitui o diagnóstico médico profissional. Consulte um profissional de saúde qualificado.',
+  'disclaimer.text': 'Esta triagem é apenas para fins informativos e educacionais e não substitui a avaliação profissional. Consulte um profissional de saúde qualificado.',
 
   // Navigation
   'nav.home': 'Início',
@@ -387,7 +430,7 @@ const fallbackPTBR: Record<string, string> = {
   'landing.logout': 'Sair',
 
   // Hero
-  'hero.badge': '✨ Ensaios Clínicos Pendentes • Baseado no DSM-5',
+  'hero.badge': '✨ Baseado em Pesquisas • Alinhado ao DSM-5',
   'hero.title1': 'Conheça Seu TDAH.',
   'hero.title2': 'Assuma o Controle do Seu Foco.',
   'hero.subtitle': 'A avaliação online de TDAH mais abrangente, combinando questionários validados com testes de desempenho cognitivo. Obtenha insights acionáveis em menos de 20 minutos.',
@@ -422,7 +465,7 @@ const fallbackPTBR: Record<string, string> = {
   'pricing.full.f2': 'Detalhamento por categoria',
   'pricing.full.f3': 'Análise de desempenho cognitivo',
   'pricing.full.f4': 'Gráfico radar de sintomas',
-  'pricing.full.f5': 'Recomendações clínicas',
+  'pricing.full.f5': 'Insights e recomendações personalizadas',
   'pricing.full.cta': 'Obter Resultados Completos',
 
   // Learn
@@ -434,8 +477,8 @@ const fallbackPTBR: Record<string, string> = {
   'learn.a2.content': 'Nossa avaliação multidimensional examina quatro áreas-chave: desatenção, hiperatividade, impulsividade e comprometimento funcional. Combinada com testes cognitivos (CPT, Stroop, Memória de Trabalho), você obtém uma visão abrangente de como seu cérebro processa informações, mantém a atenção e controla impulsos.',
   'learn.a3.title': 'Trabalhando com Seu Profissional',
   'learn.a3.content': 'Seus resultados do FocusCheck são projetados para serem compartilhados com profissionais de saúde. O detalhamento ajuda seu médico ou terapeuta a entender seu perfil específico de sintomas, permitindo planos de tratamento mais direcionados. Leve seus resultados para sua próxima consulta para uma conversa mais produtiva.',
-  'learn.a4.title': 'Nossa Metodologia Clínica',
-  'learn.a4.content': 'O FocusCheck usa critérios diagnósticos do DSM-5, a Escala de Auto-Relato de TDAH para Adultos (ASRS-v1.1), Escalas de Conners e Escalas de Avaliação de Vanderbilt. Nossos testes cognitivos espelham os usados em ambientes clínicos — Teste de Desempenho Contínuo, Teste de Memória de Trabalho N-Back e Teste de Stroop.',
+  'learn.a4.title': 'Nossa Metodologia',
+  'learn.a4.content': 'O FocusCheck é alinhado aos critérios do DSM-5 e utiliza escalas de triagem estabelecidas, incluindo a Escala de Auto-Relato de TDAH para Adultos (ASRS-v1.1), Escalas de Conners e Escalas de Avaliação de Vanderbilt. Nossos testes cognitivos espelham ferramentas de pesquisa validadas — Teste de Desempenho Contínuo, Teste de Memória de Trabalho N-Back e Teste de Stroop.',
   'learn.a5.title': 'Vida Após o Diagnóstico',
   'learn.a5.content': 'Entender seu perfil de TDAH abre portas para estratégias eficazes: terapia cognitivo-comportamental, opções de medicação, acomodações no trabalho, ferramentas organizacionais e práticas de mindfulness. Muitos adultos relatam se sentir "finalmente compreendidos" após obter clareza sobre seus sintomas.',
   'learn.a6.title': 'TDAH Não É uma Limitação',
@@ -447,7 +490,7 @@ const fallbackPTBR: Record<string, string> = {
   'faq.q1': 'O que é a avaliação de TDAH FocusCheck?',
   'faq.a1': 'O FocusCheck é uma ferramenta abrangente de triagem online de TDAH que combina questionários clinicamente validados (baseados nos critérios do DSM-5, ASRS-v1.1 e Escalas de Conners) com testes de desempenho cognitivo, incluindo o Teste de Desempenho Contínuo (CPT), Teste de Stroop e Teste de Memória de Trabalho N-Back.',
   'faq.q2': 'Este teste de TDAH é gratuito?',
-  'faq.a2': 'Sim! A avaliação básica, incluindo todos os questionários e jogos cognitivos, é completamente gratuita. Você receberá um resumo dos resultados sem custo. Detalhamentos completos com análise cognitiva e recomendações clínicas estão disponíveis por R$25.',
+  'faq.a2': 'Sim! A avaliação básica, incluindo todos os questionários e jogos cognitivos, é completamente gratuita. Você receberá um resumo dos resultados sem custo. Detalhamentos completos com análise cognitiva e recomendações personalizadas estão disponíveis por R$25.',
   'faq.q3': 'Quanto tempo leva a avaliação de TDAH?',
   'faq.a3': 'A avaliação completa leva aproximadamente 15-20 minutos, incluindo o questionário (5-15 minutos dependendo da faixa etária) e três testes de desempenho cognitivo (cerca de 5 minutos no total).',
   'faq.q4': 'Este teste pode diagnosticar TDAH?',
@@ -467,7 +510,7 @@ const fallbackPTBR: Record<string, string> = {
   'cta.button': 'Iniciar Sua Avaliação',
 
   // Footer
-  'footer.disclaimer': 'Esta ferramenta é apenas para fins informativos e não constitui aconselhamento médico. Consulte sempre um profissional de saúde qualificado para diagnóstico e tratamento.',
+  'footer.disclaimer': 'Esta ferramenta é apenas para fins informativos e educacionais e não constitui aconselhamento médico, diagnóstico ou tratamento. Consulte sempre um profissional de saúde qualificado.',
   'footer.copyright': 'FocusCheck. Todos os direitos reservados.',
 
   // Auth
@@ -475,7 +518,7 @@ const fallbackPTBR: Record<string, string> = {
   'auth.createAccount': 'Criar Conta Gratuita',
   'auth.signInSubtitle': 'Entre para acessar suas avaliações',
   'auth.signUpSubtitle': 'Comece sua jornada de avaliação de TDAH hoje',
-  'auth.subtitle': 'Plataforma de avaliação de TDAH — ensaios clínicos pendentes',
+  'auth.subtitle': 'Plataforma de triagem de TDAH — apenas para fins informativos',
   'auth.fullName': 'Nome Completo *',
   'auth.phone': 'Telefone',
   'auth.age': 'Idade',
@@ -623,17 +666,17 @@ const fallbackPTBR: Record<string, string> = {
   'results.symptomProfile': 'Perfil de Sintomas',
   'results.score': 'Pontuação',
   'results.yourScore': 'Sua Pontuação',
-  'results.clinicalThreshold': 'Limiar Clínico',
+  'results.clinicalThreshold': 'Limiar de Referência',
   'results.basedOn': 'Avaliação Baseada Em',
-  'results.clinicalCriteria': 'Critérios Clínicos:',
+  'results.clinicalCriteria': 'Critérios de Referência:',
   'results.validatedScales': 'Escalas Validadas:',
   'results.retake': 'Refazer Avaliação',
   'results.save': 'Salvar Resultados',
-  'results.medicalDisclaimer': 'Aviso Médico',
-  'results.disclaimerText': 'Esta avaliação é apenas para fins educacionais e informativos. Não se destina a diagnosticar, tratar ou substituir aconselhamento médico profissional. O diagnóstico de TDAH requer avaliação abrangente por um profissional de saúde qualificado. Consulte um profissional licenciado se tiver preocupações.',
+  'results.medicalDisclaimer': 'Aviso Importante',
+  'results.disclaimerText': 'Esta triagem é apenas para fins educacionais e informativos. Não se destina a diagnosticar, tratar ou substituir avaliação profissional. O diagnóstico de TDAH requer avaliação abrangente por um profissional de saúde qualificado. Consulte um profissional licenciado se tiver preocupações.',
   'results.unlockCta': 'Desbloquear Resultados Completos — R$25',
   'results.printDisabled': 'A impressão está desabilitada para a visualização gratuita.',
-  'results.upgradeDescription': 'Obtenha detalhamentos por categoria, análise de desempenho cognitivo, gráficos radar de sintomas e recomendações clínicas personalizadas.',
+  'results.upgradeDescription': 'Obtenha detalhamentos por categoria, análise de desempenho cognitivo, gráficos radar de sintomas e recomendações personalizadas.',
 
   // Consent
   'consent.title': 'Termos e Consentimento de Privacidade',
@@ -674,8 +717,8 @@ const fallbackPTBR: Record<string, string> = {
   'dashboard.maxLevelAchieved': 'Nível Máximo Alcançado',
   'dashboard.congruent': 'Congruente',
   'dashboard.incongruent': 'Incongruente',
-  'dashboard.clinicalNote': 'Nota Clínica:',
-  'dashboard.clinicalNoteText': 'Estes testes computadorizados fornecem medições objetivas semelhantes às usadas por profissionais na avaliação de TDAH. O Teste de Desempenho Contínuo (CPT) mede a atenção sustentada, o Teste de Memória de Trabalho avalia a capacidade de memória, e o Teste de Stroop avalia flexibilidade cognitiva e controle inibitório.',
+  'dashboard.clinicalNote': 'Nota:',
+  'dashboard.clinicalNoteText': 'Estes testes computadorizados fornecem medições objetivas semelhantes às usadas por profissionais na triagem de TDAH. O Teste de Desempenho Contínuo (CPT) mede a atenção sustentada, o Teste de Memória de Trabalho avalia a capacidade de memória, e o Teste de Stroop avalia flexibilidade cognitiva e controle inibitório. Os resultados devem ser discutidos com um profissional qualificado.',
   'dashboard.accuracyPercent': '% de Precisão',
   'dashboard.performanceScore': 'Pontuação de Desempenho',
   'dashboard.attention': 'Atenção',
@@ -698,7 +741,7 @@ const fallbackPTBR: Record<string, string> = {
 
   // Paywall
   'paywall.unlockTitle': 'Desbloqueie os Resultados Completos',
-  'paywall.unlockDescription': 'Obtenha detalhamento por categoria, análise de desempenho cognitivo, gráfico radar de sintomas e recomendações clínicas.',
+  'paywall.unlockDescription': 'Obtenha detalhamento por categoria, análise de desempenho cognitivo, gráfico radar de sintomas e recomendações personalizadas.',
   'paywall.oneTime': 'pagamento único',
 
   // Promo
@@ -726,6 +769,49 @@ const fallbackPTBR: Record<string, string> = {
   'payment.errorTitle': 'Falha na Verificação do Pagamento',
   'payment.errorDesc': 'Não conseguimos verificar seu pagamento. Tente novamente ou entre em contato com o suporte.',
   'payment.backToAssessment': 'Voltar à Avaliação',
+
+  // Auth consent
+  'auth.agreeTerms': 'Eu concordo com os',
+  'auth.termsLink': 'Termos de Serviço',
+  'auth.and': 'e',
+  'auth.privacyLink': 'Política de Privacidade',
+  'auth.marketingConsent': 'Concordo em receber atualizações do produto, dicas e e-mails promocionais. Você pode cancelar a inscrição a qualquer momento.',
+  'auth.mustAcceptTerms': 'Você deve aceitar os Termos de Serviço e a Política de Privacidade para criar uma conta.',
+
+  // Terms page
+  'terms.title': 'Termos de Serviço',
+  'terms.lastUpdated': 'Última Atualização',
+  'terms.s1.title': '1. Aceitação dos Termos',
+  'terms.s1.text': 'Ao acessar ou usar o FocusCheck ("o Serviço"), você concorda em cumprir estes Termos de Serviço. Se não concordar, por favor não use o Serviço.',
+  'terms.s2.title': '2. Descrição do Serviço',
+  'terms.s2.text': 'O FocusCheck é uma ferramenta online de triagem de TDAH que fornece autoavaliações informativas e educacionais baseadas em questionários validados e exercícios cognitivos. O FocusCheck NÃO é um dispositivo médico, NÃO fornece diagnósticos médicos e NÃO é operado por profissionais médicos licenciados. Os resultados são apenas para conscientização pessoal e NÃO devem ser usados como substituto para avaliação profissional.',
+  'terms.s3.title': '3. Sem Aconselhamento Médico',
+  'terms.s3.text': 'O Serviço não fornece aconselhamento médico, diagnóstico ou tratamento. Todo o conteúdo e resultados são apenas para fins informativos e educacionais. Você deve consultar um profissional de saúde qualificado antes de tomar qualquer decisão relacionada à saúde com base nas informações deste Serviço.',
+  'terms.s4.title': '4. Contas de Usuário e Dados',
+  'terms.s4.text': 'Você é responsável por manter a confidencialidade das credenciais da sua conta. Os dados de avaliação que você optar por salvar são armazenados com segurança e vinculados à sua conta. Dados salvos não acessados por 7 dias podem ser automaticamente excluídos. Você pode recusar salvar seus dados a qualquer momento.',
+  'terms.s5.title': '5. Pagamentos e Reembolsos',
+  'terms.s5.text': 'O desbloqueio da avaliação completa é um pagamento único processado via Stripe. Os pagamentos não são reembolsáveis após a entrega dos resultados da avaliação. Todos os preços são exibidos na moeda local equivalente quando disponível.',
+  'terms.s6.title': '6. Limitação de Responsabilidade',
+  'terms.s6.text': 'O FocusCheck e seus operadores não serão responsáveis por qualquer decisão tomada com base nos resultados da triagem. O Serviço é fornecido "como está" sem garantias de qualquer tipo. Não garantimos a precisão, completude ou utilidade de quaisquer resultados de avaliação.',
+
+  // Privacy page
+  'privacy.title': 'Política de Privacidade',
+  'privacy.s1.title': '1. Informações que Coletamos',
+  'privacy.s1.text': 'Coletamos informações fornecidas durante a criação da conta (nome, e-mail, idade, gênero, país, telefone) e dados de avaliação (respostas do questionário, resultados dos testes cognitivos). Também coletamos dados de uso, como visitas a páginas, IDs de sessão e informações de referência para análise.',
+  'privacy.s2.title': '2. Como Usamos Suas Informações',
+  'privacy.s2.text': 'Suas informações pessoais são usadas para criar e gerenciar sua conta, exibir seus resultados de avaliação, processar pagamentos e, se você optou, enviar atualizações do produto e comunicações promocionais. Não vendemos seus dados pessoais a terceiros.',
+  'privacy.s3.title': '3. Armazenamento e Segurança de Dados',
+  'privacy.s3.text': 'Seus dados são armazenados com segurança com criptografia e políticas de segurança em nível de linha. Somente você pode acessar seus resultados de avaliação através da sua conta autenticada. Dados de avaliação não acessados por 7 dias podem ser automaticamente removidos.',
+  'privacy.s4.title': '4. Comunicações de Marketing',
+  'privacy.s4.text': 'Se você optou durante o registro, podemos enviar atualizações do produto, dicas e e-mails promocionais. Você pode cancelar a inscrição a qualquer momento clicando no link de cancelamento em qualquer e-mail ou entrando em contato conosco.',
+  'privacy.s5.title': '5. Serviços de Terceiros',
+  'privacy.s5.text': 'Usamos serviços de terceiros para processamento de pagamentos (Stripe), análise e hospedagem de infraestrutura. Esses serviços têm suas próprias políticas de privacidade. Não compartilhamos seus dados de avaliação relacionados à saúde com terceiros.',
+  'privacy.s6.title': '6. Seus Direitos',
+  'privacy.s6.text': 'Você pode solicitar a exclusão de sua conta e dados associados a qualquer momento entrando em contato conosco. Você tem o direito de acessar, corrigir ou excluir suas informações pessoais.',
+
+  // Footer links
+  'footer.terms': 'Termos de Serviço',
+  'footer.privacy': 'Política de Privacidade',
 };
 
 const hardcodedFallbacks: Record<string, Record<string, string>> = {
