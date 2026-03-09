@@ -410,6 +410,12 @@ const fallbackEN: Record<string, string> = {
   'privacy.s6.title': '6. Your Rights',
   'privacy.s6.text': 'You may request deletion of your account and associated data at any time by contacting us. You have the right to access, correct, or delete your personal information. If you are in the EU/EEA, you have additional rights under GDPR.',
 
+  // Booking
+  'booking.title': 'Book a Professional Consultation',
+  'booking.description': 'Get a comprehensive clinical evaluation with a licensed mental health professional to discuss your screening results.',
+  'booking.descriptionWithClinic': 'Book a consultation with {clinic} to discuss your screening results with a licensed mental health professional.',
+  'booking.cta': 'Book Appointment',
+
   // Footer links
   'footer.terms': 'Terms of Service',
   'footer.privacy': 'Privacy Policy',
