@@ -121,6 +121,12 @@ const AssessmentApp = () => {
       overall_score: null,
       risk_level: null,
     });
+    
+    // Increment assessment count
+    const newCount = assessmentCount + 1;
+    await supabase.from('profiles').update({ assessment_count: newCount } as any).eq('user_id', user.id);
+    setAssessmentCount(newCount);
+    
     setPendingData(null);
   };
 
