@@ -163,6 +163,50 @@ export const AdminTranslations = () => {
     toast({ title: `Language "${lang.name}" deleted` });
   };
 
+  const aiTranslateAll = async () => {
+    const { data: enData } = await supabase.from('translations').select('key, value').eq('language_code', 'en') as any;
+    const enMap: Record<string, string> = {};
+    (enData || []).forEach((t: any) => { if (t.value) enMap[t.key] = t.value; });
+    const fallbackSource: Record<string, string> = {};
+    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || key; });
+
+    const nonEnLanguages = languages.filter(l => l.code !== 'en');
+    if (nonEnLanguages.length === 0) {
+      return toast({ title: 'No non-English languages to translate', variant: 'destructive' });
+    }
+
+    setAiTranslating(true);
+    setAiProgress({ current: 0, total: nonEnLanguages.length, lang: '' });
+
+    for (let i = 0; i < nonEnLanguages.length; i++) {
+      const lang = nonEnLanguages[i];
+      setAiProgress({ current: i + 1, total: nonEnLanguages.length, lang: lang.name });
+      try {
+        const { data, error } = await supabase.functions.invoke('translate-content', {
+          body: { translations: fallbackSource, targetLanguage: lang.code, targetLanguageName: lang.name },
+        });
+        if (error) throw error;
+        const translated = data?.translations || {};
+        const entries = Object.entries(translated).filter(([, v]) => typeof v === 'string' && (v as string).trim());
+        for (const [key, value] of entries) {
+          await supabase.from('translations').upsert(
+            { language_code: lang.code, key, value: value as string, updated_at: new Date().toISOString() } as any,
+            { onConflict: 'language_code,key' }
+          );
+        }
+        toast({ title: `✅ ${lang.name}: ${entries.length} translations saved` });
+      } catch (err: any) {
+        console.error(`Translation error for ${lang.name}:`, err);
+        toast({ title: `❌ Failed: ${lang.name}`, description: err.message, variant: 'destructive' });
+      }
+    }
+
+    setAiTranslating(false);
+    setAiProgress({ current: 0, total: 0, lang: '' });
+    if (selectedLang && selectedLang !== 'en') loadTranslations(selectedLang);
+    toast({ title: '🎉 AI translation complete for all languages!' });
+  };
+
   const downloadCSV = () => {
     const header = 'key,value';
     const rows = translations.map(t => `"${t.key}","${(t.value || '').replace(/"/g, '""')}"`);
