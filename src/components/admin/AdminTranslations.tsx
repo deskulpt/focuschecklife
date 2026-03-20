@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
-import { Plus, Download, Upload, Save, Trash2, Globe } from 'lucide-react';
+import { Plus, Download, Upload, Save, Trash2, Globe, Languages } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Progress } from '@/components/ui/progress';
 
 interface Language {
   id: string;
@@ -101,6 +102,8 @@ export const AdminTranslations = () => {
   const [filter, setFilter] = useState('');
   const [newLang, setNewLang] = useState({ code: '', name: '', flag: '🌐' });
   const [loading, setLoading] = useState(false);
+  const [aiTranslating, setAiTranslating] = useState(false);
+  const [aiProgress, setAiProgress] = useState({ current: 0, total: 0, lang: '' });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -158,6 +161,50 @@ export const AdminTranslations = () => {
     if (selectedLang === lang.code) setSelectedLang('en');
     await loadLanguages();
     toast({ title: `Language "${lang.name}" deleted` });
+  };
+
+  const aiTranslateAll = async () => {
+    const { data: enData } = await supabase.from('translations').select('key, value').eq('language_code', 'en') as any;
+    const enMap: Record<string, string> = {};
+    (enData || []).forEach((t: any) => { if (t.value) enMap[t.key] = t.value; });
+    const fallbackSource: Record<string, string> = {};
+    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || key; });
+
+    const nonEnLanguages = languages.filter(l => l.code !== 'en');
+    if (nonEnLanguages.length === 0) {
+      return toast({ title: 'No non-English languages to translate', variant: 'destructive' });
+    }
+
+    setAiTranslating(true);
+    setAiProgress({ current: 0, total: nonEnLanguages.length, lang: '' });
+
+    for (let i = 0; i < nonEnLanguages.length; i++) {
+      const lang = nonEnLanguages[i];
+      setAiProgress({ current: i + 1, total: nonEnLanguages.length, lang: lang.name });
+      try {
+        const { data, error } = await supabase.functions.invoke('translate-content', {
+          body: { translations: fallbackSource, targetLanguage: lang.code, targetLanguageName: lang.name },
+        });
+        if (error) throw error;
+        const translated = data?.translations || {};
+        const entries = Object.entries(translated).filter(([, v]) => typeof v === 'string' && (v as string).trim());
+        for (const [key, value] of entries) {
+          await supabase.from('translations').upsert(
+            { language_code: lang.code, key, value: value as string, updated_at: new Date().toISOString() } as any,
+            { onConflict: 'language_code,key' }
+          );
+        }
+        toast({ title: `✅ ${lang.name}: ${entries.length} translations saved` });
+      } catch (err: any) {
+        console.error(`Translation error for ${lang.name}:`, err);
+        toast({ title: `❌ Failed: ${lang.name}`, description: err.message, variant: 'destructive' });
+      }
+    }
+
+    setAiTranslating(false);
+    setAiProgress({ current: 0, total: 0, lang: '' });
+    if (selectedLang && selectedLang !== 'en') loadTranslations(selectedLang);
+    toast({ title: '🎉 AI translation complete for all languages!' });
   };
 
   const downloadCSV = () => {
@@ -251,6 +298,9 @@ export const AdminTranslations = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <CardTitle className="text-lg">Translation Editor</CardTitle>
             <div className="flex flex-wrap gap-2">
+              <Button size="sm" variant="secondary" onClick={aiTranslateAll} disabled={aiTranslating}>
+                <Languages className="w-4 h-4 mr-1" /> {aiTranslating ? `Translating ${aiProgress.lang}...` : 'AI Translate All'}
+              </Button>
               <Select value={selectedLang} onValueChange={setSelectedLang}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue />
@@ -267,6 +317,12 @@ export const AdminTranslations = () => {
             </div>
           </div>
           <Input placeholder="Filter keys..." value={filter} onChange={e => setFilter(e.target.value)} className="mt-2" />
+          {aiTranslating && aiProgress.total > 0 && (
+            <div className="mt-3 space-y-1">
+              <Progress value={(aiProgress.current / aiProgress.total) * 100} className="h-2" />
+              <p className="text-xs text-muted-foreground">Translating {aiProgress.lang} ({aiProgress.current}/{aiProgress.total})</p>
+            </div>
+          )}
         </CardHeader>
         <CardContent>
           <div className="space-y-2 max-h-[600px] overflow-y-auto">
