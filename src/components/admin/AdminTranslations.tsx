@@ -177,11 +177,14 @@ export const AdminTranslations = () => {
   };
 
   const aiTranslateAll = async () => {
+    // Use ALL_KEYS with fallback English values from the app
     const { data: enData } = await supabase.from('translations').select('key, value').eq('language_code', 'en') as any;
     const enMap: Record<string, string> = {};
     (enData || []).forEach((t: any) => { if (t.value) enMap[t.key] = t.value; });
+    
+    // Build source from ALL_KEYS - use DB translations first, then use the key as identifier for AI to translate
     const fallbackSource: Record<string, string> = {};
-    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || key; });
+    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || key.split('.').pop()?.replace(/_/g, ' ') || key; });
 
     const nonEnLanguages = languages.filter(l => l.code !== 'en');
     if (nonEnLanguages.length === 0) {
