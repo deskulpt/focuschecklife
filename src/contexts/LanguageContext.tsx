@@ -830,6 +830,12 @@ const fallbackPTBR: Record<string, string> = {
   // Footer links
   'footer.terms': 'Termos de Serviço',
   'footer.privacy': 'Política de Privacidade',
+
+  // Reassessment limit
+  'reassessment.limitTitle': 'Limite de Avaliações Atingido',
+  'reassessment.limitDescription': 'Você usou suas 2 tentativas gratuitas. Faça upgrade para realizar avaliações adicionais.',
+  'reassessment.upgradeToRetake': 'Upgrade para Refazer',
+  'reassessment.attemptsUsed': 'Tentativas usadas',
 };
 
 const hardcodedFallbacks: Record<string, Record<string, string>> = {
