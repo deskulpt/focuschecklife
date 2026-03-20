@@ -108,9 +108,16 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
         </Card>
       )}
 
-      <div className="flex justify-center">
-        <Button onClick={onRestart} variant="outline" className="flex items-center gap-2">
-          <RefreshCw className="w-4 h-4" /> {t('results.retake')}
+      <div className="flex flex-col items-center gap-3">
+        {hasReachedLimit && isFreePreview && (
+          <div className="text-center p-4 bg-warning/10 border border-warning/30 rounded-lg max-w-md">
+            <h4 className="font-semibold text-sm mb-1">{t('reassessment.limitTitle')}</h4>
+            <p className="text-xs text-muted-foreground mb-2">{t('reassessment.limitDescription')}</p>
+            <p className="text-xs text-muted-foreground">{t('reassessment.attemptsUsed')}: {assessmentCount}/{maxFreeAttempts}</p>
+          </div>
+        )}
+        <Button onClick={onRestart} variant="outline" className="flex items-center gap-2" disabled={hasReachedLimit && isFreePreview}>
+          <RefreshCw className="w-4 h-4" /> {hasReachedLimit && isFreePreview ? t('reassessment.upgradeToRetake') : t('results.retake')}
         </Button>
       </div>
 
