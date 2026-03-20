@@ -16,7 +16,7 @@ interface LanguageContextType {
   availableLanguages: LanguageOption[];
 }
 
-const fallbackEN: Record<string, string> = {
+export const fallbackEN: Record<string, string> = {
   // App
   'app.title': 'FocusCheck ADHD Assessment',
   'app.subtitle': 'A comprehensive, research-based screening tool using validated questionnaires and cognitive tests to help identify potential ADHD symptoms across different age groups.',
