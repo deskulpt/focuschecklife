@@ -72,6 +72,16 @@ const AssessmentApp = () => {
     }
   };
 
+  const loadAssessmentCount = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from('profiles')
+      .select('assessment_count')
+      .eq('user_id', user.id)
+      .single();
+    if (data) setAssessmentCount(data.assessment_count || 0);
+  };
+
   const handleAgeSelection = (age: AgeGroup) => {
     setSelectedAge(age);
     setCurrentStep('survey');
