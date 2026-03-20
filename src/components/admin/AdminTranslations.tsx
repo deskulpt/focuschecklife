@@ -317,6 +317,12 @@ export const AdminTranslations = () => {
             </div>
           </div>
           <Input placeholder="Filter keys..." value={filter} onChange={e => setFilter(e.target.value)} className="mt-2" />
+          {aiTranslating && aiProgress.total > 0 && (
+            <div className="mt-3 space-y-1">
+              <Progress value={(aiProgress.current / aiProgress.total) * 100} className="h-2" />
+              <p className="text-xs text-muted-foreground">Translating {aiProgress.lang} ({aiProgress.current}/{aiProgress.total})</p>
+            </div>
+          )}
         </CardHeader>
         <CardContent>
           <div className="space-y-2 max-h-[600px] overflow-y-auto">
