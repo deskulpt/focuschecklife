@@ -45,6 +45,7 @@ const AssessmentApp = () => {
   useEffect(() => {
     if (user) {
       loadSavedAssessment();
+      loadAssessmentCount();
     }
   }, [user]);
 
