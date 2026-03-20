@@ -35,8 +35,11 @@ const AssessmentApp = () => {
   const { t } = useLanguage();
 
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [assessmentCount, setAssessmentCount] = useState(0);
 
   const isFreeUser = !profile?.has_paid_full_test;
+  const maxFreeAttempts = 2;
+  const hasReachedLimit = isFreeUser && assessmentCount >= maxFreeAttempts;
 
   // Load saved assessment on mount
   useEffect(() => {
