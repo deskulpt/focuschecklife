@@ -35,13 +35,17 @@ const AssessmentApp = () => {
   const { t } = useLanguage();
 
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [assessmentCount, setAssessmentCount] = useState(0);
 
   const isFreeUser = !profile?.has_paid_full_test;
+  const maxFreeAttempts = 2;
+  const hasReachedLimit = isFreeUser && assessmentCount >= maxFreeAttempts;
 
   // Load saved assessment on mount
   useEffect(() => {
     if (user) {
       loadSavedAssessment();
+      loadAssessmentCount();
     }
   }, [user]);
 
@@ -66,6 +70,16 @@ const AssessmentApp = () => {
       setSelectedAge(data.age_group as AgeGroup);
       setCurrentStep('results');
     }
+  };
+
+  const loadAssessmentCount = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from('profiles')
+      .select('assessment_count')
+      .eq('user_id', user.id)
+      .single();
+    if (data) setAssessmentCount(data.assessment_count || 0);
   };
 
   const handleAgeSelection = (age: AgeGroup) => {
@@ -107,6 +121,12 @@ const AssessmentApp = () => {
       overall_score: null,
       risk_level: null,
     });
+    
+    // Increment assessment count
+    const newCount = assessmentCount + 1;
+    await supabase.from('profiles').update({ assessment_count: newCount } as any).eq('user_id', user.id);
+    setAssessmentCount(newCount);
+    
     setPendingData(null);
   };
 
@@ -124,6 +144,12 @@ const AssessmentApp = () => {
   };
 
   const resetAssessment = () => {
+    if (hasReachedLimit) {
+      toast.error(t('reassessment.limitTitle'), {
+        description: t('reassessment.limitDescription'),
+      });
+      return;
+    }
     setCurrentStep('age');
     setSelectedAge(null);
     setSurveyResponses({});
@@ -189,6 +215,9 @@ const AssessmentApp = () => {
                 data={assessmentData} 
                 onRestart={resetAssessment}
                 isFreePreview={isFreeUser}
+                hasReachedLimit={hasReachedLimit}
+                assessmentCount={assessmentCount}
+                maxFreeAttempts={maxFreeAttempts}
                 onUpgrade={async () => {
                   setPaymentLoading(true);
                   try {

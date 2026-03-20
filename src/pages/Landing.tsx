@@ -8,12 +8,14 @@ import { LanguageToggle } from '@/components/LanguageToggle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 const Landing = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const siteSettings = useSiteSettings();
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_, session) => {
@@ -92,9 +94,15 @@ const Landing = () => {
           {t('hero.badge')}
         </Badge>
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-          <span className="text-primary">{t('hero.title1')}</span>
-          <br />
-          <span className="text-foreground">{t('hero.title2')}</span>
+          {siteSettings['landing_title'] ? (
+            <span className="text-primary">{siteSettings['landing_title']}</span>
+          ) : (
+            <>
+              <span className="text-primary">{t('hero.title1')}</span>
+              <br />
+              <span className="text-foreground">{t('hero.title2')}</span>
+            </>
+          )}
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
           {t('hero.subtitle')}
@@ -135,6 +143,14 @@ const Landing = () => {
         <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-xl mx-auto text-sm sm:text-base">
           {t('pricing.subtitle')}
         </p>
+
+        {/* Limited Time Banner */}
+        {siteSettings['limited_time_enabled'] === 'true' && siteSettings['limited_time_message'] && (
+          <div className="max-w-3xl mx-auto mb-6 p-3 bg-warning/10 border border-warning/30 rounded-lg text-center">
+            <p className="text-sm font-semibold text-warning">{siteSettings['limited_time_message']}</p>
+          </div>
+        )}
+
         <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto">
           {/* Free */}
           <Card className="border-border/50 relative">
@@ -160,8 +176,20 @@ const Landing = () => {
             </div>
             <CardHeader className="pb-3">
               <CardTitle className="text-base sm:text-lg">{t('pricing.full.title')}</CardTitle>
-              <div className="text-2xl sm:text-3xl font-bold">{t('pricing.full.price')}</div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-bold">
+                  {siteSettings['pricing_usd'] || t('pricing.full.price')}
+                </span>
+                {siteSettings['discount_enabled'] === 'true' && siteSettings['discount_original_price'] && (
+                  <span className="text-base text-muted-foreground line-through">{siteSettings['discount_original_price']}</span>
+                )}
+              </div>
               <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.full.subtitle')}</p>
+              {siteSettings['discount_enabled'] === 'true' && siteSettings['discount_savings_message'] && (
+                <Badge variant="secondary" className="mt-1 bg-success/10 text-success border-success/20 text-xs">
+                  {siteSettings['discount_savings_message']}
+                </Badge>
+              )}
             </CardHeader>
             <CardContent className="space-y-2 sm:space-y-3">
               {['pricing.full.f1', 'pricing.full.f2', 'pricing.full.f3', 'pricing.full.f4', 'pricing.full.f5'].map((k, i) => (

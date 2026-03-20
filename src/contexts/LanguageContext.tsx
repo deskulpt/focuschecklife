@@ -16,7 +16,7 @@ interface LanguageContextType {
   availableLanguages: LanguageOption[];
 }
 
-const fallbackEN: Record<string, string> = {
+export const fallbackEN: Record<string, string> = {
   // App
   'app.title': 'FocusCheck ADHD Assessment',
   'app.subtitle': 'A comprehensive, research-based screening tool using validated questionnaires and cognitive tests to help identify potential ADHD symptoms across different age groups.',
@@ -419,6 +419,12 @@ const fallbackEN: Record<string, string> = {
   // Footer links
   'footer.terms': 'Terms of Service',
   'footer.privacy': 'Privacy Policy',
+
+  // Reassessment limit
+  'reassessment.limitTitle': 'Assessment Limit Reached',
+  'reassessment.limitDescription': 'You have used your 2 free assessment attempts. Upgrade to take additional assessments.',
+  'reassessment.upgradeToRetake': 'Upgrade to Retake',
+  'reassessment.attemptsUsed': 'Attempts used',
 };
 
 const fallbackPTBR: Record<string, string> = {
@@ -824,6 +830,12 @@ const fallbackPTBR: Record<string, string> = {
   // Footer links
   'footer.terms': 'Termos de Serviço',
   'footer.privacy': 'Política de Privacidade',
+
+  // Reassessment limit
+  'reassessment.limitTitle': 'Limite de Avaliações Atingido',
+  'reassessment.limitDescription': 'Você usou suas 2 tentativas gratuitas. Faça upgrade para realizar avaliações adicionais.',
+  'reassessment.upgradeToRetake': 'Upgrade para Refazer',
+  'reassessment.attemptsUsed': 'Tentativas usadas',
 };
 
 const hardcodedFallbacks: Record<string, Record<string, string>> = {

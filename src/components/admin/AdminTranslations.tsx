@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
+import { fallbackEN } from '@/contexts/LanguageContext';
 import { Plus, Download, Upload, Save, Trash2, Globe, Languages } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Progress } from '@/components/ui/progress';
@@ -31,12 +32,11 @@ const ALL_KEYS = [
   // Hero
   'hero.badge','hero.title1','hero.title2','hero.subtitle','hero.cta','hero.learnMore','hero.noCreditCard',
   // Trust badges
-  'trust.dsm5','trust.dsm5Sub','trust.cognitive','trust.cognitiveSub','trust.ageGroups','trust.ageGroupsSub','trust.pdf','trust.pdfSub',
+  'trust.dsm5','trust.dsm5Sub','trust.cognitive','trust.cognitiveSub','trust.ageGroups','trust.ageGroupsSub',
   // Pricing
   'pricing.title','pricing.subtitle',
   'pricing.free.title','pricing.free.price','pricing.free.subtitle','pricing.free.f1','pricing.free.f2','pricing.free.f3','pricing.free.f4','pricing.free.cta',
   'pricing.full.title','pricing.full.price','pricing.full.subtitle','pricing.full.badge','pricing.full.f1','pricing.full.f2','pricing.full.f3','pricing.full.f4','pricing.full.f5','pricing.full.cta',
-  'pricing.pdf.title','pricing.pdf.price','pricing.pdf.subtitle','pricing.pdf.f1','pricing.pdf.f2','pricing.pdf.f3','pricing.pdf.f4','pricing.pdf.f5','pricing.pdf.cta',
   // Learn
   'learn.title','learn.subtitle',
   'learn.a1.title','learn.a1.content','learn.a2.title','learn.a2.content','learn.a3.title','learn.a3.content',
@@ -47,13 +47,14 @@ const ALL_KEYS = [
   'faq.q5','faq.a5','faq.q6','faq.a6','faq.q7','faq.a7','faq.q8','faq.a8',
   // CTA & Footer
   'cta.title','cta.subtitle','cta.button',
-  'footer.disclaimer','footer.copyright',
+  'footer.disclaimer','footer.copyright','footer.terms','footer.privacy',
   // Auth
   'auth.welcomeBack','auth.createAccount','auth.signInSubtitle','auth.signUpSubtitle','auth.subtitle',
   'auth.fullName','auth.phone','auth.age','auth.gender','auth.gender.male','auth.gender.female','auth.gender.nonBinary','auth.gender.preferNot',
   'auth.country','auth.email','auth.password','auth.submit.signIn','auth.submit.signUp','auth.loading',
   'auth.switchToSignUp','auth.switchToSignIn','auth.freeIncludes','auth.freeIncludesDesc','auth.backHome',
   'auth.accountCreated','auth.checkEmail','auth.error',
+  'auth.agreeTerms','auth.termsLink','auth.and','auth.privacyLink','auth.marketingConsent','auth.mustAcceptTerms',
   // Age selection
   'age.title','age.subtitle','age.child.title','age.child.description','age.teen.title','age.teen.description','age.adult.title','age.adult.description','age.questions','age.time','age.begin','age.research',
   // Survey
@@ -76,6 +77,7 @@ const ALL_KEYS = [
   'results.categoryBreakdown','results.cognitivePerformance','results.cognitiveDescription','results.performanceComparison','results.symptomProfile','results.score','results.yourScore','results.clinicalThreshold',
   'results.basedOn','results.clinicalCriteria','results.validatedScales','results.retake','results.save','results.medicalDisclaimer','results.disclaimerText',
   'results.unlockCta','results.printDisabled','results.upgradeDescription',
+  // Consent
   'consent.title','consent.intro','consent.point1','consent.point2','consent.point3','consent.point4','consent.accept','consent.decline',
   // Dashboard
   'dashboard.high.title','dashboard.high.description','dashboard.high.recommendation','dashboard.moderate.title','dashboard.moderate.description','dashboard.moderate.recommendation','dashboard.low.title','dashboard.low.description','dashboard.low.recommendation',
@@ -91,8 +93,20 @@ const ALL_KEYS = [
   'promo.title','promo.placeholder','promo.apply','promo.redeemed','promo.successTitle','promo.successDesc',
   'promo.invalidCode','promo.invalidCodeDesc','promo.codeExpired','promo.codeExpiredDesc','promo.maxUsesDesc',
   'promo.alreadyRedeemed','promo.alreadyRedeemedDesc','promo.error','promo.errorDesc',
-  // Assessment flow
-  'assessment.paymentSoon',
+  // Payment
+  'payment.verifying','payment.successTitle','payment.successDesc','payment.viewResults','payment.errorTitle','payment.errorDesc','payment.backToAssessment',
+  // Terms page
+  'terms.title','terms.lastUpdated',
+  'terms.s1.title','terms.s1.text','terms.s2.title','terms.s2.text','terms.s3.title','terms.s3.text',
+  'terms.s4.title','terms.s4.text','terms.s5.title','terms.s5.text','terms.s6.title','terms.s6.text',
+  // Privacy page
+  'privacy.title',
+  'privacy.s1.title','privacy.s1.text','privacy.s2.title','privacy.s2.text','privacy.s3.title','privacy.s3.text',
+  'privacy.s4.title','privacy.s4.text','privacy.s5.title','privacy.s5.text','privacy.s6.title','privacy.s6.text',
+  // Booking
+  'booking.title','booking.description','booking.descriptionWithClinic','booking.cta',
+  // Reassessment limit
+  'reassessment.limitTitle','reassessment.limitDescription','reassessment.upgradeToRetake','reassessment.attemptsUsed',
 ];
 
 export const AdminTranslations = () => {
@@ -164,11 +178,14 @@ export const AdminTranslations = () => {
   };
 
   const aiTranslateAll = async () => {
+    // Use ALL_KEYS with fallback English values from the app
     const { data: enData } = await supabase.from('translations').select('key, value').eq('language_code', 'en') as any;
     const enMap: Record<string, string> = {};
     (enData || []).forEach((t: any) => { if (t.value) enMap[t.key] = t.value; });
+    
+    // Build source: DB English first, then hardcoded fallback English
     const fallbackSource: Record<string, string> = {};
-    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || key; });
+    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || fallbackEN[key] || key; });
 
     const nonEnLanguages = languages.filter(l => l.code !== 'en');
     if (nonEnLanguages.length === 0) {
