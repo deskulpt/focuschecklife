@@ -15,6 +15,7 @@ const Landing = () => {
   const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const siteSettings = useSiteSettings();
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_, session) => {
