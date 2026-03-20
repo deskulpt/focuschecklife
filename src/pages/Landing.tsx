@@ -94,9 +94,15 @@ const Landing = () => {
           {t('hero.badge')}
         </Badge>
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-          <span className="text-primary">{t('hero.title1')}</span>
-          <br />
-          <span className="text-foreground">{t('hero.title2')}</span>
+          {siteSettings['landing_title'] ? (
+            <span className="text-primary">{siteSettings['landing_title']}</span>
+          ) : (
+            <>
+              <span className="text-primary">{t('hero.title1')}</span>
+              <br />
+              <span className="text-foreground">{t('hero.title2')}</span>
+            </>
+          )}
         </h1>
         <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
           {t('hero.subtitle')}
