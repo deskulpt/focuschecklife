@@ -215,6 +215,9 @@ const AssessmentApp = () => {
                 data={assessmentData} 
                 onRestart={resetAssessment}
                 isFreePreview={isFreeUser}
+                hasReachedLimit={hasReachedLimit}
+                assessmentCount={assessmentCount}
+                maxFreeAttempts={maxFreeAttempts}
                 onUpgrade={async () => {
                   setPaymentLoading(true);
                   try {
