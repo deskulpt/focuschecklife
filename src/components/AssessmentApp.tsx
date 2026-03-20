@@ -144,6 +144,12 @@ const AssessmentApp = () => {
   };
 
   const resetAssessment = () => {
+    if (hasReachedLimit) {
+      toast.error(t('reassessment.limitTitle'), {
+        description: t('reassessment.limitDescription'),
+      });
+      return;
+    }
     setCurrentStep('age');
     setSelectedAge(null);
     setSurveyResponses({});
