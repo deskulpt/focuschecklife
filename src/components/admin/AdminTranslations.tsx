@@ -102,6 +102,8 @@ export const AdminTranslations = () => {
   const [filter, setFilter] = useState('');
   const [newLang, setNewLang] = useState({ code: '', name: '', flag: '🌐' });
   const [loading, setLoading] = useState(false);
+  const [aiTranslating, setAiTranslating] = useState(false);
+  const [aiProgress, setAiProgress] = useState({ current: 0, total: 0, lang: '' });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
