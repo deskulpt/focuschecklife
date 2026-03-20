@@ -419,6 +419,12 @@ const fallbackEN: Record<string, string> = {
   // Footer links
   'footer.terms': 'Terms of Service',
   'footer.privacy': 'Privacy Policy',
+
+  // Reassessment limit
+  'reassessment.limitTitle': 'Assessment Limit Reached',
+  'reassessment.limitDescription': 'You have used your 2 free assessment attempts. Upgrade to take additional assessments.',
+  'reassessment.upgradeToRetake': 'Upgrade to Retake',
+  'reassessment.attemptsUsed': 'Attempts used',
 };
 
 const fallbackPTBR: Record<string, string> = {
