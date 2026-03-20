@@ -183,9 +183,9 @@ export const AdminTranslations = () => {
     const enMap: Record<string, string> = {};
     (enData || []).forEach((t: any) => { if (t.value) enMap[t.key] = t.value; });
     
-    // Build source from ALL_KEYS - use DB translations first, then use the key as identifier for AI to translate
+    // Build source: DB English first, then hardcoded fallback English
     const fallbackSource: Record<string, string> = {};
-    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || key.split('.').pop()?.replace(/_/g, ' ') || key; });
+    ALL_KEYS.forEach(key => { fallbackSource[key] = enMap[key] || fallbackEN[key] || key; });
 
     const nonEnLanguages = languages.filter(l => l.code !== 'en');
     if (nonEnLanguages.length === 0) {
