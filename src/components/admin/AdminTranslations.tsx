@@ -298,6 +298,9 @@ export const AdminTranslations = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <CardTitle className="text-lg">Translation Editor</CardTitle>
             <div className="flex flex-wrap gap-2">
+              <Button size="sm" variant="secondary" onClick={aiTranslateAll} disabled={aiTranslating}>
+                <Languages className="w-4 h-4 mr-1" /> {aiTranslating ? `Translating ${aiProgress.lang}...` : 'AI Translate All'}
+              </Button>
               <Select value={selectedLang} onValueChange={setSelectedLang}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue />
