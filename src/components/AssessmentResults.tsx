@@ -13,9 +13,12 @@ interface AssessmentResultsProps {
   isFreePreview?: boolean;
   onUpgrade?: () => void;
   onPromoRedeemed?: () => void;
+  hasReachedLimit?: boolean;
+  assessmentCount?: number;
+  maxFreeAttempts?: number;
 }
 
-export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUpgrade, onPromoRedeemed }: AssessmentResultsProps) => {
+export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUpgrade, onPromoRedeemed, hasReachedLimit = false, assessmentCount = 0, maxFreeAttempts = 2 }: AssessmentResultsProps) => {
   const { t } = useLanguage();
 
   useEffect(() => {
