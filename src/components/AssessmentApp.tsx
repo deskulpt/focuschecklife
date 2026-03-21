@@ -21,6 +21,7 @@ export interface AssessmentData {
   responses: Record<string, number>;
   gameResults?: GameResults;
   completedAt: Date;
+  id?: string;
 }
 
 const AssessmentApp = () => {
