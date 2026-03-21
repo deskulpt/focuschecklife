@@ -151,7 +151,7 @@ const Landing = () => {
           </div>
         )}
 
-        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto">
+        <div className="grid sm:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
           {/* Free */}
           <Card className="border-border/50 relative">
             <CardHeader className="pb-3">
@@ -198,6 +198,30 @@ const Landing = () => {
                 </div>
               ))}
               <Button className="w-full mt-3 sm:mt-4" onClick={navAction}>{t('pricing.full.cta')}</Button>
+            </CardContent>
+          </Card>
+
+          {/* Monitoring */}
+          <Card className="border-accent/50 relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <Badge className="bg-accent text-accent-foreground px-3 text-xs">{t('pricing.monitor.badge')}</Badge>
+            </div>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base sm:text-lg">{t('pricing.monitor.title')}</CardTitle>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-bold">
+                  {siteSettings['pricing_monitor_usd'] || t('pricing.monitor.price')}
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.monitor.subtitle')}</p>
+            </CardHeader>
+            <CardContent className="space-y-2 sm:space-y-3">
+              {['pricing.monitor.f1', 'pricing.monitor.f2', 'pricing.monitor.f3', 'pricing.monitor.f4', 'pricing.monitor.f5'].map((k, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
+                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
+                </div>
+              ))}
+              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>{t('pricing.monitor.cta')}</Button>
             </CardContent>
           </Card>
 
