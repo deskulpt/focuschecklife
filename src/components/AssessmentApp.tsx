@@ -114,7 +114,7 @@ const AssessmentApp = () => {
     setCurrentStep('results');
 
     // Save to database
-    await supabase.from('user_assessments').insert({
+    const { data: insertedData } = await supabase.from('user_assessments').insert({
       user_id: user.id,
       age_group: pendingData.ageGroup,
       survey_responses: pendingData.responses as any,
@@ -122,7 +122,12 @@ const AssessmentApp = () => {
       is_full_access: !isFreeUser,
       overall_score: null,
       risk_level: null,
-    });
+    }).select('id').single();
+    
+    // Update assessment data with the new ID
+    if (insertedData) {
+      setAssessmentData(prev => prev ? { ...prev, id: insertedData.id } : prev);
+    }
     
     // Increment assessment count
     const newCount = assessmentCount + 1;
