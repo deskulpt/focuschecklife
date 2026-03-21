@@ -80,6 +80,11 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
         </Card>
       )}
 
+      {/* Assessment History for paid users */}
+      {!isFreePreview && (
+        <AssessmentHistory />
+      )}
+
       {!isFreePreview && (
         <Card className="bg-medical-light">
           <CardHeader>
