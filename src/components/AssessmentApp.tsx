@@ -39,8 +39,9 @@ const AssessmentApp = () => {
   const [assessmentCount, setAssessmentCount] = useState(0);
 
   const isFreeUser = !profile?.has_paid_full_test;
+  const isMonitoringUser = profile?.plan === 'monitoring';
   const maxFreeAttempts = 2;
-  const hasReachedLimit = isFreeUser && assessmentCount >= maxFreeAttempts;
+  const hasReachedLimit = isFreeUser && !isMonitoringUser && assessmentCount >= maxFreeAttempts;
 
   // Load saved assessment on mount
   useEffect(() => {
