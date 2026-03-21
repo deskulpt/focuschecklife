@@ -62,7 +62,7 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
         </p>
       </div>
 
-      <AssessmentResultsDashboard data={data} isFreePreview={isFreePreview} />
+      <AssessmentResultsDashboard data={data} isFreePreview={isFreePreview} assessmentId={data.id} />
 
       {isFreePreview && onUpgrade && (
         <Card className="border-primary/30 bg-primary/5">
