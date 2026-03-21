@@ -41,8 +41,9 @@ const CATEGORY_COLORS = [
   'hsl(30, 90%, 55%)',    // amber
 ];
 
-export const AssessmentResultsDashboard = ({ data, isFreePreview = false }: AssessmentResultsDashboardProps) => {
+export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assessmentId }: AssessmentResultsDashboardProps) => {
   const { t, language } = useLanguage();
+  const { user } = useAuth();
   const [aiInterpretation, setAiInterpretation] = useState<string | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
