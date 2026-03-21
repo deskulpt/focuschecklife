@@ -10,10 +10,12 @@ import type { AssessmentData } from './AssessmentApp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { BookAppointment } from '@/components/BookAppointment';
+import { useAuth } from '@/hooks/useAuth';
 
 interface AssessmentResultsDashboardProps {
   data: AssessmentData;
   isFreePreview?: boolean;
+  assessmentId?: string;
 }
 
 interface CategoryResult {
