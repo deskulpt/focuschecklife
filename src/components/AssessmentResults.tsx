@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RefreshCw, AlertTriangle, Lock } from 'lucide-react';
 import type { AssessmentData } from './AssessmentApp';
 import { AssessmentResultsDashboard } from './AssessmentResultsDashboard';
+import { AssessmentHistory } from './AssessmentHistory';
 import { PromoCodeInput } from './PromoCodeInput';
 import { useLanguage } from '@/contexts/LanguageContext';
 
