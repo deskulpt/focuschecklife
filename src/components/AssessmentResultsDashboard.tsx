@@ -82,12 +82,31 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
   const totalMaxScore = categoryResults.reduce((sum, cat) => sum + cat.maxScore, 0);
   const overallPercentage = totalMaxScore > 0 ? (totalScore / totalMaxScore) * 100 : 0;
 
-  // Fetch AI interpretation
+  // Fetch AI interpretation — use cached version if available
   useEffect(() => {
     if (!isFreePreview && data.gameResults) {
-      fetchAiInterpretation();
+      loadOrFetchAiInterpretation();
     }
-  }, [isFreePreview, data]);
+  }, [isFreePreview, data, assessmentId]);
+
+  const loadOrFetchAiInterpretation = async () => {
+    // Try to load cached interpretation from DB first
+    if (assessmentId && user) {
+      const { data: assessment } = await supabase
+        .from('user_assessments')
+        .select('ai_interpretation')
+        .eq('id', assessmentId)
+        .single();
+      
+      if (assessment?.ai_interpretation) {
+        setAiInterpretation(assessment.ai_interpretation);
+        return;
+      }
+    }
+    
+    // No cached version — call AI
+    fetchAiInterpretation();
+  };
 
   const fetchAiInterpretation = async () => {
     setAiLoading(true);
@@ -114,6 +133,13 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
       if (error) throw error;
       if (funcData?.interpretation) {
         setAiInterpretation(funcData.interpretation);
+        // Cache the interpretation in the database
+        if (assessmentId && user) {
+          await supabase
+            .from('user_assessments')
+            .update({ ai_interpretation: funcData.interpretation } as any)
+            .eq('id', assessmentId);
+        }
       } else if (funcData?.error) {
         setAiError(funcData.error);
       }
