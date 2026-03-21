@@ -66,6 +66,7 @@ const AssessmentApp = () => {
         responses: (data.survey_responses as Record<string, number>) || {},
         gameResults: (data.game_results as unknown as GameResults) || undefined,
         completedAt: new Date(data.completed_at),
+        id: data.id,
       };
       setAssessmentData(restored);
       setSelectedAge(data.age_group as AgeGroup);
