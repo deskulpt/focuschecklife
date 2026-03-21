@@ -68,6 +68,16 @@ export const fallbackEN: Record<string, string> = {
   'pricing.full.f4': 'Symptom profile radar chart',
   'pricing.full.f5': 'Personalized insights & recommendations',
   'pricing.full.cta': 'Get Full Results',
+  'pricing.monitor.title': 'Monitoring Plan',
+  'pricing.monitor.price': '$12',
+  'pricing.monitor.subtitle': 'One-time payment',
+  'pricing.monitor.badge': 'Best Value',
+  'pricing.monitor.f1': 'Everything in Full Assessment',
+  'pricing.monitor.f2': 'Unlimited reassessments',
+  'pricing.monitor.f3': 'Track progress over time',
+  'pricing.monitor.f4': 'Compare past vs latest results',
+  'pricing.monitor.f5': 'AI-powered trend analysis',
+  'pricing.monitor.cta': 'Get Monitoring Plan',
 
   // Learn
   'learn.title': 'Understanding ADHD',

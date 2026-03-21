@@ -75,6 +75,24 @@ export const AdminSettings = () => {
               />
             </div>
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block">Monitoring Plan Price (USD)</label>
+              <Input
+                placeholder="$12"
+                value={settings['pricing_monitor_usd'] || ''}
+                onChange={(e) => updateSetting('pricing_monitor_usd', e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1 block">Monitoring Plan Price (BRL)</label>
+              <Input
+                placeholder="R$59"
+                value={settings['pricing_monitor_brl'] || ''}
+                onChange={(e) => updateSetting('pricing_monitor_brl', e.target.value)}
+              />
+            </div>
+          </div>
           <Button onClick={saveAll} disabled={loading}><Save className="w-4 h-4 mr-2" /> Save Settings</Button>
         </CardContent>
       </Card>

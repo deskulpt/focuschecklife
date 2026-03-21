@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RefreshCw, AlertTriangle, Lock } from 'lucide-react';
 import type { AssessmentData } from './AssessmentApp';
 import { AssessmentResultsDashboard } from './AssessmentResultsDashboard';
+import { AssessmentHistory } from './AssessmentHistory';
 import { PromoCodeInput } from './PromoCodeInput';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -62,7 +63,7 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
         </p>
       </div>
 
-      <AssessmentResultsDashboard data={data} isFreePreview={isFreePreview} />
+      <AssessmentResultsDashboard data={data} isFreePreview={isFreePreview} assessmentId={data.id} />
 
       {isFreePreview && onUpgrade && (
         <Card className="border-primary/30 bg-primary/5">
@@ -77,6 +78,11 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {/* Assessment History for paid users */}
+      {!isFreePreview && (
+        <AssessmentHistory />
       )}
 
       {!isFreePreview && (

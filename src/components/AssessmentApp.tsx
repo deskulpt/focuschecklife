@@ -21,6 +21,7 @@ export interface AssessmentData {
   responses: Record<string, number>;
   gameResults?: GameResults;
   completedAt: Date;
+  id?: string;
 }
 
 const AssessmentApp = () => {
@@ -38,8 +39,9 @@ const AssessmentApp = () => {
   const [assessmentCount, setAssessmentCount] = useState(0);
 
   const isFreeUser = !profile?.has_paid_full_test;
+  const isMonitoringUser = profile?.plan === 'monitoring';
   const maxFreeAttempts = 2;
-  const hasReachedLimit = isFreeUser && assessmentCount >= maxFreeAttempts;
+  const hasReachedLimit = isFreeUser && !isMonitoringUser && assessmentCount >= maxFreeAttempts;
 
   // Load saved assessment on mount
   useEffect(() => {
@@ -65,6 +67,7 @@ const AssessmentApp = () => {
         responses: (data.survey_responses as Record<string, number>) || {},
         gameResults: (data.game_results as unknown as GameResults) || undefined,
         completedAt: new Date(data.completed_at),
+        id: data.id,
       };
       setAssessmentData(restored);
       setSelectedAge(data.age_group as AgeGroup);
@@ -112,7 +115,7 @@ const AssessmentApp = () => {
     setCurrentStep('results');
 
     // Save to database
-    await supabase.from('user_assessments').insert({
+    const { data: insertedData } = await supabase.from('user_assessments').insert({
       user_id: user.id,
       age_group: pendingData.ageGroup,
       survey_responses: pendingData.responses as any,
@@ -120,7 +123,12 @@ const AssessmentApp = () => {
       is_full_access: !isFreeUser,
       overall_score: null,
       risk_level: null,
-    });
+    }).select('id').single();
+    
+    // Update assessment data with the new ID
+    if (insertedData) {
+      setAssessmentData(prev => prev ? { ...prev, id: insertedData.id } : prev);
+    }
     
     // Increment assessment count
     const newCount = assessmentCount + 1;

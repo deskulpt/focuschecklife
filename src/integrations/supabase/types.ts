@@ -306,6 +306,7 @@ export type Database = {
       user_assessments: {
         Row: {
           age_group: string
+          ai_interpretation: string | null
           completed_at: string
           created_at: string
           game_results: Json | null
@@ -318,6 +319,7 @@ export type Database = {
         }
         Insert: {
           age_group: string
+          ai_interpretation?: string | null
           completed_at?: string
           created_at?: string
           game_results?: Json | null
@@ -330,6 +332,7 @@ export type Database = {
         }
         Update: {
           age_group?: string
+          ai_interpretation?: string | null
           completed_at?: string
           created_at?: string
           game_results?: Json | null

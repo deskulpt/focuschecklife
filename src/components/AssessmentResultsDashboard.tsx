@@ -10,10 +10,12 @@ import type { AssessmentData } from './AssessmentApp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { BookAppointment } from '@/components/BookAppointment';
+import { useAuth } from '@/hooks/useAuth';
 
 interface AssessmentResultsDashboardProps {
   data: AssessmentData;
   isFreePreview?: boolean;
+  assessmentId?: string;
 }
 
 interface CategoryResult {
@@ -39,8 +41,9 @@ const CATEGORY_COLORS = [
   'hsl(30, 90%, 55%)',    // amber
 ];
 
-export const AssessmentResultsDashboard = ({ data, isFreePreview = false }: AssessmentResultsDashboardProps) => {
+export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assessmentId }: AssessmentResultsDashboardProps) => {
   const { t, language } = useLanguage();
+  const { user } = useAuth();
   const [aiInterpretation, setAiInterpretation] = useState<string | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
@@ -79,12 +82,31 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false }: Asse
   const totalMaxScore = categoryResults.reduce((sum, cat) => sum + cat.maxScore, 0);
   const overallPercentage = totalMaxScore > 0 ? (totalScore / totalMaxScore) * 100 : 0;
 
-  // Fetch AI interpretation
+  // Fetch AI interpretation — use cached version if available
   useEffect(() => {
     if (!isFreePreview && data.gameResults) {
-      fetchAiInterpretation();
+      loadOrFetchAiInterpretation();
     }
-  }, [isFreePreview, data]);
+  }, [isFreePreview, data, assessmentId]);
+
+  const loadOrFetchAiInterpretation = async () => {
+    // Try to load cached interpretation from DB first
+    if (assessmentId && user) {
+      const { data: assessment } = await supabase
+        .from('user_assessments')
+        .select('ai_interpretation')
+        .eq('id', assessmentId)
+        .single();
+      
+      if (assessment?.ai_interpretation) {
+        setAiInterpretation(assessment.ai_interpretation);
+        return;
+      }
+    }
+    
+    // No cached version — call AI
+    fetchAiInterpretation();
+  };
 
   const fetchAiInterpretation = async () => {
     setAiLoading(true);
@@ -111,6 +133,13 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false }: Asse
       if (error) throw error;
       if (funcData?.interpretation) {
         setAiInterpretation(funcData.interpretation);
+        // Cache the interpretation in the database
+        if (assessmentId && user) {
+          await supabase
+            .from('user_assessments')
+            .update({ ai_interpretation: funcData.interpretation } as any)
+            .eq('id', assessmentId);
+        }
       } else if (funcData?.error) {
         setAiError(funcData.error);
       }
