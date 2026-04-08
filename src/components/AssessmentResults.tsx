@@ -153,6 +153,31 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
         </Button>
       </div>
 
+      {/* Share Results Consent */}
+      {user && (
+        <Card className="border-border/50">
+          <CardContent className="p-4 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Share2 className="w-5 h-5 text-primary flex-shrink-0" />
+              <div>
+                <Label htmlFor="share-consent" className="text-sm font-medium cursor-pointer">
+                  Share my results with professionals
+                </Label>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Allow qualified professionals to review your assessment for follow-up support
+                </p>
+              </div>
+            </div>
+            <Switch
+              id="share-consent"
+              checked={shareConsent}
+              onCheckedChange={handleShareConsentChange}
+              disabled={consentLoading}
+            />
+          </CardContent>
+        </Card>
+      )}
+
       {/* Waitlist for self-monitoring app */}
       <WaitlistSignup source="results" variant="inline" className="p-5 rounded-xl border border-border/30 bg-muted/30" />
 
