@@ -4,12 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import {
   User, Mail, Phone, MapPin, Calendar, Brain, CreditCard,
-  FileText, Clock, AlertTriangle, Download, Send, HelpCircle,
-  ChevronRight, Shield, Bell
+  Clock, AlertTriangle, Download, Send, Shield, Bell
 } from 'lucide-react';
 
 interface Assessment {
