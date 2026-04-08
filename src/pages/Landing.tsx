@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Brain, Target, Shield, CheckCircle, ArrowRight, Star, Users, FileText, Zap, BookOpen, Menu, X } from 'lucide-react';
@@ -42,15 +41,22 @@ const Landing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-medical-light/20 to-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-[hsl(var(--primary)/0.08)] blur-[100px]" />
+        <div className="absolute top-1/3 -left-40 w-96 h-96 rounded-full bg-[hsl(var(--medical-teal)/0.06)] blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full bg-[hsl(var(--primary)/0.05)] blur-[80px]" />
+      </div>
+
       {/* Nav */}
-      <nav className="border-b border-border/50 bg-card/60 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <nav className="glass sticky top-0 z-50 border-b border-border/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
             <img src="/logo.png" alt="FocusCheck ADHD Assessment" className="w-9 h-9" loading="lazy" />
-            <span className="text-lg font-bold text-foreground">FocusCheck</span>
+            <span className="text-lg font-bold text-foreground tracking-tight">FocusCheck</span>
           </div>
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
             <LanguageToggle />
             {user ? (
               <>
@@ -60,7 +66,9 @@ const Landing = () => {
             ) : (
               <>
                 <Button variant="ghost" size="sm" onClick={() => navigate('/auth')}>{t('nav.signIn')}</Button>
-                <Button size="sm" onClick={() => navigate('/auth')}>{t('nav.getStarted')}</Button>
+                <button onClick={() => navigate('/auth')} className="btn-gradient px-5 py-2 text-sm rounded-lg">
+                  {t('nav.getStarted')}
+                </button>
               </>
             )}
           </div>
@@ -72,7 +80,7 @@ const Landing = () => {
           </div>
         </div>
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border/50 bg-card/95 backdrop-blur-sm px-4 py-3 space-y-2">
+          <div className="md:hidden border-t border-border/30 glass px-4 py-3 space-y-2">
             {user ? (
               <>
                 <Button variant="ghost" className="w-full justify-start" onClick={() => { navigate('/assessment'); setMobileMenuOpen(false); }}>{t('landing.myAssessment')}</Button>
@@ -81,7 +89,9 @@ const Landing = () => {
             ) : (
               <>
                 <Button variant="ghost" className="w-full justify-start" onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }}>{t('nav.signIn')}</Button>
-                <Button className="w-full" onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }}>{t('nav.getStarted')}</Button>
+                <button className="btn-gradient w-full py-2.5 text-sm rounded-lg" onClick={() => { navigate('/auth'); setMobileMenuOpen(false); }}>
+                  {t('nav.getStarted')}
+                </button>
               </>
             )}
           </div>
@@ -89,219 +99,226 @@ const Landing = () => {
       </nav>
 
       {/* Hero */}
-      <section className="container mx-auto px-4 py-12 sm:py-16 md:py-24 text-center">
-        <Badge className="mb-4 sm:mb-6 bg-primary/10 text-primary border-primary/20 px-3 sm:px-4 py-1.5 text-xs sm:text-sm">
-          {t('hero.badge')}
-        </Badge>
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 md:pt-28 pb-12 sm:pb-16 text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[hsl(var(--primary)/0.1)] border border-[hsl(var(--primary)/0.2)] mb-6 sm:mb-8 animate-fade-in-up">
+          <span className="w-2 h-2 rounded-full bg-[hsl(var(--success))] animate-pulse-soft" />
+          <span className="text-xs sm:text-sm font-medium text-[hsl(var(--primary))]">{t('hero.badge')}</span>
+        </div>
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-5 sm:mb-6 leading-[1.1] tracking-tight">
           {siteSettings['landing_title'] ? (
-            <span className="text-primary">{siteSettings['landing_title']}</span>
+            <span className="text-gradient">{siteSettings['landing_title']}</span>
           ) : (
             <>
-              <span className="text-primary">{t('hero.title1')}</span>
+              <span className="text-gradient">{t('hero.title1')}</span>
               <br />
               <span className="text-foreground">{t('hero.title2')}</span>
             </>
           )}
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
+        <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed">
           {t('hero.subtitle')}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
-          <Button size="lg" onClick={navAction} className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6">
-            {t('hero.cta')} <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
-          <Button size="lg" variant="outline" onClick={() => document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' })} className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6">
-            <BookOpen className="mr-2 w-5 h-5" /> {t('hero.learnMore')}
-          </Button>
+          <button onClick={navAction} className="btn-gradient inline-flex items-center justify-center gap-2 px-8 py-4 text-base sm:text-lg font-semibold rounded-xl shadow-[0_8px_30px_-8px_hsl(var(--primary)/0.4)]">
+            {t('hero.cta')} <ArrowRight className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base sm:text-lg font-semibold rounded-xl border border-border bg-background text-foreground hover:bg-muted transition-colors"
+          >
+            <BookOpen className="w-5 h-5" /> {t('hero.learnMore')}
+          </button>
         </div>
-        <p className="text-xs text-muted-foreground mt-4">{t('hero.noCreditCard')}</p>
+        <p className="text-xs text-muted-foreground mt-5">{t('hero.noCreditCard')}</p>
       </section>
 
       {/* Trust Badges */}
-      <section className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="grid grid-cols-3 gap-3 sm:gap-4">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="grid grid-cols-3 gap-3 sm:gap-5">
           {[
             { icon: Shield, label: t('trust.dsm5'), sub: t('trust.dsm5Sub') },
             { icon: Brain, label: t('trust.cognitive'), sub: t('trust.cognitiveSub') },
             { icon: Users, label: t('trust.ageGroups'), sub: t('trust.ageGroupsSub') },
           ].map((item, i) => (
-            <Card key={i} className="text-center border-border/50 bg-card/60">
-              <CardContent className="pt-4 sm:pt-6 pb-3 sm:pb-4 px-2 sm:px-4">
-                <item.icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-primary" />
-                <div className="font-semibold text-xs sm:text-sm">{item.label}</div>
-                <div className="text-[10px] sm:text-xs text-muted-foreground">{item.sub}</div>
-              </CardContent>
-            </Card>
+            <div key={i} className="glass-card p-4 sm:p-6 text-center card-hover group">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 rounded-xl bg-[hsl(var(--primary)/0.1)] flex items-center justify-center group-hover:bg-[hsl(var(--primary)/0.15)] transition-colors">
+                <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[hsl(var(--primary))]" />
+              </div>
+              <div className="font-semibold text-xs sm:text-sm text-foreground">{item.label}</div>
+              <div className="text-[10px] sm:text-xs text-muted-foreground mt-1">{item.sub}</div>
+            </div>
           ))}
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="container mx-auto px-4 py-12 sm:py-16" id="pricing">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">{t('pricing.title')}</h2>
-        <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-xl mx-auto text-sm sm:text-base">
-          {t('pricing.subtitle')}
-        </p>
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20" id="pricing">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">{t('pricing.title')}</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base">
+            {t('pricing.subtitle')}
+          </p>
+        </div>
 
-        {/* Limited Time Banner */}
         {siteSettings['limited_time_enabled'] === 'true' && siteSettings['limited_time_message'] && (
-          <div className="max-w-3xl mx-auto mb-6 p-3 bg-warning/10 border border-warning/30 rounded-lg text-center">
-            <p className="text-sm font-semibold text-warning">{siteSettings['limited_time_message']}</p>
+          <div className="max-w-3xl mx-auto mb-8 glass-card p-4 text-center border-[hsl(var(--warning)/0.3)]">
+            <p className="text-sm font-semibold text-[hsl(var(--warning))]">{siteSettings['limited_time_message']}</p>
           </div>
         )}
 
-        <div className="grid sm:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
           {/* Free */}
-          <Card className="border-border/50 relative">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base sm:text-lg">{t('pricing.free.title')}</CardTitle>
-              <div className="text-2xl sm:text-3xl font-bold">{t('pricing.free.price')}</div>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.free.subtitle')}</p>
-            </CardHeader>
-            <CardContent className="space-y-2 sm:space-y-3">
+          <div className="glass-card p-6 sm:p-7 flex flex-col card-hover">
+            <div className="mb-5">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground">{t('pricing.free.title')}</h3>
+              <div className="text-3xl sm:text-4xl font-bold text-foreground mt-2">{t('pricing.free.price')}</div>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">{t('pricing.free.subtitle')}</p>
+            </div>
+            <div className="space-y-2.5 flex-1">
               {['pricing.free.f1', 'pricing.free.f2', 'pricing.free.f3', 'pricing.free.f4'].map((k, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
+                <div key={i} className="flex items-center gap-2.5 text-xs sm:text-sm text-foreground">
+                  <CheckCircle className="w-4 h-4 text-[hsl(var(--success))] flex-shrink-0" /> {t(k)}
                 </div>
               ))}
-              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>{t('pricing.free.cta')}</Button>
-            </CardContent>
-          </Card>
-
-          {/* Full */}
-          <Card className="border-primary/50 relative shadow-[var(--shadow-card)]">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <Badge className="bg-primary text-primary-foreground px-3 text-xs">{t('pricing.full.badge')}</Badge>
             </div>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base sm:text-lg">{t('pricing.full.title')}</CardTitle>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-bold">
+            <button onClick={navAction} className="mt-6 w-full py-3 rounded-xl border border-border text-foreground font-medium hover:bg-muted transition-colors text-sm">
+              {t('pricing.free.cta')}
+            </button>
+          </div>
+
+          {/* Full — featured */}
+          <div className="relative glass-card p-6 sm:p-7 flex flex-col card-hover border-[hsl(var(--primary)/0.4)] shadow-[0_8px_40px_-12px_hsl(var(--primary)/0.2)]">
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+              <span className="btn-gradient px-4 py-1 text-xs font-semibold rounded-full">{t('pricing.full.badge')}</span>
+            </div>
+            <div className="mb-5">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground">{t('pricing.full.title')}</h3>
+              <div className="flex items-baseline gap-2 mt-2">
+                <span className="text-3xl sm:text-4xl font-bold text-foreground">
                   {siteSettings['pricing_usd'] || t('pricing.full.price')}
                 </span>
                 {siteSettings['discount_enabled'] === 'true' && siteSettings['discount_original_price'] && (
                   <span className="text-base text-muted-foreground line-through">{siteSettings['discount_original_price']}</span>
                 )}
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.full.subtitle')}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">{t('pricing.full.subtitle')}</p>
               {siteSettings['discount_enabled'] === 'true' && siteSettings['discount_savings_message'] && (
-                <Badge variant="secondary" className="mt-1 bg-success/10 text-success border-success/20 text-xs">
+                <span className="inline-block mt-2 px-3 py-1 text-xs font-medium rounded-full bg-[hsl(var(--success)/0.1)] text-[hsl(var(--success))] border border-[hsl(var(--success)/0.2)]">
                   {siteSettings['discount_savings_message']}
-                </Badge>
+                </span>
               )}
-            </CardHeader>
-            <CardContent className="space-y-2 sm:space-y-3">
+            </div>
+            <div className="space-y-2.5 flex-1">
               {['pricing.full.f1', 'pricing.full.f2', 'pricing.full.f3', 'pricing.full.f4', 'pricing.full.f5'].map((k, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
+                <div key={i} className="flex items-center gap-2.5 text-xs sm:text-sm text-foreground">
+                  <CheckCircle className="w-4 h-4 text-[hsl(var(--success))] flex-shrink-0" /> {t(k)}
                 </div>
               ))}
-              <Button className="w-full mt-3 sm:mt-4" onClick={navAction}>{t('pricing.full.cta')}</Button>
-            </CardContent>
-          </Card>
+            </div>
+            <button onClick={navAction} className="btn-gradient mt-6 w-full py-3 rounded-xl text-sm font-semibold shadow-[0_4px_20px_-6px_hsl(var(--primary)/0.4)]">
+              {t('pricing.full.cta')}
+            </button>
+          </div>
 
           {/* Monitoring */}
-          <Card className="border-accent/50 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <Badge className="bg-accent text-accent-foreground px-3 text-xs">{t('pricing.monitor.badge')}</Badge>
+          <div className="relative glass-card p-6 sm:p-7 flex flex-col card-hover">
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+              <span className="px-4 py-1 text-xs font-semibold rounded-full bg-accent text-accent-foreground border border-accent/50">{t('pricing.monitor.badge')}</span>
             </div>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base sm:text-lg">{t('pricing.monitor.title')}</CardTitle>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-bold">
-                  {siteSettings['pricing_monitor_usd'] || t('pricing.monitor.price')}
-                </span>
+            <div className="mb-5">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground">{t('pricing.monitor.title')}</h3>
+              <div className="text-3xl sm:text-4xl font-bold text-foreground mt-2">
+                {siteSettings['pricing_monitor_usd'] || t('pricing.monitor.price')}
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground">{t('pricing.monitor.subtitle')}</p>
-            </CardHeader>
-            <CardContent className="space-y-2 sm:space-y-3">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">{t('pricing.monitor.subtitle')}</p>
+            </div>
+            <div className="space-y-2.5 flex-1">
               {['pricing.monitor.f1', 'pricing.monitor.f2', 'pricing.monitor.f3', 'pricing.monitor.f4', 'pricing.monitor.f5'].map((k, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs sm:text-sm">
-                  <CheckCircle className="w-4 h-4 text-success flex-shrink-0" /> {t(k)}
+                <div key={i} className="flex items-center gap-2.5 text-xs sm:text-sm text-foreground">
+                  <CheckCircle className="w-4 h-4 text-[hsl(var(--success))] flex-shrink-0" /> {t(k)}
                 </div>
               ))}
-              <Button className="w-full mt-3 sm:mt-4" variant="outline" onClick={navAction}>{t('pricing.monitor.cta')}</Button>
-            </CardContent>
-          </Card>
-
+            </div>
+            <button onClick={navAction} className="mt-6 w-full py-3 rounded-xl border border-border text-foreground font-medium hover:bg-muted transition-colors text-sm">
+              {t('pricing.monitor.cta')}
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Educational Content */}
-      <section className="container mx-auto px-4 py-12 sm:py-16" id="learn">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">{t('learn.title')}</h2>
-        <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-2xl mx-auto text-sm sm:text-base">
-          {t('learn.subtitle')}
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20" id="learn">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">{t('learn.title')}</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
+            {t('learn.subtitle')}
+          </p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {learnArticles.map((article, i) => (
-            <Card key={i} className="border-border/50 hover:shadow-[var(--shadow-card)] transition-shadow">
-              <CardHeader className="pb-2">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
-                    <article.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <CardTitle className="text-sm sm:text-base">{t(article.titleKey)}</CardTitle>
+            <div key={i} className="glass-card p-5 sm:p-6 card-hover group" style={{ animationDelay: `${i * 80}ms` }}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-[hsl(var(--primary)/0.1)] flex items-center justify-center group-hover:bg-[hsl(var(--primary)/0.15)] transition-colors flex-shrink-0">
+                  <article.icon className="w-5 h-5 text-[hsl(var(--primary))]" />
                 </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(article.contentKey)}</p>
-              </CardContent>
-            </Card>
+                <h3 className="text-sm sm:text-base font-semibold text-foreground leading-snug">{t(article.titleKey)}</h3>
+              </div>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(article.contentKey)}</p>
+            </div>
           ))}
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="container mx-auto px-4 py-12 sm:py-16" id="faq">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">{t('faq.title')}</h2>
-        <p className="text-muted-foreground text-center mb-8 sm:mb-12 max-w-xl mx-auto text-sm sm:text-base">
-          {t('faq.subtitle')}
-        </p>
-        <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-2">
-            {faqKeys.map((i) => (
-              <AccordionItem key={i} value={`faq-${i}`} className="border border-border/50 rounded-lg px-4 sm:px-6 bg-card/60">
-                <AccordionTrigger className="text-sm sm:text-base font-medium text-left py-4">
-                  {t(`faq.q${i}`)}
-                </AccordionTrigger>
-                <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pb-4">
-                  {t(`faq.a${i}`)}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-20" id="faq">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">{t('faq.title')}</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base">
+            {t('faq.subtitle')}
+          </p>
         </div>
+        <Accordion type="single" collapsible className="space-y-3">
+          {faqKeys.map((i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className="glass-card px-5 sm:px-6 border-border/30 overflow-hidden">
+              <AccordionTrigger className="text-sm sm:text-base font-medium text-left py-4 text-foreground hover:no-underline">
+                {t(`faq.q${i}`)}
+              </AccordionTrigger>
+              <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pb-5">
+                {t(`faq.a${i}`)}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </section>
 
       {/* CTA */}
-      <section className="container mx-auto px-4 py-12 sm:py-16">
-        <Card className="bg-primary/5 border-primary/20 max-w-3xl mx-auto">
-          <CardContent className="p-6 sm:p-8 md:p-12 text-center">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">{t('cta.title')}</h2>
-            <p className="text-muted-foreground mb-4 sm:mb-6 max-w-xl mx-auto text-sm sm:text-base">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+        <div className="relative glass-card p-8 sm:p-12 md:p-16 text-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary)/0.05)] to-[hsl(var(--medical-teal)/0.05)] pointer-events-none" aria-hidden="true" />
+          <div className="relative">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-foreground">{t('cta.title')}</h2>
+            <p className="text-muted-foreground mb-6 sm:mb-8 max-w-xl mx-auto text-sm sm:text-base">
               {t('cta.subtitle')}
             </p>
-            <Button size="lg" onClick={navAction} className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6">
-              {t('cta.button')} <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </CardContent>
-        </Card>
+            <button onClick={navAction} className="btn-gradient inline-flex items-center gap-2 px-8 py-4 text-base sm:text-lg font-semibold rounded-xl shadow-[0_8px_30px_-8px_hsl(var(--primary)/0.4)]">
+              {t('cta.button')} <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 bg-card/30 py-6 sm:py-8">
-        <div className="container mx-auto px-4 text-center text-xs sm:text-sm text-muted-foreground">
-          <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
+      <footer className="border-t border-border/30 bg-background/60 backdrop-blur-sm py-8 sm:py-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center text-xs sm:text-sm text-muted-foreground">
+          <div className="flex items-center justify-center gap-2.5 mb-4">
             <img src="/logo.png" alt="FocusCheck" className="w-6 h-6" loading="lazy" />
             <span className="font-semibold text-foreground">FocusCheck</span>
           </div>
-          <p className="max-w-xl mx-auto mb-3 sm:mb-4">{t('footer.disclaimer')}</p>
-          <div className="flex items-center justify-center gap-4 mb-3">
-            <a href="/terms" className="text-primary hover:underline">{t('footer.terms')}</a>
-            <span>•</span>
-            <a href="/privacy" className="text-primary hover:underline">{t('footer.privacy')}</a>
+          <p className="max-w-xl mx-auto mb-4">{t('footer.disclaimer')}</p>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <a href="/terms" className="text-[hsl(var(--primary))] hover:underline">{t('footer.terms')}</a>
+            <span className="text-border">•</span>
+            <a href="/privacy" className="text-[hsl(var(--primary))] hover:underline">{t('footer.privacy')}</a>
           </div>
           <p>© {new Date().getFullYear()} {t('footer.copyright')}</p>
         </div>
