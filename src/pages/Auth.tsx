@@ -24,10 +24,13 @@ const Auth = () => {
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [marketingEmailConsent, setMarketingEmailConsent] = useState(false);
+  const [marketingPushConsent, setMarketingPushConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -50,7 +53,12 @@ const Auth = () => {
           email,
           password,
           options: {
-            data: { full_name: fullName, phone, country, age: parseInt(age) || null, gender, marketing_consent: marketingConsent },
+            data: {
+              full_name: fullName, phone, country, city, state,
+              age: parseInt(age) || null, gender,
+              marketing_email_opt_in: marketingEmailConsent,
+              marketing_push_opt_in: marketingPushConsent,
+            },
             emailRedirectTo: window.location.origin,
           },
         });
@@ -116,6 +124,10 @@ const Auth = () => {
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Input type="text" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />
+                    <Input type="text" placeholder="State / Province" value={state} onChange={(e) => setState(e.target.value)} />
+                  </div>
                   <Select value={country} onValueChange={setCountry}>
                     <SelectTrigger>
                       <div className="flex items-center gap-2">
@@ -158,13 +170,24 @@ const Auth = () => {
                   </div>
                   <div className="flex items-start gap-2">
                     <Checkbox
-                      id="marketing"
-                      checked={marketingConsent}
-                      onCheckedChange={(checked) => setMarketingConsent(checked === true)}
+                      id="marketing-email"
+                      checked={marketingEmailConsent}
+                      onCheckedChange={(checked) => setMarketingEmailConsent(checked === true)}
                       className="mt-0.5"
                     />
-                    <label htmlFor="marketing" className="text-xs text-muted-foreground leading-tight cursor-pointer">
-                      {t('auth.marketingConsent')}
+                    <label htmlFor="marketing-email" className="text-xs text-muted-foreground leading-tight cursor-pointer">
+                      I agree to receive email updates and tips about ADHD management
+                    </label>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Checkbox
+                      id="marketing-push"
+                      checked={marketingPushConsent}
+                      onCheckedChange={(checked) => setMarketingPushConsent(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <label htmlFor="marketing-push" className="text-xs text-muted-foreground leading-tight cursor-pointer">
+                      I agree to receive push notifications for reminders and updates
                     </label>
                   </div>
                 </div>
