@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getStroopConfig, type AgeGroup } from '@/data/gameConfig';
 
 interface StroopResult {
   correctResponses: number;
@@ -15,16 +16,22 @@ interface StroopResult {
 
 interface StroopTestProps {
   onComplete: (result: StroopResult) => void;
+  ageGroup: AgeGroup;
 }
 
-export const StroopTest = ({ onComplete }: StroopTestProps) => {
+// Shapes for child mode (SVG-based colored shapes)
+const childShapes = ['●', '■', '▲']; // circle, square, triangle
+
+export const StroopTest = ({ onComplete, ageGroup }: StroopTestProps) => {
   const { t, language } = useLanguage();
+  const config = getStroopConfig(ageGroup);
   const [gameState, setGameState] = useState<'intro' | 'playing' | 'complete'>('intro');
   const [currentWord, setCurrentWord] = useState('');
   const [currentColor, setCurrentColor] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [trial, setTrial] = useState(0);
   const [isCongruent, setIsCongruent] = useState(true);
+  const [currentShape, setCurrentShape] = useState('');
   const [results, setResults] = useState({
     correctResponses: 0,
     incorrectResponses: 0,
@@ -35,8 +42,8 @@ export const StroopTest = ({ onComplete }: StroopTestProps) => {
     reactionTimes: [] as number[]
   });
 
-  const totalTrials = 24;
-  const colors = ['red', 'blue', 'green', 'yellow'];
+  const lang = language as 'en' | 'pt-BR';
+  const colors = config.colors;
   const colorNames: Record<string, Record<string, string>> = {
     red: { en: 'RED', 'pt-BR': 'VERMELHO' },
     blue: { en: 'BLUE', 'pt-BR': 'AZUL' },
@@ -59,15 +66,29 @@ export const StroopTest = ({ onComplete }: StroopTestProps) => {
   const trialStartTime = useRef<number>(0);
 
   const generateTrial = () => {
-    const wordIndex = Math.floor(Math.random() * colors.length);
     const colorIndex = Math.floor(Math.random() * colors.length);
-    const congruent = Math.random() < 0.5;
-    const word = colors[wordIndex];
-    const color = congruent ? word : colors[colorIndex];
-    setCurrentWord(word);
-    setCurrentColor(color);
-    setCorrectAnswer(color);
-    setIsCongruent(congruent);
+    const displayColor = colors[colorIndex];
+
+    if (!config.useWords) {
+      // Child mode: show a colored shape
+      const shape = childShapes[Math.floor(Math.random() * childShapes.length)];
+      setCurrentShape(shape);
+      setCurrentWord('');
+      setCurrentColor(displayColor);
+      setCorrectAnswer(displayColor);
+      setIsCongruent(true); // shapes are always "congruent" — just pick the color
+    } else {
+      // Standard Stroop: color word in mismatched ink
+      const wordIndex = Math.floor(Math.random() * colors.length);
+      const congruent = Math.random() < 0.5;
+      const word = colors[wordIndex];
+      const color = congruent ? word : displayColor;
+      setCurrentWord(word);
+      setCurrentColor(color);
+      setCorrectAnswer(color);
+      setIsCongruent(congruent);
+      setCurrentShape('');
+    }
     trialStartTime.current = Date.now();
   };
 
@@ -92,7 +113,7 @@ export const StroopTest = ({ onComplete }: StroopTestProps) => {
     }));
     const nextTrial = trial + 1;
     setTrial(nextTrial);
-    if (nextTrial >= totalTrials) {
+    if (nextTrial >= config.totalTrials) {
       setGameState('complete');
     } else {
       setTimeout(() => generateTrial(), 500);
@@ -108,7 +129,7 @@ export const StroopTest = ({ onComplete }: StroopTestProps) => {
         averageReactionTime: Math.round(avgRT),
         congruentAccuracy: results.congruentTotal > 0 ? results.congruentCorrect / results.congruentTotal : 0,
         incongruentAccuracy: results.incongruentTotal > 0 ? results.incongruentCorrect / results.incongruentTotal : 0,
-        totalTrials
+        totalTrials: config.totalTrials
       });
     }
   }, [gameState]);
@@ -118,27 +139,39 @@ export const StroopTest = ({ onComplete }: StroopTestProps) => {
       <Card className="shadow-[var(--shadow-soft)]">
         <CardHeader>
           <CardTitle>{t('stroop.title')}</CardTitle>
+          {ageGroup === 'child' && (
+            <p className="text-xs text-primary font-medium mt-1">
+              {lang === 'pt-BR' ? '👨‍👩‍👧 Modo simplificado — formas coloridas em vez de palavras' : '👨‍👩‍👧 Simplified mode — colored shapes instead of words'}
+            </p>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-muted-foreground">{t('stroop.description')}</p>
-          <div className="space-y-2 text-sm">
-            <p><strong>{t('stroop.instructions.title')}</strong></p>
-            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li>{t('stroop.instructions.1')}</li>
-              <li><strong>{t('stroop.instructions.2')}</strong></li>
-              <li>{t('stroop.instructions.3')}</li>
-            </ul>
-          </div>
-          <div className="p-4 bg-muted rounded-lg">
-            <p className="text-sm mb-2"><strong>{language === 'pt-BR' ? 'Exemplo:' : 'Example:'}</strong></p>
-            <p style={{ color: colorMap.blue, fontSize: '2rem', fontWeight: 'bold' }}>
-              {colorNames.red[language]}
-            </p>
-            <p className="text-xs text-muted-foreground mt-2">
-              {language === 'pt-BR'
-                ? 'A palavra diz "VERMELHO" mas está colorida de AZUL, então você clicaria "Azul"'
-                : 'The word says "RED" but it\'s colored BLUE, so you would click "Blue"'}
-            </p>
+          <p className="text-muted-foreground">{config.instructions[lang]}</p>
+          {!config.useWords ? (
+            <div className="p-4 bg-muted rounded-lg text-center">
+              <p className="text-sm mb-2"><strong>{lang === 'pt-BR' ? 'Exemplo:' : 'Example:'}</strong></p>
+              <p style={{ color: colorMap.blue, fontSize: '4rem' }}>●</p>
+              <p className="text-xs text-muted-foreground mt-2">
+                {lang === 'pt-BR' ? 'Este círculo é AZUL, então clique "Azul"' : 'This circle is BLUE, so click "Blue"'}
+              </p>
+            </div>
+          ) : (
+            <div className="p-4 bg-muted rounded-lg">
+              <p className="text-sm mb-2"><strong>{lang === 'pt-BR' ? 'Exemplo:' : 'Example:'}</strong></p>
+              <p style={{ color: colorMap.blue, fontSize: '2rem', fontWeight: 'bold' }}>
+                {colorNames.red[lang]}
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                {lang === 'pt-BR'
+                  ? 'A palavra diz "VERMELHO" mas está colorida de AZUL, então você clicaria "Azul"'
+                  : 'The word says "RED" but it\'s colored BLUE, so you would click "Blue"'}
+              </p>
+            </div>
+          )}
+          <div className="p-3 bg-muted rounded-lg text-xs text-muted-foreground">
+            <strong>{lang === 'pt-BR' ? 'Detalhes:' : 'Details:'}</strong>{' '}
+            {config.totalTrials} {lang === 'pt-BR' ? 'tentativas' : 'trials'} •{' '}
+            {colors.length} {lang === 'pt-BR' ? 'cores' : 'colors'}
           </div>
           <Button onClick={startGame} className="w-full">{t('stroop.start')}</Button>
         </CardContent>
@@ -151,17 +184,17 @@ export const StroopTest = ({ onComplete }: StroopTestProps) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-foreground">{t('stroop.trial')} {trial + 1} / {totalTrials}</span>
-        <Progress value={(trial / totalTrials) * 100} className="w-1/2 h-2" />
+        <span className="text-sm text-muted-foreground">{t('stroop.trial')} {trial + 1} / {config.totalTrials}</span>
+        <Progress value={(trial / config.totalTrials) * 100} className="w-1/2 h-2" />
       </div>
       <Card className="shadow-[var(--shadow-soft)]">
         <CardContent className="p-12">
           <div className="flex flex-col items-center justify-center min-h-[300px]">
             <p className="text-sm text-muted-foreground mb-8">{t('stroop.selectColor')}</p>
             <div className="text-7xl font-bold mb-12" style={{ color: colorMap[currentColor] }}>
-              {colorNames[currentWord]?.[language] || currentWord.toUpperCase()}
+              {currentShape || (colorNames[currentWord]?.[lang] || currentWord.toUpperCase())}
             </div>
-            <div className="grid grid-cols-2 gap-3 w-full max-w-md">
+            <div className={`grid ${colors.length <= 3 ? 'grid-cols-3' : 'grid-cols-2'} gap-3 w-full max-w-md`}>
               {colors.map(color => (
                 <Button
                   key={color}
@@ -171,7 +204,7 @@ export const StroopTest = ({ onComplete }: StroopTestProps) => {
                   style={{ borderColor: colorMap[color], borderWidth: '2px' }}
                 >
                   <span style={{ color: colorMap[color], fontWeight: 'bold' }}>
-                    {colorLabels[color]?.[language] || color}
+                    {colorLabels[color]?.[lang] || color}
                   </span>
                 </Button>
               ))}
