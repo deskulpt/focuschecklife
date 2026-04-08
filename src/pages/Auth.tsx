@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users, MapPin, Building } from 'lucide-react';
+import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users } from 'lucide-react';
 
 const countries = [
   'United States', 'United Kingdom', 'Canada', 'Australia', 'India', 'Brazil',
@@ -124,6 +124,10 @@ const Auth = () => {
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Input type="text" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />
+                    <Input type="text" placeholder="State / Province" value={state} onChange={(e) => setState(e.target.value)} />
+                  </div>
                   <Select value={country} onValueChange={setCountry}>
                     <SelectTrigger>
                       <div className="flex items-center gap-2">
@@ -166,14 +170,26 @@ const Auth = () => {
                   </div>
                   <div className="flex items-start gap-2">
                     <Checkbox
-                      id="marketing"
-                      checked={marketingConsent}
-                      onCheckedChange={(checked) => setMarketingConsent(checked === true)}
+                      id="marketing-email"
+                      checked={marketingEmailConsent}
+                      onCheckedChange={(checked) => setMarketingEmailConsent(checked === true)}
                       className="mt-0.5"
                     />
-                    <label htmlFor="marketing" className="text-xs text-muted-foreground leading-tight cursor-pointer">
-                      {t('auth.marketingConsent')}
+                    <label htmlFor="marketing-email" className="text-xs text-muted-foreground leading-tight cursor-pointer">
+                      I agree to receive email updates and tips about ADHD management
                     </label>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Checkbox
+                      id="marketing-push"
+                      checked={marketingPushConsent}
+                      onCheckedChange={(checked) => setMarketingPushConsent(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <label htmlFor="marketing-push" className="text-xs text-muted-foreground leading-tight cursor-pointer">
+                      I agree to receive push notifications for reminders and updates
+                    </label>
+                  </div>
                   </div>
                 </div>
               )}
