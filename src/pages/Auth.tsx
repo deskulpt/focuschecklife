@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users } from 'lucide-react';
+import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users, MapPin, Building } from 'lucide-react';
 
 const countries = [
   'United States', 'United Kingdom', 'Canada', 'Australia', 'India', 'Brazil',
@@ -24,10 +24,13 @@ const Auth = () => {
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [marketingEmailConsent, setMarketingEmailConsent] = useState(false);
+  const [marketingPushConsent, setMarketingPushConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -50,7 +53,12 @@ const Auth = () => {
           email,
           password,
           options: {
-            data: { full_name: fullName, phone, country, age: parseInt(age) || null, gender, marketing_consent: marketingConsent },
+            data: {
+              full_name: fullName, phone, country, city, state,
+              age: parseInt(age) || null, gender,
+              marketing_email_opt_in: marketingEmailConsent,
+              marketing_push_opt_in: marketingPushConsent,
+            },
             emailRedirectTo: window.location.origin,
           },
         });
