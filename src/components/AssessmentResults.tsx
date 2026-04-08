@@ -1,13 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { RefreshCw, AlertTriangle, Lock } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { RefreshCw, AlertTriangle, Lock, Share2 } from 'lucide-react';
 import type { AssessmentData } from './AssessmentApp';
 import { AssessmentResultsDashboard } from './AssessmentResultsDashboard';
 import { AssessmentHistory } from './AssessmentHistory';
 import { PromoCodeInput } from './PromoCodeInput';
 import { WaitlistSignup } from './WaitlistSignup';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface AssessmentResultsProps {
   data: AssessmentData;
@@ -22,6 +27,26 @@ interface AssessmentResultsProps {
 
 export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUpgrade, onPromoRedeemed, hasReachedLimit = false, assessmentCount = 0, maxFreeAttempts = 2 }: AssessmentResultsProps) => {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const [shareConsent, setShareConsent] = useState(false);
+  const [consentLoading, setConsentLoading] = useState(false);
+
+  const handleShareConsentChange = async (checked: boolean) => {
+    if (!user) return;
+    setConsentLoading(true);
+    setShareConsent(checked);
+    const { error } = await supabase
+      .from('profiles')
+      .update({ share_results_consent: checked })
+      .eq('user_id', user.id);
+    if (error) {
+      toast.error('Failed to update consent');
+      setShareConsent(!checked);
+    } else {
+      toast.success(checked ? 'Results sharing enabled' : 'Results sharing disabled');
+    }
+    setConsentLoading(false);
+  };
 
   useEffect(() => {
     const style = document.createElement('style');
