@@ -138,6 +138,7 @@ export type Database = {
         Row: {
           age: number | null
           assessment_count: number
+          city: string | null
           country: string | null
           created_at: string
           full_name: string | null
@@ -145,14 +146,22 @@ export type Database = {
           has_paid_full_test: boolean
           has_paid_pdf: boolean
           id: string
+          marketing_email_opt_in: boolean
+          marketing_email_opt_in_at: string | null
+          marketing_push_opt_in: boolean
+          marketing_push_opt_in_at: string | null
           phone: string | null
           plan: string
+          share_results_consent: boolean
+          state: string | null
+          stripe_order_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           age?: number | null
           assessment_count?: number
+          city?: string | null
           country?: string | null
           created_at?: string
           full_name?: string | null
@@ -160,14 +169,22 @@ export type Database = {
           has_paid_full_test?: boolean
           has_paid_pdf?: boolean
           id?: string
+          marketing_email_opt_in?: boolean
+          marketing_email_opt_in_at?: string | null
+          marketing_push_opt_in?: boolean
+          marketing_push_opt_in_at?: string | null
           phone?: string | null
           plan?: string
+          share_results_consent?: boolean
+          state?: string | null
+          stripe_order_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           age?: number | null
           assessment_count?: number
+          city?: string | null
           country?: string | null
           created_at?: string
           full_name?: string | null
@@ -175,8 +192,15 @@ export type Database = {
           has_paid_full_test?: boolean
           has_paid_pdf?: boolean
           id?: string
+          marketing_email_opt_in?: boolean
+          marketing_email_opt_in_at?: string | null
+          marketing_push_opt_in?: boolean
+          marketing_push_opt_in_at?: string | null
           phone?: string | null
           plan?: string
+          share_results_consent?: boolean
+          state?: string | null
+          stripe_order_id?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -308,6 +332,7 @@ export type Database = {
           age_group: string
           ai_interpretation: string | null
           completed_at: string
+          completion_percentage: number | null
           created_at: string
           game_results: Json | null
           id: string
@@ -315,12 +340,15 @@ export type Database = {
           overall_score: number | null
           risk_level: string | null
           survey_responses: Json | null
+          test_type: string
+          time_spent_seconds: number | null
           user_id: string
         }
         Insert: {
           age_group: string
           ai_interpretation?: string | null
           completed_at?: string
+          completion_percentage?: number | null
           created_at?: string
           game_results?: Json | null
           id?: string
@@ -328,12 +356,15 @@ export type Database = {
           overall_score?: number | null
           risk_level?: string | null
           survey_responses?: Json | null
+          test_type?: string
+          time_spent_seconds?: number | null
           user_id: string
         }
         Update: {
           age_group?: string
           ai_interpretation?: string | null
           completed_at?: string
+          completion_percentage?: number | null
           created_at?: string
           game_results?: Json | null
           id?: string
@@ -341,6 +372,8 @@ export type Database = {
           overall_score?: number | null
           risk_level?: string | null
           survey_responses?: Json | null
+          test_type?: string
+          time_spent_seconds?: number | null
           user_id?: string
         }
         Relationships: []
