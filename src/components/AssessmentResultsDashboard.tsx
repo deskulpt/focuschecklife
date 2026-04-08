@@ -462,7 +462,9 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
               cptInsight={cptInsight}
               memoryInsight={memoryInsight}
               stroopInsight={stroopInsight}
-              aiInterpretation={null}
+              aiInterpretation={language === 'pt-BR'
+                ? 'Com base nos seus resultados, sua pontuação geral sugere uma indicação moderada de sintomas relacionados ao TDAH. Sua avaliação revela padrões interessantes nas quatro dimensões avaliadas. A desatenção mostrou-se presente em nível moderado, o que pode se manifestar como dificuldade em manter o foco em tarefas prolongadas. Os testes cognitivos indicam que sua memória de trabalho está dentro da faixa esperada, mas há oportunidades de melhoria na atenção sustentada. Recomendamos discutir esses resultados com um profissional de saúde mental para uma avaliação mais aprofundada.'
+                : 'Based on your results, your overall score suggests a moderate indication of ADHD-related symptoms. Your assessment reveals interesting patterns across the four evaluated dimensions. Inattention was present at a moderate level, which may manifest as difficulty maintaining focus on prolonged tasks. Cognitive tests indicate your working memory is within expected range, but there are opportunities for improvement in sustained attention. We recommend discussing these results with a mental health professional for a more thorough evaluation.'}
               aiLoading={false}
               aiError={null}
               onRetryAi={() => {}}
