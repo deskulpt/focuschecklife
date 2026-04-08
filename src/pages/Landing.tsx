@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Brain, Target, Shield, CheckCircle, ArrowRight, Star, Users, FileText, Zap, BookOpen, Menu, X } from 'lucide-react';
+import { WaitlistSignup } from '@/components/WaitlistSignup';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEffect, useState } from 'react';
@@ -239,11 +240,14 @@ const Landing = () => {
                 </div>
               ))}
             </div>
-            <button onClick={navAction} className="mt-6 w-full py-3 rounded-xl border border-border text-foreground font-medium hover:bg-muted transition-colors text-sm">
-              {t('pricing.monitor.cta')}
-            </button>
+            <WaitlistSignup source="landing-pricing" variant="compact" className="mt-6" />
           </div>
         </div>
+      </section>
+
+      {/* Waitlist CTA */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+        <WaitlistSignup source="landing" />
       </section>
 
       {/* Educational Content */}
