@@ -22,8 +22,10 @@ export default defineConfig({
   transformers: [
     transformerDirectives(),
   ],
-  theme: {
-    colors: {
+  extendTheme: (theme) => {
+    // Extend rather than override so spacing/etc remain from presetWind3
+    theme.colors = {
+      ...theme.colors,
       border: 'hsl(var(--border))',
       input: 'hsl(var(--input))',
       ring: 'hsl(var(--ring))',
@@ -81,14 +83,17 @@ export default defineConfig({
         border: 'hsl(var(--sidebar-border))',
         ring: 'hsl(var(--sidebar-ring))',
       },
-    },
-    borderRadius: {
+    }
+    theme.borderRadius = {
+      ...theme.borderRadius,
       lg: 'var(--radius)',
       md: 'calc(var(--radius) - 2px)',
       sm: 'calc(var(--radius) - 4px)',
-    },
-    animation: {
+    }
+    theme.animation = {
+      ...theme.animation,
       keyframes: {
+        ...theme.animation?.keyframes,
         'accordion-down': '{from{height:0}to{height:var(--radix-accordion-content-height)}}',
         'accordion-up': '{from{height:var(--radix-accordion-content-height)}to{height:0}}',
         'fade-in-up': '{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}',
@@ -97,6 +102,7 @@ export default defineConfig({
         'pulse-soft': '{0%,100%{opacity:1}50%{opacity:0.7}}',
       },
       durations: {
+        ...theme.animation?.durations,
         'accordion-down': '0.2s',
         'accordion-up': '0.2s',
         'fade-in-up': '0.5s',
@@ -105,6 +111,7 @@ export default defineConfig({
         'pulse-soft': '2s',
       },
       timingFns: {
+        ...theme.animation?.timingFns,
         'accordion-down': 'ease-out',
         'accordion-up': 'ease-out',
         'fade-in-up': 'ease-out',
@@ -113,9 +120,10 @@ export default defineConfig({
         'pulse-soft': 'ease-in-out',
       },
       counts: {
+        ...theme.animation?.counts,
         'pulse-soft': 'infinite',
       },
-    },
+    }
   },
   shortcuts: {
     'glass': 'bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl border border-white/20 dark:border-white/10',
@@ -125,17 +133,6 @@ export default defineConfig({
     'text-gradient': 'bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--medical-teal))] bg-clip-text text-transparent',
     'focus-ring': 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
   },
-  rules: [
-    // Custom container
-    [/^container$/, () => ({
-      'width': '100%',
-      'margin-left': 'auto',
-      'margin-right': 'auto',
-      'padding-left': '2rem',
-      'padding-right': '2rem',
-      'max-width': '1400px',
-    })],
-  ],
   safelist: [
     'animate-accordion-down',
     'animate-accordion-up',
