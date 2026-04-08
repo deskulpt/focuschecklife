@@ -190,7 +190,6 @@ const Auth = () => {
                       I agree to receive push notifications for reminders and updates
                     </label>
                   </div>
-                  </div>
                 </div>
               )}
 
