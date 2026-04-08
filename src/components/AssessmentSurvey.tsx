@@ -81,6 +81,12 @@ export const AssessmentSurvey = ({ ageGroup, onComplete, onBack }: AssessmentSur
             </div>
           </div>
           <Progress value={progress} className="h-2" />
+          {ageGroup === 'child' && (
+            <div className="flex items-center gap-2 px-3 py-2 bg-primary/10 rounded-lg text-xs text-primary font-medium">
+              <span>👨‍👩‍👧</span>
+              <span>{language === 'pt-BR' ? 'Modo de pais — responda sobre o comportamento do seu filho(a)' : 'Parent mode — answer about your child\'s behavior'}</span>
+            </div>
+          )}
           <p className="text-muted-foreground text-sm">{getInstructions()}</p>
         </div>
       </div>

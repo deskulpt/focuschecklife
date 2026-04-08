@@ -211,8 +211,9 @@ const AssessmentApp = () => {
               />
             )}
 
-            {currentStep === 'games' && (
+            {currentStep === 'games' && selectedAge && (
               <AssessmentGames
+                ageGroup={selectedAge}
                 onComplete={handleGamesComplete}
                 onBack={() => setCurrentStep('survey')}
               />

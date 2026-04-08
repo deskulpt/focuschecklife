@@ -17,11 +17,12 @@ export interface GameResults {
 interface AssessmentGamesProps {
   onComplete: (results: GameResults) => void;
   onBack: () => void;
+  ageGroup: 'child' | 'teen' | 'adult';
 }
 
 type GameType = 'menu' | 'cpt' | 'memory' | 'stroop';
 
-export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) => {
+export const AssessmentGames = ({ onComplete, onBack, ageGroup }: AssessmentGamesProps) => {
   const { t } = useLanguage();
   const [currentGame, setCurrentGame] = useState<GameType>('menu');
   const [completedGames, setCompletedGames] = useState<Set<string>>(new Set());
@@ -139,9 +140,9 @@ export const AssessmentGames = ({ onComplete, onBack }: AssessmentGamesProps) =>
       <Button variant="ghost" onClick={() => setCurrentGame('menu')} className="flex items-center gap-2 mb-6">
         <ArrowLeft className="w-4 h-4" /> {t('games.backToMenu')}
       </Button>
-      {currentGame === 'cpt' && <ContinuousPerformanceTest onComplete={(result) => handleGameComplete('cpt', 'cpt', result)} />}
-      {currentGame === 'memory' && <WorkingMemoryTest onComplete={(result) => handleGameComplete('memory', 'workingMemory', result)} />}
-      {currentGame === 'stroop' && <StroopTest onComplete={(result) => handleGameComplete('stroop', 'stroop', result)} />}
+      {currentGame === 'cpt' && <ContinuousPerformanceTest ageGroup={ageGroup} onComplete={(result) => handleGameComplete('cpt', 'cpt', result)} />}
+      {currentGame === 'memory' && <WorkingMemoryTest ageGroup={ageGroup} onComplete={(result) => handleGameComplete('memory', 'workingMemory', result)} />}
+      {currentGame === 'stroop' && <StroopTest ageGroup={ageGroup} onComplete={(result) => handleGameComplete('stroop', 'stroop', result)} />}
     </div>
   );
 };

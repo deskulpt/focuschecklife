@@ -59,7 +59,7 @@ export const PromoCodeInput = ({ onRedeemed }: PromoCodeInputProps) => {
         return;
       }
 
-      const updates: Record<string, boolean> = {};
+      const updates: { has_paid_full_test?: boolean; has_paid_pdf?: boolean } = {};
       if (promoCode.grants_full_test) updates.has_paid_full_test = true;
       if (promoCode.grants_pdf) updates.has_paid_pdf = true;
 
