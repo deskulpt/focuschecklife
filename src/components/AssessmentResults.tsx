@@ -6,6 +6,7 @@ import type { AssessmentData } from './AssessmentApp';
 import { AssessmentResultsDashboard } from './AssessmentResultsDashboard';
 import { AssessmentHistory } from './AssessmentHistory';
 import { PromoCodeInput } from './PromoCodeInput';
+import { WaitlistSignup } from './WaitlistSignup';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AssessmentResultsProps {
@@ -126,6 +127,9 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
           <RefreshCw className="w-4 h-4" /> {hasReachedLimit && isFreePreview ? t('reassessment.upgradeToRetake') : t('results.retake')}
         </Button>
       </div>
+
+      {/* Waitlist for self-monitoring app */}
+      <WaitlistSignup source="results" variant="inline" className="p-5 rounded-xl border border-border/30 bg-muted/30" />
 
       <div className="mt-8 p-6 bg-destructive/5 border border-destructive/20 rounded-lg">
         <div className="flex items-start gap-3">
