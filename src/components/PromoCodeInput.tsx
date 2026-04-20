@@ -25,46 +25,28 @@ export const PromoCodeInput = ({ onRedeemed }: PromoCodeInputProps) => {
     setLoading(true);
 
     try {
-      const { data: promoCode, error: lookupError } = await supabase
-        .from('promo_codes').select('*').eq('code', code.trim().toUpperCase()).eq('is_active', true).single();
+      const { data, error } = await supabase.rpc('redeem_promo_code', { _code: code.trim() });
 
-      if (lookupError || !promoCode) {
-        toast({ title: t('promo.invalidCode'), description: t('promo.invalidCodeDesc'), variant: 'destructive' });
+      if (error || !data) {
+        toast({ title: t('promo.error'), description: t('promo.errorDesc'), variant: 'destructive' });
         setLoading(false);
         return;
       }
 
-      if (promoCode.max_uses && promoCode.times_used >= promoCode.max_uses) {
-        toast({ title: t('promo.codeExpired'), description: t('promo.maxUsesDesc'), variant: 'destructive' });
+      const result = data as { success: boolean; error?: string };
+
+      if (!result.success) {
+        const errMap: Record<string, { title: string; desc: string }> = {
+          unauthorized: { title: t('promo.error'), desc: t('promo.errorDesc') },
+          invalid_code: { title: t('promo.invalidCode'), desc: t('promo.invalidCodeDesc') },
+          expired: { title: t('promo.codeExpired'), desc: t('promo.codeExpiredDesc') },
+          max_uses_reached: { title: t('promo.codeExpired'), desc: t('promo.maxUsesDesc') },
+          already_redeemed: { title: t('promo.alreadyRedeemed'), desc: t('promo.alreadyRedeemedDesc') },
+        };
+        const m = errMap[result.error || ''] || { title: t('promo.error'), desc: t('promo.errorDesc') };
+        toast({ title: m.title, description: m.desc, variant: 'destructive' });
         setLoading(false);
         return;
-      }
-
-      if (promoCode.expires_at && new Date(promoCode.expires_at) < new Date()) {
-        toast({ title: t('promo.codeExpired'), description: t('promo.codeExpiredDesc'), variant: 'destructive' });
-        setLoading(false);
-        return;
-      }
-
-      const { error: redeemError } = await supabase
-        .from('promo_code_redemptions').insert({ promo_code_id: promoCode.id, user_id: user.id });
-
-      if (redeemError) {
-        if (redeemError.code === '23505') {
-          toast({ title: t('promo.alreadyRedeemed'), description: t('promo.alreadyRedeemedDesc'), variant: 'destructive' });
-        } else {
-          toast({ title: t('promo.error'), description: t('promo.errorDesc'), variant: 'destructive' });
-        }
-        setLoading(false);
-        return;
-      }
-
-      const updates: { has_paid_full_test?: boolean; has_paid_pdf?: boolean } = {};
-      if (promoCode.grants_full_test) updates.has_paid_full_test = true;
-      if (promoCode.grants_pdf) updates.has_paid_pdf = true;
-
-      if (Object.keys(updates).length > 0) {
-        await supabase.from('profiles').update(updates).eq('user_id', user.id);
       }
 
       setRedeemed(true);
