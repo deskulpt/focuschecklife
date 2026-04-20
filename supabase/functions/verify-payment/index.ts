@@ -57,7 +57,11 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    console.error("verify-payment error:", error);
+    const msg = error instanceof Error && (error.message === "User not authenticated" || error.message === "Missing session_id")
+      ? error.message
+      : "An internal error occurred. Please try again.";
+    return new Response(JSON.stringify({ error: msg }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
