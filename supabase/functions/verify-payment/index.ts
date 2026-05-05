@@ -39,6 +39,11 @@ serve(async (req) => {
 
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
+    // Verify the session belongs to the authenticated user (prevent cross-user payment grant)
+    if (session.metadata?.user_id !== user.id) {
+      throw new Error("Session does not belong to this user");
+    }
+
     if (session.payment_status === "paid") {
       // Update profile to grant full access
       await supabaseAdmin
