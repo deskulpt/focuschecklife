@@ -39,6 +39,11 @@ serve(async (req) => {
 
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
+    // Verify the session belongs to the authenticated user (prevent cross-user payment grant)
+    if (session.metadata?.user_id !== user.id) {
+      throw new Error("Session does not belong to this user");
+    }
+
     if (session.payment_status === "paid") {
       // Update profile to grant full access
       await supabaseAdmin
@@ -58,7 +63,7 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("verify-payment error:", error);
-    const msg = error instanceof Error && (error.message === "User not authenticated" || error.message === "Missing session_id")
+    const msg = error instanceof Error && (error.message === "User not authenticated" || error.message === "Missing session_id" || error.message === "Session does not belong to this user")
       ? error.message
       : "An internal error occurred. Please try again.";
     return new Response(JSON.stringify({ error: msg }), {
