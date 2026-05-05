@@ -63,7 +63,7 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("verify-payment error:", error);
-    const msg = error instanceof Error && (error.message === "User not authenticated" || error.message === "Missing session_id")
+    const msg = error instanceof Error && (error.message === "User not authenticated" || error.message === "Missing session_id" || error.message === "Session does not belong to this user")
       ? error.message
       : "An internal error occurred. Please try again.";
     return new Response(JSON.stringify({ error: msg }), {
