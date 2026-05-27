@@ -5,8 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { supabase } from '@/integrations/supabase/client';
-import { Save, CalendarCheck, DollarSign, Sparkles } from 'lucide-react';
+import { Save, CalendarCheck, DollarSign, Sparkles, Globe, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useState as useStateAlias } from 'react';
+void useStateAlias;
 
 export const AdminSettings = () => {
   const [settings, setSettings] = useState<Record<string, string>>({});
