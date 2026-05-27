@@ -873,14 +873,47 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     supabase.from('translations').select('language_code, key, value').then(({ data }) => {
       if (data && data.length > 0) {
         const map: Record<string, Record<string, string>> = {};
-        (data as any[]).forEach(row => {
+        (data as Array<{ language_code: string; key: string; value: string }>).forEach(row => {
           if (!map[row.language_code]) map[row.language_code] = {};
           map[row.language_code][row.key] = row.value;
         });
         setDbTranslations(map);
       }
     });
+
+    // Apply default/forced language from site_settings
+    supabase
+      .from('site_settings')
+      .select('key, value')
+      .in('key', ['default_language', 'forced_language', 'available_languages'])
+      .then(({ data }) => {
+        if (!data) return;
+        const map: Record<string, string> = {};
+        (data as Array<{ key: string; value: string }>).forEach((r) => { map[r.key] = r.value; });
+        const forced = (map['forced_language'] || '').trim();
+        const stored = typeof window !== 'undefined' ? localStorage.getItem('fc.language') : null;
+        if (forced) {
+          setLanguage(forced);
+        } else if (stored) {
+          setLanguage(stored);
+        } else if (map['default_language']) {
+          setLanguage(map['default_language']);
+        }
+        // Filter available languages by site_settings whitelist (if provided)
+        const allowed = (map['available_languages'] || '').split(',').map((s) => s.trim()).filter(Boolean);
+        if (allowed.length > 0) {
+          setAvailableLanguages((prev) => {
+            const filtered = prev.filter((p) => allowed.includes(p.code));
+            return filtered.length > 0 ? filtered : prev;
+          });
+        }
+      });
   }, []);
+
+  // Persist user language choice
+  useEffect(() => {
+    try { localStorage.setItem('fc.language', language); } catch (_) { /* ignore */ }
+  }, [language]);
 
   const t = (key: string): string => {
     return dbTranslations[language]?.[key]
