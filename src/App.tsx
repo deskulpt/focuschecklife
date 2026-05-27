@@ -17,6 +17,7 @@ import Admin from "./pages/Admin";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
