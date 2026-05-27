@@ -38,6 +38,17 @@ export const AdminSettings = () => {
     toast({ title: 'Settings saved! Changes will take effect on next page load.' });
   };
 
+  const refreshRates = async () => {
+    setRefreshingRates(true);
+    const { error } = await supabase.functions.invoke('refresh-exchange-rates');
+    setRefreshingRates(false);
+    if (error) {
+      toast({ title: 'Refresh failed', description: error.message, variant: 'destructive' });
+    } else {
+      toast({ title: 'Exchange rates refreshed' });
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Pricing & Marketing */}
