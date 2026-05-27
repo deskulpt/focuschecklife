@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/hooks/useAdmin';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2, Globe, Users } from 'lucide-react';
+import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2, Globe, Users, Package } from 'lucide-react';
 import { AdminAnalytics } from '@/components/admin/AdminAnalytics';
 import { AdminFaqs } from '@/components/admin/AdminFaqs';
 import { AdminArticles } from '@/components/admin/AdminArticles';
@@ -11,6 +11,7 @@ import { AdminCoupons } from '@/components/admin/AdminCoupons';
 import { AdminSettings } from '@/components/admin/AdminSettings';
 import { AdminTranslations } from '@/components/admin/AdminTranslations';
 import { AdminCRM } from '@/components/admin/AdminCRM';
+import { AdminPackages } from '@/components/admin/AdminPackages';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -51,12 +52,15 @@ const Admin = () => {
 
       <div className="container mx-auto px-4 py-6">
         <Tabs defaultValue="crm" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-7 max-w-4xl">
+          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 max-w-5xl">
             <TabsTrigger value="crm" className="gap-1 text-xs sm:text-sm">
               <Users className="w-3.5 h-3.5 hidden sm:inline" /> CRM
             </TabsTrigger>
             <TabsTrigger value="analytics" className="gap-1 text-xs sm:text-sm">
               <BarChart3 className="w-3.5 h-3.5 hidden sm:inline" /> Analytics
+            </TabsTrigger>
+            <TabsTrigger value="packages" className="gap-1 text-xs sm:text-sm">
+              <Package className="w-3.5 h-3.5 hidden sm:inline" /> Packages
             </TabsTrigger>
             <TabsTrigger value="faqs" className="gap-1 text-xs sm:text-sm">
               <HelpCircle className="w-3.5 h-3.5 hidden sm:inline" /> FAQs
@@ -77,6 +81,7 @@ const Admin = () => {
 
           <TabsContent value="crm"><AdminCRM /></TabsContent>
           <TabsContent value="analytics"><AdminAnalytics /></TabsContent>
+          <TabsContent value="packages"><AdminPackages /></TabsContent>
           <TabsContent value="faqs"><AdminFaqs /></TabsContent>
           <TabsContent value="articles"><AdminArticles /></TabsContent>
           <TabsContent value="coupons"><AdminCoupons /></TabsContent>

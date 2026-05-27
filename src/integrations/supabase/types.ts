@@ -164,6 +164,24 @@ export type Database = {
         }
         Relationships: []
       }
+      exchange_rates: {
+        Row: {
+          currency_code: string
+          rate_from_cad: number
+          updated_at: string
+        }
+        Insert: {
+          currency_code: string
+          rate_from_cad: number
+          updated_at?: string
+        }
+        Update: {
+          currency_code?: string
+          rate_from_cad?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       languages: {
         Row: {
           code: string
@@ -188,6 +206,57 @@ export type Database = {
           id?: string
           is_enabled?: boolean
           name?: string
+        }
+        Relationships: []
+      }
+      packages: {
+        Row: {
+          created_at: string
+          description: string | null
+          features: Json
+          grants_full_test: boolean
+          grants_pdf: boolean
+          id: string
+          is_active: boolean
+          is_free: boolean
+          name: string
+          price_cad_cents: number
+          sale_price_cad_cents: number | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          features?: Json
+          grants_full_test?: boolean
+          grants_pdf?: boolean
+          id?: string
+          is_active?: boolean
+          is_free?: boolean
+          name: string
+          price_cad_cents?: number
+          sale_price_cad_cents?: number | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          features?: Json
+          grants_full_test?: boolean
+          grants_pdf?: boolean
+          id?: string
+          is_active?: boolean
+          is_free?: boolean
+          name?: string
+          price_cad_cents?: number
+          sale_price_cad_cents?: number | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }

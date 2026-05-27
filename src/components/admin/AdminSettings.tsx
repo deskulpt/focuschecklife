@@ -5,12 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { supabase } from '@/integrations/supabase/client';
-import { Save, CalendarCheck, DollarSign, Sparkles } from 'lucide-react';
+import { Save, CalendarCheck, DollarSign, Sparkles, Globe, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export const AdminSettings = () => {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [refreshingRates, setRefreshingRates] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => { loadSettings(); }, []);
@@ -37,9 +38,80 @@ export const AdminSettings = () => {
     toast({ title: 'Settings saved! Changes will take effect on next page load.' });
   };
 
+  const refreshRates = async () => {
+    setRefreshingRates(true);
+    const { error } = await supabase.functions.invoke('refresh-exchange-rates');
+    setRefreshingRates(false);
+    if (error) {
+      toast({ title: 'Refresh failed', description: error.message, variant: 'destructive' });
+    } else {
+      toast({ title: 'Exchange rates refreshed' });
+    }
+  };
+
   return (
     <div className="space-y-6">
-      {/* Pricing & Marketing */}
+      {/* Localization & currency */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Globe className="w-5 h-5" /> Localization & Currency
+          </CardTitle>
+          <CardDescription>
+            Manage default language, forced language, and live exchange rates. Base prices are set in CAD on the Packages tab; visitors see auto-converted prices in their local currency.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block">Default language</label>
+              <Input
+                placeholder="en"
+                value={settings['default_language'] || ''}
+                onChange={(e) => updateSetting('default_language', e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground mt-1">ISO code, e.g. <code>en</code></p>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1 block">Forced language (optional)</label>
+              <Input
+                placeholder="(blank = user choice)"
+                value={settings['forced_language'] || ''}
+                onChange={(e) => updateSetting('forced_language', e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground mt-1">Forces all visitors to one language</p>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1 block">Available languages</label>
+              <Input
+                placeholder="en,pt-BR,es"
+                value={settings['available_languages'] || ''}
+                onChange={(e) => updateSetting('available_languages', e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground mt-1">CSV of ISO codes</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t">
+            <div>
+              <label className="text-sm font-medium mb-1 block">Base currency</label>
+              <Input value={settings['base_currency'] || 'CAD'} disabled />
+              <p className="text-xs text-muted-foreground mt-1">All package prices are entered in this currency</p>
+            </div>
+            <div className="flex flex-col justify-end">
+              <Button variant="outline" onClick={refreshRates} disabled={refreshingRates}>
+                <RefreshCw className={`w-4 h-4 mr-2 ${refreshingRates ? 'animate-spin' : ''}`} />
+                Refresh exchange rates now
+              </Button>
+              <p className="text-xs text-muted-foreground mt-1">Rates auto-refresh every 24 hours.</p>
+            </div>
+          </div>
+
+          <Button onClick={saveAll} disabled={loading}><Save className="w-4 h-4 mr-2" /> Save localization</Button>
+        </CardContent>
+      </Card>
+
+      {/* Pricing & Marketing (legacy display overrides) */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">

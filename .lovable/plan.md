@@ -1,75 +1,82 @@
+## Goal
 
-
-## Migrate from Tailwind CSS to UnoCSS
-
-### Overview
-Replace Tailwind CSS with UnoCSS using `presetWind` for Tailwind-compatible utility classes. This means all existing class names continue to work — no rewrite of every component. UnoCSS adds faster builds (~1ms vs 600ms), smaller bundles, and unlocks features like `presetIcons` (inline icons from any icon set), `presetAttributify` (write utilities as HTML attributes), and custom rules/shortcuts.
-
-### Why This Works Without Rewriting Everything
-UnoCSS's `presetWind` is a drop-in Tailwind-compatible preset. All existing `className="flex items-center gap-2 bg-primary text-sm"` syntax works unchanged. The shadcn/ui components, CSS variables, and Radix primitives all continue working.
+Visitors anywhere see prices in their own currency, auto-converted from your CAD base prices via live forex, rounded to a clean `.99`. You manage all packages and languages from the admin CMS.
 
 ---
 
-### Technical Steps
+## 1. Database
 
-**1. Install UnoCSS packages**
-- `@unocss/vite`, `unocss`, `@unocss/preset-wind`, `@unocss/preset-icons`, `@unocss/preset-attributify`, `@unocss/transformer-directives`
-- Remove: `tailwindcss`, `tailwindcss-animate`, `postcss`, `autoprefixer`
+**New table `packages`** (replaces hardcoded $5 / free tiers)
+- name, slug, description, features (list)
+- `price_cad`, `sale_price_cad` (your input, in CAD cents)
+- `grants_full_test`, `grants_pdf`, `is_free`
+- `sort_order`, `is_active`
+- Seed 3 starter packages — Free Basic, Full Report, Monitoring Plan.
 
-**2. Create `uno.config.ts`**
-- Use `presetWind()` for Tailwind compatibility
-- Use `presetIcons()` for icon utilities (e.g. `i-lucide-brain` directly in classes)
-- Use `presetAttributify()` for optional attribute-based styling
-- Migrate theme extensions (custom colors, border-radius, animations) from `tailwind.config.ts`
-- Add custom shortcuts for common patterns (glass cards, gradient buttons)
-- Define animation keyframes (`accordion-down`, `accordion-up`, `fade-in-up`, `scale-in`)
+**New table `exchange_rates`** (24h cache, base = CAD)
+- `currency_code`, `rate_from_cad`, `updated_at`
+- Public read, service-role write.
 
-**3. Update `vite.config.ts`**
-- Add `UnocssPlugin()` import
-- Remove any PostCSS/Tailwind references
+**New keys in `site_settings`**
+- `default_language`, `forced_language` (blank = off), `available_languages` (CSV)
+- `base_currency` = `CAD`, `pricing_rounding` = `.99`
 
-**4. Update `src/index.css`**
-- Replace `@tailwind base/components/utilities` with `@unocss` directives (or `import 'virtual:uno.css'` in `main.tsx`)
-- Keep all CSS custom properties (design tokens) as-is — they're plain CSS
-- Convert `@apply` usages (if any) to UnoCSS `@apply` via transformer-directives
+---
 
-**5. Update `src/main.tsx`**
-- Add `import 'virtual:uno.css'` and `import '@unocss/reset/tailwind.css'`
+## 2. Edge functions
 
-**6. Remove Tailwind files**
-- Delete `tailwind.config.ts`, `postcss.config.js`
-- Update `components.json` to remove Tailwind references
+- **`detect-currency`** — reads visitor IP, maps country → ISO currency, returns `{ currency, country }`.
+- **`refresh-exchange-rates`** — fetches `exchangerate.host` (free, no key, base CAD), upserts ~30 common currencies. Auto-refresh when cache >24h stale; "Refresh now" button in admin.
 
-**7. Add UnoCSS-exclusive enhancements**
-- Custom shortcuts in config for reusable patterns:
-  - `glass: 'bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl border border-white/20'`
-  - `btn-gradient: 'bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--medical-teal))]'`
-- Icon preset lets you use `<div class="i-lucide-brain text-2xl" />` without importing icon components
-- Attributify mode allows: `<div flex items-center gap-2>` as an alternative syntax
+---
 
-**8. Add dark mode + high-contrast + accessibility**
-- Configure `dark:` variant via class-based dark mode in UnoCSS config
-- Add `.high-contrast` variant via custom variant
-- Create `ThemeContext.tsx` and `AccessibilityToolbar.tsx` (as previously planned)
+## 3. Frontend
 
-### Files Created
-- `uno.config.ts`
-- `src/contexts/ThemeContext.tsx`
-- `src/components/AccessibilityToolbar.tsx`
+- **`CurrencyContext`**: detects currency on mount, loads rates, exposes `formatPrice(cadCents)` → converts and rounds to `.99` (CAD 6.50 → USD 4.99, BRL 24.99). For zero-decimal currencies (JPY, HUF, ISK) rounds to nearest 99.
+- **`<Price packageId>`** component: replaces all hardcoded `$5 / R$25` strings.
+- Tiny note under price: "Shown in {USD} · billed in CAD".
+- Optional manual currency switcher in header.
 
-### Files Modified
-- `vite.config.ts` — add UnoCSS plugin
-- `src/main.tsx` — import virtual:uno.css
-- `src/index.css` — remove @tailwind directives, keep CSS variables
-- `package.json` — swap dependencies
+---
 
-### Files Deleted
-- `tailwind.config.ts`
-- `postcss.config.js`
+## 4. Admin CMS
 
-### What Stays the Same
-- All component `className` strings (presetWind is compatible)
-- All CSS custom properties / design tokens
-- All shadcn/ui components and Radix primitives
-- All existing functionality
+**New "Packages" tab** in `/admin`:
+- List with reorder + active toggle.
+- Form per package: name, description, features, **price CAD**, **sale price CAD**, grants checkboxes, free toggle.
+- "Add package" — unlimited.
 
+**Localization section in Admin Settings**:
+- Default language, Forced language (blank = user choice), Available languages multi-select.
+- "Refresh exchange rates" button + last-refreshed timestamp.
+
+---
+
+## 5. Stripe
+
+`create-payment` reads `packageId`, builds Checkout session in **CAD** using `price_cad` / `sale_price_cad`. Stripe Adaptive Pricing (optional toggle in your Stripe dashboard) shows the buyer their local equivalent at checkout — settlement stays CAD.
+
+---
+
+## 6. Rounding logic
+
+```
+converted = cadCents × rate / 100
+floor(converted) + 0.99      // 6.42 → 6.99, 7.10 → 7.99
+JPY/HUF/ISK: round to nearest 99 (¥499, ¥999)
+```
+
+---
+
+## Files
+
+**New**: `packages` + `exchange_rates` migration, `supabase/functions/detect-currency`, `supabase/functions/refresh-exchange-rates`, `src/contexts/CurrencyContext.tsx`, `src/components/Price.tsx`, `src/components/admin/AdminPackages.tsx`.
+**Edited**: `create-payment`, `Landing.tsx`, `AssessmentResultsDashboard.tsx`, `ConsentDialog.tsx`, `PromoCodeInput.tsx`, `AdminSettings.tsx`, `Admin.tsx`, `LanguageContext.tsx`.
+
+---
+
+## Before I build — quick confirmations
+
+1. **Your CAD prices** for the 3 starter packages (Free / Full Report / Monitoring Plan)? I'll seed exact values — otherwise I'll seed placeholders (Free 0, Full Report 6.99 CAD, Monitoring 14.99 CAD) for you to edit.
+2. Manual currency switcher in the header — yes or detection-only?
+3. Enable **Stripe Adaptive Pricing** at checkout? (You'd flip the toggle in Stripe; I'll wire the code to be compatible.)
