@@ -3,7 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, CheckCircle, AlertCircle, TrendingUp, Target, Brain, Activity, Sparkles, Clock, Zap, Eye, Shield, ArrowRight, Info, Loader2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle, AlertCircle, TrendingUp, Target, Brain, Activity, Sparkles, Clock, Zap, Eye, Shield, ArrowRight, Info, Loader2, Download } from 'lucide-react';
+import { downloadPdf } from '@/lib/pdf/downloadPdf';
+import { AssessmentReportPdf } from '@/lib/pdf/AssessmentReportPdf';
 import { getQuestionsForAge } from '@/data/assessmentQuestions';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, AreaChart, Area } from 'recharts';
 import type { AssessmentData } from './AssessmentApp';
@@ -365,6 +367,28 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
 
   return (
     <div className="space-y-6">
+      {!isFreePreview && (
+        <div className="flex justify-end">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              downloadPdf(
+                <AssessmentReportPdf
+                  data={data}
+                  userName={user?.email ?? undefined}
+                  aiInterpretation={aiInterpretation}
+                  completedAt={new Date().toISOString()}
+                />,
+                `focuscheck-report-${new Date().toISOString().slice(0, 10)}.pdf`,
+              )
+            }
+          >
+            <Download className="w-4 h-4 mr-2" />
+            {language === 'pt-BR' ? 'Baixar relatório PDF' : 'Download PDF report'}
+          </Button>
+        </div>
+      )}
       {/* ===== HERO: Overall Risk Indicator ===== */}
       <Card className={`border-2 overflow-hidden ${
         overall.color === 'destructive' ? 'border-destructive/30' :
