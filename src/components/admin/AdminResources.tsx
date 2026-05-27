@@ -83,10 +83,16 @@ export const AdminResources = () => {
         sort_order: i,
         is_published: r.is_published,
       };
+      const client = supabase as unknown as {
+        from: (t: string) => {
+          update: (p: unknown) => { eq: (c: string, v: string) => Promise<unknown> };
+          insert: (p: unknown) => Promise<unknown>;
+        };
+      };
       if (r.id) {
-        await supabase.from('cms_resources' as never).update(payload).eq('id', r.id);
+        await client.from('cms_resources').update(payload).eq('id', r.id);
       } else {
-        await supabase.from('cms_resources' as never).insert(payload as never);
+        await client.from('cms_resources').insert(payload);
       }
     }
     await load();
