@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { TrackingScripts } from "@/components/TrackingScripts";
 import { PageTracker } from "@/components/PageTracker";
 import { AccessibilityToolbar } from "@/components/AccessibilityToolbar";
@@ -24,28 +25,30 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <LanguageProvider>
-        <TooltipProvider>
-          <SkipNavigation />
-          <Toaster />
-          <Sonner />
-          <TrackingScripts />
-          <BrowserRouter>
-            <PageTracker />
-            <main id="main-content">
-              <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/assessment" element={<Index />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/payment-success" element={<PaymentSuccess />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-          </BrowserRouter>
-          <AccessibilityToolbar />
-        </TooltipProvider>
+        <CurrencyProvider>
+          <TooltipProvider>
+            <SkipNavigation />
+            <Toaster />
+            <Sonner />
+            <TrackingScripts />
+            <BrowserRouter>
+              <PageTracker />
+              <main id="main-content">
+                <Routes>
+                  <Route path="/" element={<Landing />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/assessment" element={<Index />} />
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/payment-success" element={<PaymentSuccess />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+            </BrowserRouter>
+            <AccessibilityToolbar />
+          </TooltipProvider>
+        </CurrencyProvider>
       </LanguageProvider>
     </ThemeProvider>
   </QueryClientProvider>
