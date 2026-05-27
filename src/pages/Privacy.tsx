@@ -42,6 +42,14 @@ const Privacy = () => {
             <h2 className="text-xl font-semibold text-foreground">{t('privacy.s6.title')}</h2>
             <p>{t('privacy.s6.text')}</p>
           </section>
+          <section>
+            <h2 className="text-xl font-semibold text-foreground">7. Contact</h2>
+            <p>
+              For privacy questions or data requests, email{' '}
+              <a href="mailto:privacy@focuscheck.life" className="text-primary hover:underline">privacy@focuscheck.life</a>.
+              FocusCheck is operated at <a href="https://focuscheck.life" className="text-primary hover:underline">focuscheck.life</a>.
+            </p>
+          </section>
         </div>
       </div>
     </div>
