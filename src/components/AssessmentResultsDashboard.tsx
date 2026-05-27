@@ -880,6 +880,29 @@ const DetailedResults = ({
         </CardContent>
       </Card>
 
+      {/* Continue your ADHD journey — free learning resources */}
+      <Card className="border-primary/20 bg-gradient-to-br from-[hsl(var(--primary)/0.06)] to-[hsl(var(--medical-teal)/0.06)]">
+        <CardContent className="p-5 sm:p-6">
+          <div className="flex items-start gap-4">
+            <div className="shrink-0 w-10 h-10 rounded-lg bg-primary/15 flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground mb-1">Continue your ADHD journey</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                Your results are a starting point — not a diagnosis. Explore our curated free resources from
+                trusted organizations, podcasts, YouTube channels, and communities to keep learning about ADHD.
+              </p>
+              <Button asChild size="sm" variant="outline">
+                <a href="/resources" target="_blank" rel="noopener noreferrer">
+                  Browse free resources <ArrowRight className="w-4 h-4 ml-1" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Book Appointment CTA */}
       <BookAppointment />
 
