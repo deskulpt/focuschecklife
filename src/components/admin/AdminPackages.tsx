@@ -61,9 +61,11 @@ export const AdminPackages = () => {
       return;
     }
     setPkgs(
-      (data || []).map((r: Record<string, unknown>) => ({
-        ...(r as PackageRow),
-        features: Array.isArray(r.features) ? (r.features as string[]) : [],
+      (data || []).map((r) => ({
+        ...(r as unknown as PackageRow),
+        features: Array.isArray((r as { features: unknown }).features)
+          ? ((r as { features: string[] }).features)
+          : [],
       })),
     );
   };
