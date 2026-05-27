@@ -1,0 +1,13 @@
+{
+  "name": "FocusCheck",
+  "short_name": "FocusCheck",
+  "description": "Free online ADHD screening — DSM-5 based, for kids, teens & adults.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFBFC",
+  "theme_color": "#4F46E5",
+  "icons": [
+    { "src": "/logo.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -3,57 +3,103 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FocusCheck — Free Online ADHD Assessment | DSM-5 Validated Test</title>
-    <meta name="description" content="Take a free online ADHD screening test for children, teens & adults. Based on DSM-5 criteria with cognitive performance tests. Pending clinical trials. Get results in 20 minutes." />
+    <meta name="theme-color" content="#4F46E5" />
+    <title>FocusCheck — Free Online ADHD Test | DSM-5 Screening for Kids & Adults</title>
+    <meta name="description" content="Take a free, science-backed ADHD screening test online. Based on DSM-5, ASRS & Conners' scales with cognitive performance games. Results in 15–20 minutes. For children, teens, and adults." />
     <meta name="author" content="FocusCheck" />
-    <meta name="keywords" content="ADHD test, ADHD assessment, ADHD quiz, attention deficit test, focus test, ADHD screening, adult ADHD test, child ADHD test, DSM-5 ADHD, online ADHD test free, cognitive test ADHD" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-    <link rel="canonical" href="https://adhd-tester.lovable.app/" />
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="keywords" content="ADHD test, ADHD assessment, free ADHD test, online ADHD screening, adult ADHD test, child ADHD test, ADHD quiz, DSM-5 ADHD, ASRS, Conners scale, attention test, focus test, cognitive test" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://focuscheck.life/" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="FocusCheck — Free Online ADHD Assessment | DSM-5 Validated" />
-    <meta property="og:description" content="Comprehensive ADHD assessment combining validated questionnaires with cognitive tests. Based on DSM-5, ASRS & Conners' scales. Free results in 20 minutes." />
+    <meta property="og:title" content="FocusCheck — Free Online ADHD Screening" />
+    <meta property="og:description" content="Science-backed ADHD assessment combining DSM-5 questionnaires with cognitive performance tests. Free results in 15–20 minutes." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://adhd-tester.lovable.app/" />
-    <meta property="og:image" content="https://adhd-tester.lovable.app/logo.png" />
+    <meta property="og:url" content="https://focuscheck.life/" />
+    <meta property="og:image" content="https://focuscheck.life/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FocusCheck — Free Online ADHD Screening" />
     <meta property="og:site_name" content="FocusCheck" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="pt_BR" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FocusCheck — Free Online ADHD Assessment" />
-    <meta name="twitter:description" content="ADHD assessment with cognitive tests. DSM-5 based. Pending clinical trials. Free results in 20 minutes." />
-    <meta name="twitter:image" content="https://adhd-tester.lovable.app/logo.png" />
+    <meta name="twitter:site" content="@focuscheck" />
+    <meta name="twitter:title" content="FocusCheck — Free Online ADHD Screening" />
+    <meta name="twitter:description" content="DSM-5 based ADHD screening with cognitive tests. Free results in 15–20 minutes." />
+    <meta name="twitter:image" content="https://focuscheck.life/og-cover.jpg" />
+    <meta name="twitter:image:alt" content="FocusCheck — Free Online ADHD Screening" />
 
-    <!-- GEO targeting -->
+    <!-- GEO / language hints (AEO / GEO) -->
     <meta name="geo.region" content="US" />
     <meta name="geo.placename" content="United States" />
     <meta name="language" content="English" />
+    <meta name="rating" content="General" />
+    <meta name="distribution" content="global" />
+    <link rel="alternate" hreflang="en" href="https://focuscheck.life/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://focuscheck.life/" />
+    <link rel="alternate" hreflang="x-default" href="https://focuscheck.life/" />
 
-    <!-- JSON-LD Structured Data -->
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://wgbbypdctiyxoxubjiyi.supabase.co" crossorigin />
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FocusCheck",
+      "url": "https://focuscheck.life",
+      "logo": "https://focuscheck.life/logo.png",
+      "description": "Online ADHD screening platform combining DSM-5 questionnaires with cognitive performance tests — pending clinical trials.",
+      "email": "hello@focuscheck.life",
+      "sameAs": [
+        "https://focuscheck.life"
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD: WebSite with SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FocusCheck",
+      "url": "https://focuscheck.life",
+      "inLanguage": ["en", "pt-BR"],
+      "publisher": { "@type": "Organization", "name": "FocusCheck" }
+    }
+    </script>
+
+    <!-- JSON-LD: WebApplication / MedicalWebPage -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "FocusCheck",
-      "url": "https://adhd-tester.lovable.app",
-      "description": "Free online ADHD screening assessment combining DSM-5 questionnaires with cognitive performance tests for children, teens, and adults. Pending clinical trials.",
+      "name": "FocusCheck ADHD Screening",
+      "url": "https://focuscheck.life",
+      "description": "Free online ADHD screening assessment combining DSM-5 questionnaires (ASRS, Conners') with cognitive performance tests for children, teens, and adults.",
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern browser",
+      "inLanguage": ["en", "pt-BR"],
       "offers": [
-        { "@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "Free ADHD assessment snapshot" },
-        { "@type": "Offer", "price": "5.00", "priceCurrency": "USD", "description": "Full assessment results" },
-        { "@type": "Offer", "price": "20.00", "priceCurrency": "USD", "description": "Professional PDF report" }
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1250"
-      }
+        { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free ADHD screening snapshot" },
+        { "@type": "Offer", "price": "5.00", "priceCurrency": "USD", "name": "Full assessment results" },
+        { "@type": "Offer", "price": "12.00", "priceCurrency": "USD", "name": "Professional PDF report" }
+      ]
     }
     </script>
+
+    <!-- JSON-LD: FAQPage (AEO / Generative search) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -61,63 +107,35 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What is FocusCheck ADHD assessment?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "FocusCheck is a comprehensive online ADHD screening tool that combines clinically validated questionnaires (based on DSM-5 criteria, ASRS-v1.1, and Conners' Rating Scales) with cognitive performance tests including the Continuous Performance Test, Stroop Color-Word Test, and Working Memory Test."
-          }
+          "name": "What is FocusCheck?",
+          "acceptedAnswer": { "@type": "Answer", "text": "FocusCheck is a free online ADHD screening tool that combines clinically informed questionnaires (DSM-5, ASRS-v1.1, Conners') with cognitive performance tests including a Continuous Performance Test, Stroop Color-Word Test, and Working Memory Test. It is a screening aid — not a medical diagnosis." }
         },
         {
           "@type": "Question",
-          "name": "Is this ADHD test free?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes! The basic assessment including all questionnaires and cognitive games is completely free. You'll receive a results snapshot at no cost. Detailed breakdowns are available for $5, and a professional PDF report for your doctor costs $20."
-          }
+          "name": "Is the ADHD test free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — the basic assessment is completely free and gives you a results snapshot. A full detailed breakdown and a professional PDF report you can take to your doctor are available as one-time paid upgrades." }
         },
         {
           "@type": "Question",
-          "name": "How long does the ADHD assessment take?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The complete assessment takes approximately 15-20 minutes, including the questionnaire (5-15 minutes depending on age group) and three cognitive performance tests (about 5 minutes total)."
-          }
+          "name": "How long does the ADHD test take?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Most people finish in 15 to 20 minutes — about 5 to 15 minutes for the age-appropriate questionnaire and roughly 5 minutes for the three cognitive performance tests." }
         },
         {
           "@type": "Question",
-          "name": "Can this test diagnose ADHD?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "FocusCheck is a screening tool, not a diagnostic instrument. Only a qualified healthcare professional can diagnose ADHD. Our results provide valuable insights and a detailed report you can share with your doctor to support the diagnostic process."
-          }
+          "name": "Can FocusCheck diagnose ADHD?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. FocusCheck is a screening tool, not a diagnostic instrument. Only a qualified healthcare professional can diagnose ADHD. Your FocusCheck report is designed to be shared with your clinician to support that conversation." }
         },
         {
           "@type": "Question",
-          "name": "What age groups does FocusCheck support?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "FocusCheck offers age-appropriate assessments for three groups: Children (6-12 years) using Conners' Rating Scales, Teenagers (13-17 years) combining self-report and parent questionnaires, and Adults (18+) using the ASRS-v1.1 scale."
-          }
+          "name": "What age groups can use FocusCheck?",
+          "acceptedAnswer": { "@type": "Answer", "text": "FocusCheck offers age-adapted assessments: children aged 6–12 (parent-mediated, Conners'-style), teenagers 13–17 (self-report plus optional parent input), and adults 18+ (ASRS-v1.1)." }
         },
         {
           "@type": "Question",
-          "name": "Is my data private and secure?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Absolutely. All assessment data is encrypted and stored securely. Your results are only accessible to you through your authenticated account. We never share personal health data with third parties."
-          }
+          "name": "Is my data private?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your data is stored securely with row-level encryption, accessible only to your authenticated account, and never sold. You can request deletion at any time." }
         }
       ]
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "FocusCheck",
-      "url": "https://adhd-tester.lovable.app",
-      "logo": "https://adhd-tester.lovable.app/logo.png",
-      "description": "Online ADHD screening assessment platform — pending clinical trials"
     }
     </script>
   </head>
