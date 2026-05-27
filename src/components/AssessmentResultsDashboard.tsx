@@ -367,6 +367,28 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
 
   return (
     <div className="space-y-6">
+      {!isFreePreview && (
+        <div className="flex justify-end">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              downloadPdf(
+                <AssessmentReportPdf
+                  data={data}
+                  userName={user?.email ?? undefined}
+                  aiInterpretation={aiInterpretation}
+                  completedAt={new Date().toISOString()}
+                />,
+                `focuscheck-report-${new Date().toISOString().slice(0, 10)}.pdf`,
+              )
+            }
+          >
+            <Download className="w-4 h-4 mr-2" />
+            {language === 'pt-BR' ? 'Baixar relatório PDF' : 'Download PDF report'}
+          </Button>
+        </div>
+      )}
       {/* ===== HERO: Overall Risk Indicator ===== */}
       <Card className={`border-2 overflow-hidden ${
         overall.color === 'destructive' ? 'border-destructive/30' :
