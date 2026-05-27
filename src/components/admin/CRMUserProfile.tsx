@@ -101,12 +101,25 @@ export const CRMUserProfile = ({ user, open, onClose }: Props) => {
   };
 
   const handleSendReminder = async () => {
+    if (!user.email) {
+      toast.error('No email on file for this user');
+      return;
+    }
     setSendingReminder(true);
     try {
-      // For now, log the reminder action. In production, integrate with email service.
-      toast.success(`Reminder queued for ${user.full_name || user.email || 'user'}`);
+      const { supabase } = await import('@/integrations/supabase/client');
+      const { error } = await supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'assessment-reminder',
+          recipientEmail: user.email,
+          idempotencyKey: `reminder-${user.user_id}-${new Date().toISOString().slice(0, 10)}`,
+          templateData: { name: user.full_name ?? '' },
+        },
+      });
+      if (error) throw error;
+      toast.success(`Reminder sent to ${user.email}`);
     } catch {
-      toast.error('Failed to send reminder');
+      toast.error('Reminder could not be sent yet — finish email domain setup first.');
     } finally {
       setSendingReminder(false);
     }
