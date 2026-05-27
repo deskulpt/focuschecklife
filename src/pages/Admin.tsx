@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/hooks/useAdmin';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2, Globe, Users, Package } from 'lucide-react';
+import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2, Globe, Users, Package, BookOpen } from 'lucide-react';
 import { AdminAnalytics } from '@/components/admin/AdminAnalytics';
 import { AdminFaqs } from '@/components/admin/AdminFaqs';
 import { AdminArticles } from '@/components/admin/AdminArticles';
@@ -12,6 +12,7 @@ import { AdminSettings } from '@/components/admin/AdminSettings';
 import { AdminTranslations } from '@/components/admin/AdminTranslations';
 import { AdminCRM } from '@/components/admin/AdminCRM';
 import { AdminPackages } from '@/components/admin/AdminPackages';
+import { AdminResources } from '@/components/admin/AdminResources';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
