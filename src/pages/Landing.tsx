@@ -319,7 +319,9 @@ const Landing = () => {
             <span className="font-semibold text-foreground">FocusCheck</span>
           </div>
           <p className="max-w-xl mx-auto mb-4">{t('footer.disclaimer')}</p>
-          <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
+            <a href="/resources" className="text-[hsl(var(--primary))] hover:underline">Resources</a>
+            <span className="text-border">•</span>
             <a href="/terms" className="text-[hsl(var(--primary))] hover:underline">{t('footer.terms')}</a>
             <span className="text-border">•</span>
             <a href="/privacy" className="text-[hsl(var(--primary))] hover:underline">{t('footer.privacy')}</a>

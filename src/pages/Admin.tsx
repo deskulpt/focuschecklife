@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '@/hooks/useAdmin';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2, Globe, Users, Package } from 'lucide-react';
+import { ArrowLeft, BarChart3, FileText, HelpCircle, Tag, Settings, Loader2, Globe, Users, Package, BookOpen } from 'lucide-react';
 import { AdminAnalytics } from '@/components/admin/AdminAnalytics';
 import { AdminFaqs } from '@/components/admin/AdminFaqs';
 import { AdminArticles } from '@/components/admin/AdminArticles';
@@ -12,6 +12,7 @@ import { AdminSettings } from '@/components/admin/AdminSettings';
 import { AdminTranslations } from '@/components/admin/AdminTranslations';
 import { AdminCRM } from '@/components/admin/AdminCRM';
 import { AdminPackages } from '@/components/admin/AdminPackages';
+import { AdminResources } from '@/components/admin/AdminResources';
 
 const Admin = () => {
   const { isAdmin, loading } = useAdmin();
@@ -52,7 +53,7 @@ const Admin = () => {
 
       <div className="container mx-auto px-4 py-6">
         <Tabs defaultValue="crm" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 max-w-5xl">
+          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-9 max-w-5xl">
             <TabsTrigger value="crm" className="gap-1 text-xs sm:text-sm">
               <Users className="w-3.5 h-3.5 hidden sm:inline" /> CRM
             </TabsTrigger>
@@ -64,6 +65,9 @@ const Admin = () => {
             </TabsTrigger>
             <TabsTrigger value="faqs" className="gap-1 text-xs sm:text-sm">
               <HelpCircle className="w-3.5 h-3.5 hidden sm:inline" /> FAQs
+            </TabsTrigger>
+            <TabsTrigger value="resources" className="gap-1 text-xs sm:text-sm">
+              <BookOpen className="w-3.5 h-3.5 hidden sm:inline" /> Resources
             </TabsTrigger>
             <TabsTrigger value="articles" className="gap-1 text-xs sm:text-sm">
               <FileText className="w-3.5 h-3.5 hidden sm:inline" /> Articles
@@ -83,6 +87,7 @@ const Admin = () => {
           <TabsContent value="analytics"><AdminAnalytics /></TabsContent>
           <TabsContent value="packages"><AdminPackages /></TabsContent>
           <TabsContent value="faqs"><AdminFaqs /></TabsContent>
+          <TabsContent value="resources"><AdminResources /></TabsContent>
           <TabsContent value="articles"><AdminArticles /></TabsContent>
           <TabsContent value="coupons"><AdminCoupons /></TabsContent>
           <TabsContent value="translations"><AdminTranslations /></TabsContent>
