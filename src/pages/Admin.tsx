@@ -66,6 +66,9 @@ const Admin = () => {
             <TabsTrigger value="faqs" className="gap-1 text-xs sm:text-sm">
               <HelpCircle className="w-3.5 h-3.5 hidden sm:inline" /> FAQs
             </TabsTrigger>
+            <TabsTrigger value="resources" className="gap-1 text-xs sm:text-sm">
+              <BookOpen className="w-3.5 h-3.5 hidden sm:inline" /> Resources
+            </TabsTrigger>
             <TabsTrigger value="articles" className="gap-1 text-xs sm:text-sm">
               <FileText className="w-3.5 h-3.5 hidden sm:inline" /> Articles
             </TabsTrigger>
