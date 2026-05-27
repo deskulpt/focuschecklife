@@ -42,6 +42,14 @@ const Terms = () => {
             <h2 className="text-xl font-semibold text-foreground">{t('terms.s6.title')}</h2>
             <p>{t('terms.s6.text')}</p>
           </section>
+          <section>
+            <h2 className="text-xl font-semibold text-foreground">7. Contact</h2>
+            <p>
+              FocusCheck is operated at <a href="https://focuscheck.life" className="text-primary hover:underline">focuscheck.life</a>.
+              For questions about these Terms, email{' '}
+              <a href="mailto:hello@focuscheck.life" className="text-primary hover:underline">hello@focuscheck.life</a>.
+            </p>
+          </section>
         </div>
       </div>
     </div>
