@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 export const AdminSettings = () => {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [refreshingRates, setRefreshingRates] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => { loadSettings(); }, []);
