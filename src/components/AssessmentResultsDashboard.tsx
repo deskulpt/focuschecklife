@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, CheckCircle, AlertCircle, TrendingUp, Target, Brain, Activity, Sparkles, Clock, Zap, Eye, Shield, ArrowRight, Info, Loader2, Download } from 'lucide-react';
+import { AlertTriangle, CheckCircle, AlertCircle, TrendingUp, Target, Brain, Activity, Sparkles, Clock, Zap, Eye, Shield, ArrowRight, Info, Loader2, Download, BookOpen } from 'lucide-react';
 import { downloadPdf } from '@/lib/pdf/downloadPdf';
 import { AssessmentReportPdf } from '@/lib/pdf/AssessmentReportPdf';
 import { getQuestionsForAge } from '@/data/assessmentQuestions';
