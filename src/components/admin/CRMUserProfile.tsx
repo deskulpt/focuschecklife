@@ -112,44 +112,25 @@ export const CRMUserProfile = ({ user, open, onClose }: Props) => {
     }
   };
 
-  const handleGenerateInvoice = () => {
+  const handleGenerateInvoice = async () => {
     setGeneratingInvoice(true);
     try {
-      const invoiceData = {
-        orderId: user.stripe_order_id || 'N/A',
-        name: user.full_name || 'N/A',
-        date: user.updated_at,
-        amount: '$5.00',
-        description: 'Full ADHD Assessment Access',
-      };
-
-      const invoiceHtml = `
-        <html><head><title>Invoice</title>
-        <style>
-          body { font-family: Arial, sans-serif; padding: 40px; max-width: 600px; margin: auto; }
-          h1 { color: #333; } table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-          th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-          th { background: #f5f5f5; } .total { font-weight: bold; font-size: 18px; }
-        </style></head><body>
-        <h1>Invoice</h1>
-        <p><strong>Order ID:</strong> ${invoiceData.orderId}</p>
-        <p><strong>Customer:</strong> ${invoiceData.name}</p>
-        <p><strong>Date:</strong> ${new Date(invoiceData.date).toLocaleDateString()}</p>
-        <table>
-          <tr><th>Description</th><th>Amount</th></tr>
-          <tr><td>${invoiceData.description}</td><td>${invoiceData.amount}</td></tr>
-          <tr><td class="total">Total</td><td class="total">${invoiceData.amount}</td></tr>
-        </table>
-        </body></html>
-      `;
-
-      const blob = new Blob([invoiceHtml], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `invoice-${user.stripe_order_id || user.id}.html`;
-      a.click();
-      URL.revokeObjectURL(url);
+      const { InvoicePdf } = await import('@/lib/pdf/InvoicePdf');
+      const { downloadPdf } = await import('@/lib/pdf/downloadPdf');
+      await downloadPdf(
+        <InvoicePdf
+          invoice={{
+            invoiceNumber: (user.stripe_order_id || user.id).slice(-8).toUpperCase(),
+            orderId: user.stripe_order_id || 'N/A',
+            customerName: user.full_name || 'Customer',
+            customerEmail: user.email || '—',
+            date: user.updated_at,
+            description: 'Full ADHD Assessment Access',
+            amountLabel: '$5.00',
+          }}
+        />,
+        `invoice-${user.stripe_order_id || user.id}.pdf`,
+      );
       toast.success('Invoice downloaded');
     } catch {
       toast.error('Failed to generate invoice');
