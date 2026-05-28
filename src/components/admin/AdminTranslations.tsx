@@ -178,6 +178,8 @@ export const AdminTranslations = () => {
   };
 
   const aiTranslateAll = async () => {
+    if (!confirm('Regenerate ALL translations for every non-English language? This overwrites existing values and uses AI credits.')) return;
+
     // Use ALL_KEYS with fallback English values from the app
     const { data: enData } = await supabase.from('translations').select('key, value').eq('language_code', 'en') as any;
     const enMap: Record<string, string> = {};
