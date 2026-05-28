@@ -1,0 +1,1 @@
+ALTER TABLE public.user_assessments ADD COLUMN IF NOT EXISTS ai_interpretation_translations jsonb NOT NULL DEFAULT '{}'::jsonb;

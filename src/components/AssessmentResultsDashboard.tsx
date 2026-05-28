@@ -49,6 +49,9 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
   const [aiInterpretation, setAiInterpretation] = useState<string | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [aiTranslated, setAiTranslated] = useState<string | null>(null);
+  const [aiTranslating, setAiTranslating] = useState(false);
+  const [aiTranslateError, setAiTranslateError] = useState<string | null>(null);
 
   const questions = getQuestionsForAge(data.ageGroup);
   
@@ -84,33 +87,39 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
   const totalMaxScore = categoryResults.reduce((sum, cat) => sum + cat.maxScore, 0);
   const overallPercentage = totalMaxScore > 0 ? (totalScore / totalMaxScore) * 100 : 0;
 
-  // Fetch AI interpretation — use cached version if available
+  // Load cached English interpretation + any cached translation for current language.
+  // English is generated automatically (paid users only); translations are NEVER auto —
+  // user must click the translate button to save AI cost.
   useEffect(() => {
     if (!isFreePreview && data.gameResults) {
-      loadOrFetchAiInterpretation();
+      loadOrGenerateEnglish();
     }
-  }, [isFreePreview, data, assessmentId]);
+    // Reset translation cache when switching languages
+    setAiTranslated(null);
+    setAiTranslateError(null);
+  }, [isFreePreview, assessmentId, language]);
 
-  const loadOrFetchAiInterpretation = async () => {
-    // Try to load cached interpretation from DB first
+  const loadOrGenerateEnglish = async () => {
     if (assessmentId && user) {
       const { data: assessment } = await supabase
         .from('user_assessments')
-        .select('ai_interpretation')
+        .select('ai_interpretation, ai_interpretation_translations')
         .eq('id', assessmentId)
-        .single();
-      
+        .maybeSingle();
+
       if (assessment?.ai_interpretation) {
         setAiInterpretation(assessment.ai_interpretation);
+        const translations = (assessment.ai_interpretation_translations as Record<string, string> | null) || {};
+        if (language !== 'en' && translations[language]) {
+          setAiTranslated(translations[language]);
+        }
         return;
       }
     }
-    
-    // No cached version — call AI
-    fetchAiInterpretation();
+    generateEnglishInterpretation();
   };
 
-  const fetchAiInterpretation = async () => {
+  const generateEnglishInterpretation = async () => {
     setAiLoading(true);
     setAiError(null);
     try {
@@ -121,6 +130,8 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
 
       const { data: funcData, error } = await supabase.functions.invoke('interpret-results', {
         body: {
+          mode: 'generate',
+          assessmentId,
           assessmentData: {
             ageGroup: data.ageGroup,
             categoryScores,
@@ -128,20 +139,12 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
             workingMemory: data.gameResults?.workingMemory,
             stroop: data.gameResults?.stroop,
           },
-          language,
         },
       });
 
       if (error) throw error;
       if (funcData?.interpretation) {
         setAiInterpretation(funcData.interpretation);
-        // Cache the interpretation in the database
-        if (assessmentId && user) {
-          await supabase
-            .from('user_assessments')
-            .update({ ai_interpretation: funcData.interpretation } as any)
-            .eq('id', assessmentId);
-        }
       } else if (funcData?.error) {
         setAiError(funcData.error);
       }
@@ -152,6 +155,29 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
       setAiLoading(false);
     }
   };
+
+  const translateInterpretation = async () => {
+    if (!assessmentId || !aiInterpretation || language === 'en') return;
+    setAiTranslating(true);
+    setAiTranslateError(null);
+    try {
+      const { data: funcData, error } = await supabase.functions.invoke('interpret-results', {
+        body: { mode: 'translate', assessmentId, targetLanguage: language },
+      });
+      if (error) throw error;
+      if (funcData?.interpretation) {
+        setAiTranslated(funcData.interpretation);
+      } else if (funcData?.error) {
+        setAiTranslateError(funcData.error);
+      }
+    } catch (e: any) {
+      console.error('AI translation error:', e);
+      setAiTranslateError('Unable to translate report right now.');
+    } finally {
+      setAiTranslating(false);
+    }
+  };
+
 
   const getOverallAssessment = () => {
     if (overallPercentage >= 70) {
@@ -512,7 +538,11 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
           aiInterpretation={aiInterpretation}
           aiLoading={aiLoading}
           aiError={aiError}
-          onRetryAi={fetchAiInterpretation}
+          onRetryAi={generateEnglishInterpretation}
+          aiTranslated={aiTranslated}
+          aiTranslating={aiTranslating}
+          aiTranslateError={aiTranslateError}
+          onTranslateAi={translateInterpretation}
           t={t}
           language={language}
         />
@@ -526,58 +556,71 @@ const DetailedResults = ({
   data, categoryResults, radarData, getCategoryIcon, getCategoryExplanation,
   cptInsight, memoryInsight, stroopInsight,
   aiInterpretation, aiLoading, aiError, onRetryAi,
+  aiTranslated, aiTranslating, aiTranslateError, onTranslateAi,
   t, language
 }: any) => {
+  const showTranslateBtn = language !== 'en' && aiInterpretation && !aiTranslated;
+  const displayText = aiTranslated || aiInterpretation;
   return (
     <>
       {/* ===== AI INTERPRETATION ===== */}
       <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-background to-primary/5 overflow-hidden">
         <CardHeader>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-primary/10 rounded-xl">
-              <Sparkles className="w-6 h-6 text-primary" />
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-primary/10 rounded-xl">
+                <Sparkles className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-xl">AI-Powered Personal Interpretation</CardTitle>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  AI-generated analysis based on your unique results
+                  {aiTranslated && language !== 'en' && ` · Translated to ${language}`}
+                </p>
+              </div>
             </div>
-            <div>
-              <CardTitle className="text-xl">
-                {language === 'pt-BR' ? 'Interpretação Personalizada por IA' : 'AI-Powered Personal Interpretation'}
-              </CardTitle>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {language === 'pt-BR' ? 'Análise gerada por inteligência artificial com base nos seus resultados' : 'AI-generated analysis based on your unique results'}
-              </p>
-            </div>
+            {showTranslateBtn && (
+              <Button size="sm" variant="outline" onClick={onTranslateAi} disabled={aiTranslating}>
+                {aiTranslating ? (
+                  <><Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> Translating…</>
+                ) : (
+                  <>Translate to {language}</>
+                )}
+              </Button>
+            )}
           </div>
         </CardHeader>
         <CardContent>
           {aiLoading && (
             <div className="flex items-center gap-3 py-8 justify-center">
               <Loader2 className="w-5 h-5 animate-spin text-primary" />
-              <span className="text-sm text-muted-foreground">
-                {language === 'pt-BR' ? 'Analisando seus resultados...' : 'Analyzing your results...'}
-              </span>
+              <span className="text-sm text-muted-foreground">Analyzing your results...</span>
             </div>
           )}
           {aiError && (
             <div className="text-center py-6 space-y-3">
               <p className="text-sm text-destructive">{aiError}</p>
-              <Button variant="outline" size="sm" onClick={onRetryAi}>
-                {language === 'pt-BR' ? 'Tentar novamente' : 'Try again'}
-              </Button>
+              <Button variant="outline" size="sm" onClick={onRetryAi}>Try again</Button>
             </div>
           )}
-          {aiInterpretation && (
+          {aiTranslateError && (
+            <p className="text-xs text-destructive mb-2">{aiTranslateError}</p>
+          )}
+          {displayText && (
             <div className="prose prose-sm max-w-none dark:prose-invert">
-              {aiInterpretation.split('\n').filter((l: string) => l.trim()).map((paragraph: string, i: number) => (
+              {displayText.split('\n').filter((l: string) => l.trim()).map((paragraph: string, i: number) => (
                 <p key={i} className="text-sm leading-relaxed text-foreground/85 mb-3 last:mb-0">{paragraph}</p>
               ))}
             </div>
           )}
           {!aiLoading && !aiError && !aiInterpretation && (
             <p className="text-sm text-muted-foreground text-center py-4">
-              {language === 'pt-BR' ? 'Interpretação por IA disponível após completar todos os testes.' : 'AI interpretation available after completing all tests.'}
+              AI interpretation available after completing all tests.
             </p>
           )}
         </CardContent>
       </Card>
+
 
       {/* ===== CATEGORY DEEP DIVE ===== */}
       <div>
