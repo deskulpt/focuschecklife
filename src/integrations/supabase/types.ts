@@ -550,6 +550,7 @@ export type Database = {
         Row: {
           age_group: string
           ai_interpretation: string | null
+          ai_interpretation_translations: Json
           completed_at: string
           completion_percentage: number | null
           created_at: string
@@ -566,6 +567,7 @@ export type Database = {
         Insert: {
           age_group: string
           ai_interpretation?: string | null
+          ai_interpretation_translations?: Json
           completed_at?: string
           completion_percentage?: number | null
           created_at?: string
@@ -582,6 +584,7 @@ export type Database = {
         Update: {
           age_group?: string
           ai_interpretation?: string | null
+          ai_interpretation_translations?: Json
           completed_at?: string
           completion_percentage?: number | null
           created_at?: string
