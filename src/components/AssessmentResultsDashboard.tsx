@@ -556,58 +556,71 @@ const DetailedResults = ({
   data, categoryResults, radarData, getCategoryIcon, getCategoryExplanation,
   cptInsight, memoryInsight, stroopInsight,
   aiInterpretation, aiLoading, aiError, onRetryAi,
+  aiTranslated, aiTranslating, aiTranslateError, onTranslateAi,
   t, language
 }: any) => {
+  const showTranslateBtn = language !== 'en' && aiInterpretation && !aiTranslated;
+  const displayText = aiTranslated || aiInterpretation;
   return (
     <>
       {/* ===== AI INTERPRETATION ===== */}
       <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-background to-primary/5 overflow-hidden">
         <CardHeader>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-primary/10 rounded-xl">
-              <Sparkles className="w-6 h-6 text-primary" />
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-primary/10 rounded-xl">
+                <Sparkles className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-xl">AI-Powered Personal Interpretation</CardTitle>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  AI-generated analysis based on your unique results
+                  {aiTranslated && language !== 'en' && ` · Translated to ${language}`}
+                </p>
+              </div>
             </div>
-            <div>
-              <CardTitle className="text-xl">
-                {language === 'pt-BR' ? 'Interpretação Personalizada por IA' : 'AI-Powered Personal Interpretation'}
-              </CardTitle>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {language === 'pt-BR' ? 'Análise gerada por inteligência artificial com base nos seus resultados' : 'AI-generated analysis based on your unique results'}
-              </p>
-            </div>
+            {showTranslateBtn && (
+              <Button size="sm" variant="outline" onClick={onTranslateAi} disabled={aiTranslating}>
+                {aiTranslating ? (
+                  <><Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> Translating…</>
+                ) : (
+                  <>Translate to {language}</>
+                )}
+              </Button>
+            )}
           </div>
         </CardHeader>
         <CardContent>
           {aiLoading && (
             <div className="flex items-center gap-3 py-8 justify-center">
               <Loader2 className="w-5 h-5 animate-spin text-primary" />
-              <span className="text-sm text-muted-foreground">
-                {language === 'pt-BR' ? 'Analisando seus resultados...' : 'Analyzing your results...'}
-              </span>
+              <span className="text-sm text-muted-foreground">Analyzing your results...</span>
             </div>
           )}
           {aiError && (
             <div className="text-center py-6 space-y-3">
               <p className="text-sm text-destructive">{aiError}</p>
-              <Button variant="outline" size="sm" onClick={onRetryAi}>
-                {language === 'pt-BR' ? 'Tentar novamente' : 'Try again'}
-              </Button>
+              <Button variant="outline" size="sm" onClick={onRetryAi}>Try again</Button>
             </div>
           )}
-          {aiInterpretation && (
+          {aiTranslateError && (
+            <p className="text-xs text-destructive mb-2">{aiTranslateError}</p>
+          )}
+          {displayText && (
             <div className="prose prose-sm max-w-none dark:prose-invert">
-              {aiInterpretation.split('\n').filter((l: string) => l.trim()).map((paragraph: string, i: number) => (
+              {displayText.split('\n').filter((l: string) => l.trim()).map((paragraph: string, i: number) => (
                 <p key={i} className="text-sm leading-relaxed text-foreground/85 mb-3 last:mb-0">{paragraph}</p>
               ))}
             </div>
           )}
           {!aiLoading && !aiError && !aiInterpretation && (
             <p className="text-sm text-muted-foreground text-center py-4">
-              {language === 'pt-BR' ? 'Interpretação por IA disponível após completar todos os testes.' : 'AI interpretation available after completing all tests.'}
+              AI interpretation available after completing all tests.
             </p>
           )}
         </CardContent>
       </Card>
+
 
       {/* ===== CATEGORY DEEP DIVE ===== */}
       <div>
