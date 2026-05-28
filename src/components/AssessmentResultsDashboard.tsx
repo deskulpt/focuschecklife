@@ -49,6 +49,9 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
   const [aiInterpretation, setAiInterpretation] = useState<string | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [aiTranslated, setAiTranslated] = useState<string | null>(null);
+  const [aiTranslating, setAiTranslating] = useState(false);
+  const [aiTranslateError, setAiTranslateError] = useState<string | null>(null);
 
   const questions = getQuestionsForAge(data.ageGroup);
   
@@ -84,33 +87,39 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
   const totalMaxScore = categoryResults.reduce((sum, cat) => sum + cat.maxScore, 0);
   const overallPercentage = totalMaxScore > 0 ? (totalScore / totalMaxScore) * 100 : 0;
 
-  // Fetch AI interpretation — use cached version if available
+  // Load cached English interpretation + any cached translation for current language.
+  // English is generated automatically (paid users only); translations are NEVER auto —
+  // user must click the translate button to save AI cost.
   useEffect(() => {
     if (!isFreePreview && data.gameResults) {
-      loadOrFetchAiInterpretation();
+      loadOrGenerateEnglish();
     }
-  }, [isFreePreview, data, assessmentId]);
+    // Reset translation cache when switching languages
+    setAiTranslated(null);
+    setAiTranslateError(null);
+  }, [isFreePreview, assessmentId, language]);
 
-  const loadOrFetchAiInterpretation = async () => {
-    // Try to load cached interpretation from DB first
+  const loadOrGenerateEnglish = async () => {
     if (assessmentId && user) {
       const { data: assessment } = await supabase
         .from('user_assessments')
-        .select('ai_interpretation')
+        .select('ai_interpretation, ai_interpretation_translations')
         .eq('id', assessmentId)
-        .single();
-      
+        .maybeSingle();
+
       if (assessment?.ai_interpretation) {
         setAiInterpretation(assessment.ai_interpretation);
+        const translations = (assessment.ai_interpretation_translations as Record<string, string> | null) || {};
+        if (language !== 'en' && translations[language]) {
+          setAiTranslated(translations[language]);
+        }
         return;
       }
     }
-    
-    // No cached version — call AI
-    fetchAiInterpretation();
+    generateEnglishInterpretation();
   };
 
-  const fetchAiInterpretation = async () => {
+  const generateEnglishInterpretation = async () => {
     setAiLoading(true);
     setAiError(null);
     try {
@@ -121,6 +130,8 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
 
       const { data: funcData, error } = await supabase.functions.invoke('interpret-results', {
         body: {
+          mode: 'generate',
+          assessmentId,
           assessmentData: {
             ageGroup: data.ageGroup,
             categoryScores,
@@ -128,20 +139,12 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
             workingMemory: data.gameResults?.workingMemory,
             stroop: data.gameResults?.stroop,
           },
-          language,
         },
       });
 
       if (error) throw error;
       if (funcData?.interpretation) {
         setAiInterpretation(funcData.interpretation);
-        // Cache the interpretation in the database
-        if (assessmentId && user) {
-          await supabase
-            .from('user_assessments')
-            .update({ ai_interpretation: funcData.interpretation } as any)
-            .eq('id', assessmentId);
-        }
       } else if (funcData?.error) {
         setAiError(funcData.error);
       }
@@ -152,6 +155,29 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
       setAiLoading(false);
     }
   };
+
+  const translateInterpretation = async () => {
+    if (!assessmentId || !aiInterpretation || language === 'en') return;
+    setAiTranslating(true);
+    setAiTranslateError(null);
+    try {
+      const { data: funcData, error } = await supabase.functions.invoke('interpret-results', {
+        body: { mode: 'translate', assessmentId, targetLanguage: language },
+      });
+      if (error) throw error;
+      if (funcData?.interpretation) {
+        setAiTranslated(funcData.interpretation);
+      } else if (funcData?.error) {
+        setAiTranslateError(funcData.error);
+      }
+    } catch (e: any) {
+      console.error('AI translation error:', e);
+      setAiTranslateError('Unable to translate report right now.');
+    } finally {
+      setAiTranslating(false);
+    }
+  };
+
 
   const getOverallAssessment = () => {
     if (overallPercentage >= 70) {
