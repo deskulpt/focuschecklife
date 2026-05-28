@@ -538,7 +538,11 @@ export const AssessmentResultsDashboard = ({ data, isFreePreview = false, assess
           aiInterpretation={aiInterpretation}
           aiLoading={aiLoading}
           aiError={aiError}
-          onRetryAi={fetchAiInterpretation}
+          onRetryAi={generateEnglishInterpretation}
+          aiTranslated={aiTranslated}
+          aiTranslating={aiTranslating}
+          aiTranslateError={aiTranslateError}
+          onTranslateAi={translateInterpretation}
           t={t}
           language={language}
         />
