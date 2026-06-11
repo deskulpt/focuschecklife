@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { SeoHead } from '@/components/SeoHead';
 
 const Privacy = () => {
   const navigate = useNavigate();
@@ -9,6 +10,11 @@ const Privacy = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SeoHead
+        title="Privacy Policy — FocusCheck"
+        description="How FocusCheck collects, stores, encrypts, and deletes your ADHD screening data. Consent, marketing preferences, and your data rights."
+        path="/privacy"
+      />
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="gap-2 mb-6">
           <ArrowLeft className="w-4 h-4" /> {t('nav.home')}

@@ -1,0 +1,18 @@
+# FocusCheck
+
+> Free online ADHD screening combining DSM-5 questionnaires (ASRS-v1.1, Conners') with cognitive performance tests for children, teens, and adults. Screening aid only — not a medical diagnosis.
+
+FocusCheck is a web app that helps people self-screen for ADHD symptoms in 15–20 minutes. It pairs validated questionnaires with three short cognitive games (Continuous Performance Test, Stroop Color-Word Test, Working Memory N-back). Basic results are free; a detailed breakdown and clinician-ready PDF report are available as one-time paid upgrades. FocusCheck does not diagnose ADHD — a qualified clinician must do that.
+
+## Pages
+
+- [Home](/): What FocusCheck is, who it's for, pricing, and FAQ.
+- [Take the assessment](/assessment): Age selection, questionnaire, and cognitive games.
+- [ADHD resources](/resources): Curated free organizations, videos, podcasts, communities, and reading for people with ADHD and their support circle.
+- [Terms of service](/terms): Legal terms for using FocusCheck.
+- [Privacy policy](/privacy): How data is collected, stored, and deleted.
+
+## Optional
+
+- Contact: hello@focuscheck.life
+- Privacy questions: privacy@focuscheck.life

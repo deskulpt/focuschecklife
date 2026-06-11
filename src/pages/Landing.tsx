@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { SeoHead } from '@/components/SeoHead';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -43,6 +44,11 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      <SeoHead
+        title="FocusCheck — Free Online ADHD Screening Test"
+        description="Free, science-backed ADHD screening combining DSM-5 questionnaires and cognitive games. Results in 15–20 minutes for kids, teens, and adults."
+        path="/"
+      />
       {/* Background decoration */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-[hsl(var(--primary)/0.08)] blur-[100px]" />
