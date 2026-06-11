@@ -178,8 +178,9 @@ const AssessmentApp = () => {
               {user && (
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-muted-foreground hidden sm:inline">{user.email}</span>
-                  <Button variant="ghost" size="icon" onClick={signOut} title={t('landing.logout')}>
+                  <Button variant="ghost" size="icon" onClick={signOut} title={t('landing.logout')} aria-label={t('landing.logout') || 'Sign out'}>
                     <LogOut className="w-4 h-4" />
+                    <span className="sr-only">{t('landing.logout') || 'Sign out'}</span>
                   </Button>
                 </div>
               )}
@@ -190,7 +191,7 @@ const AssessmentApp = () => {
           <div className="text-center mb-6 sm:mb-8">
             <div className="flex items-center justify-center gap-3 mb-3">
               <img src="/logo.png" alt="FocusCheck" className="w-10 h-10" />
-              <h1 className="text-3xl sm:text-4xl font-bold text-foreground">FocusCheck</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground">FocusCheck ADHD Assessment</h1>
             </div>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
               {t('app.subtitle')}

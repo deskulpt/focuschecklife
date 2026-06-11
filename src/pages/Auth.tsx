@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users } from 'lucide-react';
+import { SeoHead } from '@/components/SeoHead';
 
 const countries = [
   'United States', 'United Kingdom', 'Canada', 'Australia', 'India', 'Brazil',
@@ -74,11 +75,16 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-medical-light/20 to-background flex items-center justify-center p-4">
+      <SeoHead
+        title={isLogin ? 'Sign in to FocusCheck — ADHD Screening' : 'Create your FocusCheck account'}
+        description="Sign in or create a free FocusCheck account to take the ADHD screening assessment and save your results."
+        path="/auth"
+      />
       <div className="w-full max-w-md">
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center gap-3 mb-3 sm:mb-4">
             <img src="/logo.png" alt="FocusCheck" className="w-10 h-10 sm:w-12 sm:h-12" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">FocusCheck</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Sign in to FocusCheck</h1>
           </div>
           <p className="text-muted-foreground text-xs sm:text-sm">{t('auth.subtitle')}</p>
         </div>
