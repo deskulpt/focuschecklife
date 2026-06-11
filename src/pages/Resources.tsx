@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { SeoHead } from '@/components/SeoHead';
 
 interface Resource {
   id: string;
@@ -29,7 +30,6 @@ export const Resources = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = 'Free ADHD resources — FocusCheck';
     const load = async () => {
       const { data } = await supabase
         .from('cms_resources' as never)
@@ -49,6 +49,11 @@ export const Resources = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SeoHead
+        title="Free ADHD Resources & Self-Help Guide — FocusCheck"
+        description="Trusted free ADHD resources: organizations, YouTube channels, podcasts, communities, and reading for people with ADHD and their support circle."
+        path="/resources"
+      />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
         <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8">
           <ArrowLeft className="w-4 h-4" /> Back home
