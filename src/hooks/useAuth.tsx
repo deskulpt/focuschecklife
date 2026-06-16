@@ -9,6 +9,7 @@ export interface UserProfile {
   plan: string;
   has_paid_full_test: boolean;
   has_paid_pdf: boolean;
+  onboarding_completed: boolean;
 }
 
 export const useAuth = () => {
