@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { lovable } from '@/integrations/lovable';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -8,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users } from 'lucide-react';
+import { Mail, Lock, User, ArrowLeft, Phone, Globe, Calendar, Users, Apple } from 'lucide-react';
 import { SeoHead } from '@/components/SeoHead';
 
 const countries = [
@@ -48,9 +49,9 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate('/');
+        navigate('/onboarding');
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -64,12 +65,27 @@ const Auth = () => {
           },
         });
         if (error) throw error;
-        toast({ title: t('auth.accountCreated'), description: t('auth.checkEmail') });
+        if (data.session) {
+          navigate('/onboarding');
+        } else {
+          toast({ title: t('auth.accountCreated'), description: t('auth.checkEmail') });
+        }
       }
-    } catch (error: any) {
-      toast({ title: t('auth.error'), description: error.message, variant: 'destructive' });
+    } catch (error: unknown) {
+      toast({ title: t('auth.error'), description: error instanceof Error ? error.message : t('promo.errorDesc'), variant: 'destructive' });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSocialLogin = async (provider: 'google' | 'apple') => {
+    setLoading(true);
+    const result = await lovable.auth.signInWithOAuth(provider, {
+      redirect_uri: `${window.location.origin}/onboarding`,
+    });
+    setLoading(false);
+    if (result.error) {
+      toast({ title: t('auth.error'), description: result.error.message, variant: 'destructive' });
     }
   };
 
@@ -99,6 +115,15 @@ const Auth = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              <Button type="button" variant="outline" onClick={() => handleSocialLogin('google')} disabled={loading}>
+                <span className="font-bold">G</span> Google
+              </Button>
+              <Button type="button" variant="outline" onClick={() => handleSocialLogin('apple')} disabled={loading}>
+                <Apple className="h-4 w-4" /> Apple
+              </Button>
+            </div>
+            <div className="relative mb-4 text-center text-xs text-muted-foreground before:absolute before:left-0 before:top-1/2 before:h-px before:w-[42%] before:bg-border after:absolute after:right-0 after:top-1/2 after:h-px after:w-[42%] after:bg-border">or</div>
             <form onSubmit={handleAuth} className="space-y-3 sm:space-y-4">
               {!isLogin && (
                 <>
