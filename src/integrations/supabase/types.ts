@@ -331,13 +331,18 @@ export type Database = {
       }
       profiles: {
         Row: {
+          adhd_familiarity: string | null
           age: number | null
+          age_range: string | null
           assessment_count: number
+          assessment_reason: string | null
           city: string | null
           country: string | null
           created_at: string
+          current_experiences: string | null
           full_name: string | null
           gender: string | null
+          guardian_relationship: string | null
           has_paid_full_test: boolean
           has_paid_pdf: boolean
           id: string
@@ -345,22 +350,32 @@ export type Database = {
           marketing_email_opt_in_at: string | null
           marketing_push_opt_in: boolean
           marketing_push_opt_in_at: string | null
+          mental_interests: string | null
+          onboarding_completed: boolean
           phone: string | null
+          physical_interests: string | null
           plan: string
           share_results_consent: boolean
           state: string | null
           stripe_order_id: string | null
+          support_goals: string | null
+          testing_for: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          adhd_familiarity?: string | null
           age?: number | null
+          age_range?: string | null
           assessment_count?: number
+          assessment_reason?: string | null
           city?: string | null
           country?: string | null
           created_at?: string
+          current_experiences?: string | null
           full_name?: string | null
           gender?: string | null
+          guardian_relationship?: string | null
           has_paid_full_test?: boolean
           has_paid_pdf?: boolean
           id?: string
@@ -368,22 +383,32 @@ export type Database = {
           marketing_email_opt_in_at?: string | null
           marketing_push_opt_in?: boolean
           marketing_push_opt_in_at?: string | null
+          mental_interests?: string | null
+          onboarding_completed?: boolean
           phone?: string | null
+          physical_interests?: string | null
           plan?: string
           share_results_consent?: boolean
           state?: string | null
           stripe_order_id?: string | null
+          support_goals?: string | null
+          testing_for?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          adhd_familiarity?: string | null
           age?: number | null
+          age_range?: string | null
           assessment_count?: number
+          assessment_reason?: string | null
           city?: string | null
           country?: string | null
           created_at?: string
+          current_experiences?: string | null
           full_name?: string | null
           gender?: string | null
+          guardian_relationship?: string | null
           has_paid_full_test?: boolean
           has_paid_pdf?: boolean
           id?: string
@@ -391,11 +416,16 @@ export type Database = {
           marketing_email_opt_in_at?: string | null
           marketing_push_opt_in?: boolean
           marketing_push_opt_in_at?: string | null
+          mental_interests?: string | null
+          onboarding_completed?: boolean
           phone?: string | null
+          physical_interests?: string | null
           plan?: string
           share_results_consent?: boolean
           state?: string | null
           stripe_order_id?: string | null
+          support_goals?: string | null
+          testing_for?: string | null
           updated_at?: string
           user_id?: string
         }
