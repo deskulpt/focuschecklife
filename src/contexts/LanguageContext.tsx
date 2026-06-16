@@ -864,22 +864,38 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [dbTranslations, setDbTranslations] = useState<Record<string, Record<string, string>>>({});
 
   useEffect(() => {
+    const loadTranslations = async () => {
+      const pageSize = 1000;
+      let from = 0;
+      const map: Record<string, Record<string, string>> = {};
+
+      while (true) {
+        const { data, error } = await supabase
+          .from('translations')
+          .select('language_code, key, value')
+          .range(from, from + pageSize - 1);
+
+        if (error || !data || data.length === 0) break;
+
+        (data as Array<{ language_code: string; key: string; value: string }>).forEach(row => {
+          if (!map[row.language_code]) map[row.language_code] = {};
+          map[row.language_code][row.key] = row.value;
+        });
+
+        if (data.length < pageSize) break;
+        from += pageSize;
+      }
+
+      setDbTranslations(map);
+    };
+
     supabase.from('languages').select('code, name, flag').eq('is_enabled', true).then(({ data }) => {
       if (data && data.length > 0) {
         setAvailableLanguages(data as LanguageOption[]);
       }
     });
 
-    supabase.from('translations').select('language_code, key, value').then(({ data }) => {
-      if (data && data.length > 0) {
-        const map: Record<string, Record<string, string>> = {};
-        (data as Array<{ language_code: string; key: string; value: string }>).forEach(row => {
-          if (!map[row.language_code]) map[row.language_code] = {};
-          map[row.language_code][row.key] = row.value;
-        });
-        setDbTranslations(map);
-      }
-    });
+    loadTranslations();
 
     // Apply default/forced language from site_settings
     supabase
