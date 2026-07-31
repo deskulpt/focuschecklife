@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://wgbbypdctiyxoxubjiyi.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "adhd-tester",
+      "version": "0.1.0",
+      "title": "adhd-tester"
+    },
+    "tools": [
+      {
+        "name": "get_profile",
+        "title": "Get my FocusCheck profile",
+        "description": "Return the signed-in user's FocusCheck profile: name, location, onboarding answers, plan, attempts used, and consent flags.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_assessments",
+        "title": "List my assessments",
+        "description": "List the signed-in user's completed FocusCheck screening assessments, newest first, with score, risk level and completion metadata.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "Maximum assessments to return."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_assessment",
+        "title": "Get an assessment report",
+        "description": "Return one of the signed-in user's assessments in full, including survey responses, cognitive game results and the saved AI interpretation when unlocked.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "assessmentId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "The assessment id returned by list_assessments."
+            }
+          },
+          "required": [
+            "assessmentId"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_packages",
+        "title": "List FocusCheck packages",
+        "description": "List the active FocusCheck packages with their base prices in Canadian dollars (cents) and what each package unlocks.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_resources",
+        "title": "List ADHD resources",
+        "description": "List the published ADHD learning resources curated in FocusCheck (organisations, podcasts, communities), optionally filtered by category.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Optional category filter."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
