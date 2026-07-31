@@ -10,43 +10,43 @@
   --popover: 0 0% 100%;
   --popover-foreground: 215 25% 15%;
 
-  --primary: 200 95% 45%;
+  --primary: 200 95% 36%;
   --primary-foreground: 0 0% 100%;
-  --primary-hover: 200 95% 40%;
+  --primary-hover: 200 95% 30%;
 
   --secondary: 195 100% 96%;
   --secondary-foreground: 215 25% 20%;
 
   --muted: 210 40% 96%;
-  --muted-foreground: 215 15% 55%;
+  --muted-foreground: 215 16% 40%;
 
   --accent: 180 100% 95%;
-  --accent-foreground: 200 95% 35%;
+  --accent-foreground: 200 95% 28%;
 
-  --success: 142 76% 36%;
+  --success: 142 76% 28%;
   --success-foreground: 0 0% 100%;
 
-  --warning: 38 92% 50%;
+  --warning: 38 92% 32%;
   --warning-foreground: 0 0% 100%;
 
-  --destructive: 0 84% 60%;
+  --destructive: 0 72% 45%;
   --destructive-foreground: 0 0% 100%;
 
   --border: 214 32% 91%;
   --input: 214 32% 91%;
-  --ring: 200 95% 45%;
+  --ring: 200 95% 36%;
 
-  --medical-blue: 200 95% 45%;
-  --medical-teal: 180 100% 35%;
+  --medical-blue: 200 95% 36%;
+  --medical-teal: 180 100% 26%;
   --medical-light: 195 100% 96%;
   --progress-bg: 200 20% 92%;
-  --progress-fill: 200 95% 45%;
+  --progress-fill: 200 95% 36%;
 
-  --gradient-primary: linear-gradient(135deg, hsl(200 95% 45%), hsl(180 100% 35%));
+  --gradient-primary: linear-gradient(135deg, hsl(200 95% 36%), hsl(180 100% 26%));
   --gradient-light: linear-gradient(180deg, hsl(195 100% 98%), hsl(195 100% 95%));
 
-  --shadow-soft: 0 2px 20px -4px hsl(200 95% 45% / 0.1);
-  --shadow-card: 0 4px 25px -5px hsl(200 95% 45% / 0.15);
+  --shadow-soft: 0 2px 20px -4px hsl(200 95% 36% / 0.1);
+  --shadow-card: 0 4px 25px -5px hsl(200 95% 36% / 0.15);
 
   --radius: 0.5rem;
 
