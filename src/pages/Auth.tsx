@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable';
 import { Button } from '@/components/ui/button';
@@ -36,6 +36,12 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+
+  const rawNext = searchParams.get('next');
+  const nextPath = rawNext && rawNext.startsWith('/') && !rawNext.startsWith('//') ? rawNext : null;
+  const afterAuthPath = nextPath ?? '/onboarding';
+  const afterAuthUrl = `${window.location.origin}${afterAuthPath}`;
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +55,7 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate('/onboarding');
+        navigate(afterAuthPath);
       } else {
         const { data, error } = await supabase.auth.signUp({
           email,
@@ -61,12 +67,12 @@ const Auth = () => {
               marketing_email_opt_in: marketingEmailConsent,
               marketing_push_opt_in: marketingPushConsent,
             },
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: afterAuthUrl,
           },
         });
         if (error) throw error;
         if (data.session) {
-          navigate('/onboarding');
+          navigate(afterAuthPath);
         } else {
           toast({ title: t('auth.accountCreated'), description: t('auth.checkEmail') });
         }
@@ -81,7 +87,7 @@ const Auth = () => {
   const handleSocialLogin = async (provider: 'google' | 'apple') => {
     setLoading(true);
     const result = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: `${window.location.origin}/onboarding`,
+      redirect_uri: afterAuthUrl,
     });
     setLoading(false);
     if (result.error) {
