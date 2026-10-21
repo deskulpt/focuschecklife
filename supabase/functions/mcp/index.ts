@@ -3,10 +3,10 @@
 // supabase function: mcp
 // Bundled from src/lib/mcp/index.ts by @lovable.dev/mcp-js.
 // src/lib/mcp/index.ts
-import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.26.1";
+import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.26.3";
 
 // src/lib/mcp/tools/get-profile.ts
-import { defineTool } from "npm:@lovable.dev/mcp-js@0.26.1";
+import { defineTool } from "npm:@lovable.dev/mcp-js@0.26.3";
 
 // src/lib/mcp/supabase.ts
 import { createClient } from "npm:@supabase/supabase-js@^2.98.0";
@@ -84,7 +84,7 @@ var get_profile_default = defineTool({
 });
 
 // src/lib/mcp/tools/list-assessments.ts
-import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.26.1";
+import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.26.3";
 import { z } from "npm:zod@^3.25.76";
 var list_assessments_default = defineTool2({
   name: "list_assessments",
@@ -117,7 +117,7 @@ var list_assessments_default = defineTool2({
 });
 
 // src/lib/mcp/tools/get-assessment.ts
-import { defineTool as defineTool3, ToolError } from "npm:@lovable.dev/mcp-js@0.26.1";
+import { defineTool as defineTool3, ToolError } from "npm:@lovable.dev/mcp-js@0.26.3";
 import { z as z2 } from "npm:zod@^3.25.76";
 var get_assessment_default = defineTool3({
   name: "get_assessment",
@@ -143,7 +143,7 @@ var get_assessment_default = defineTool3({
 });
 
 // src/lib/mcp/tools/list-packages.ts
-import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.26.1";
+import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.26.3";
 var list_packages_default = defineTool4({
   name: "list_packages",
   title: "List FocusCheck packages",
@@ -170,7 +170,7 @@ var list_packages_default = defineTool4({
 });
 
 // src/lib/mcp/tools/list-resources.ts
-import { defineTool as defineTool5 } from "npm:@lovable.dev/mcp-js@0.26.1";
+import { defineTool as defineTool5 } from "npm:@lovable.dev/mcp-js@0.26.3";
 import { z as z3 } from "npm:zod@^3.25.76";
 var list_resources_default = defineTool5({
   name: "list_resources",
@@ -220,5 +220,5 @@ var mcp_default = defineMcp({
 });
 
 // lovable-mcp-supabase-entry.ts
-import { createSupabaseHandler } from "npm:@lovable.dev/mcp-js@0.26.1/stacks/supabase";
+import { createSupabaseHandler } from "npm:@lovable.dev/mcp-js@0.26.3/stacks/supabase";
 Deno.serve(createSupabaseHandler(mcp_default, { functionName: "mcp" }));
