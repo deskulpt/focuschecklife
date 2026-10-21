@@ -1,82 +1,36 @@
-## Goal
+# Finalize FocusCheck for launch
 
-Visitors anywhere see prices in their own currency, auto-converted from your CAD base prices via live forex, rounded to a clean `.99`. You manage all packages and languages from the admin CMS.
+Review found the app builds cleanly, but a few things are broken or unfinished. This plan fixes them in order, safest first, without changing how the app looks or behaves for users unless noted.
 
----
+## 1. Broken features (fix first)
+- **"Send reminder email" button in Admin CRM does nothing.** It calls an email sender that was never deployed. Build the reminder email (branded, EN), deploy it, and confirm a test reminder arrives.
+- **Assessment attempt counter can be bypassed or fail silently.** The count is updated from the browser and errors are ignored. Move the increment into the database (runs automatically when a result is saved) so the 2-free-attempt limit holds.
+- **Saving results ignores errors.** If saving fails, the user still thinks it worked. Show a clear message and a retry option.
+- **Payment button errors** show a generic toast only; add a loading state on the button and a readable error.
 
-## 1. Database
+## 2. Security tidy-up
+- Site settings: signed-in users can read every setting (including admin-only ones). Limit non-admins to the public keys already used by the site.
+- Exchange rates and translations being public is intentional (needed to show prices and text to visitors) — mark these as accepted.
 
-**New table `packages`** (replaces hardcoded $5 / free tiers)
-- name, slug, description, features (list)
-- `price_cad`, `sale_price_cad` (your input, in CAD cents)
-- `grants_full_test`, `grants_pdf`, `is_free`
-- `sort_order`, `is_active`
-- Seed 3 starter packages — Free Basic, Full Report, Monitoring Plan.
+## 3. Code clean-up (no visible change)
+- Remove ~50 loose type shortcuts (`any`) across admin screens, results and assessment flow, replacing with proper types.
+- Split the very large results dashboard (54 KB) into smaller pieces: gauge, radar, AI insights, resources, PDF actions.
+- Move direct database calls out of screens into a small shared service layer, starting with the assessment and profile flows.
+- Remove unused files/imports and leftover duplicate lockfile.
 
-**New table `exchange_rates`** (24h cache, base = CAD)
-- `currency_code`, `rate_from_cad`, `updated_at`
-- Public read, service-role write.
+## 4. Launch polish
+- Add a project task list (roadmap) and a short project rules file.
+- Add tests for the rules that matter most: 2 free attempts limit, .99 price rounding from CAD, promo code unlock.
+- Final end-to-end check in the browser on desktop and mobile: sign up, onboarding, assessment, results blur, promo unlock, payment start, admin CRM reminder, language and currency switching.
 
-**New keys in `site_settings`**
-- `default_language`, `forced_language` (blank = off), `available_languages` (CSV)
-- `base_currency` = `CAD`, `pricing_rounding` = `.99`
+## Not included (needs you)
+- Google Search Console connection (needs your authorization).
+- Facebook login (not supported by the managed sign-in).
+- New SEO content page "ADHD symptoms in adults" — say if you want it added.
 
----
-
-## 2. Edge functions
-
-- **`detect-currency`** — reads visitor IP, maps country → ISO currency, returns `{ currency, country }`.
-- **`refresh-exchange-rates`** — fetches `exchangerate.host` (free, no key, base CAD), upserts ~30 common currencies. Auto-refresh when cache >24h stale; "Refresh now" button in admin.
-
----
-
-## 3. Frontend
-
-- **`CurrencyContext`**: detects currency on mount, loads rates, exposes `formatPrice(cadCents)` → converts and rounds to `.99` (CAD 6.50 → USD 4.99, BRL 24.99). For zero-decimal currencies (JPY, HUF, ISK) rounds to nearest 99.
-- **`<Price packageId>`** component: replaces all hardcoded `$5 / R$25` strings.
-- Tiny note under price: "Shown in {USD} · billed in CAD".
-- Optional manual currency switcher in header.
-
----
-
-## 4. Admin CMS
-
-**New "Packages" tab** in `/admin`:
-- List with reorder + active toggle.
-- Form per package: name, description, features, **price CAD**, **sale price CAD**, grants checkboxes, free toggle.
-- "Add package" — unlimited.
-
-**Localization section in Admin Settings**:
-- Default language, Forced language (blank = user choice), Available languages multi-select.
-- "Refresh exchange rates" button + last-refreshed timestamp.
-
----
-
-## 5. Stripe
-
-`create-payment` reads `packageId`, builds Checkout session in **CAD** using `price_cad` / `sale_price_cad`. Stripe Adaptive Pricing (optional toggle in your Stripe dashboard) shows the buyer their local equivalent at checkout — settlement stays CAD.
-
----
-
-## 6. Rounding logic
-
-```
-converted = cadCents × rate / 100
-floor(converted) + 0.99      // 6.42 → 6.99, 7.10 → 7.99
-JPY/HUF/ISK: round to nearest 99 (¥499, ¥999)
-```
-
----
-
-## Files
-
-**New**: `packages` + `exchange_rates` migration, `supabase/functions/detect-currency`, `supabase/functions/refresh-exchange-rates`, `src/contexts/CurrencyContext.tsx`, `src/components/Price.tsx`, `src/components/admin/AdminPackages.tsx`.
-**Edited**: `create-payment`, `Landing.tsx`, `AssessmentResultsDashboard.tsx`, `ConsentDialog.tsx`, `PromoCodeInput.tsx`, `AdminSettings.tsx`, `Admin.tsx`, `LanguageContext.tsx`.
-
----
-
-## Before I build — quick confirmations
-
-1. **Your CAD prices** for the 3 starter packages (Free / Full Report / Monitoring Plan)? I'll seed exact values — otherwise I'll seed placeholders (Free 0, Full Report 6.99 CAD, Monitoring 14.99 CAD) for you to edit.
-2. Manual currency switcher in the header — yes or detection-only?
-3. Enable **Stripe Adaptive Pricing** at checkout? (You'd flip the toggle in Stripe; I'll wire the code to be compatible.)
+## Technical details
+- New edge function `send-transactional-email` using existing email queue (`enqueue_email`), admin-only via `has_role`.
+- Trigger `AFTER INSERT ON user_assessments` increments `profiles.assessment_count`; remove client update.
+- Replace `site_settings` "Authenticated can read settings" policy with key whitelist + admin `has_role`.
+- Services in `src/services/` (assessments, profiles, payments) consumed via TanStack Query.
+- Vitest tests next to `src/lib` utilities.
