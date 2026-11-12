@@ -8,3 +8,6 @@
 - [ ] Replace remaining `any` types in admin screens (follow-up)
 - [ ] Google Search Console — needs owner authorization
 - [x] Push all to GitHub (automatic after commit)
+- [x] Remove platform branding from README (keep live URL)
+- [x] Research & methodology page with screenshots and sources
+- [ ] Expert contributor names/credentials — waiting on user

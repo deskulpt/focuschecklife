@@ -20,6 +20,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Resources from "./pages/Resources";
 import OAuthConsent from "./pages/OAuthConsent";
+import { Research } from "./pages/Research";
 import Unsubscribe from "./pages/Unsubscribe";
 import NotFound from "./pages/NotFound";
 
@@ -49,6 +50,7 @@ const App = () => (
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/resources" element={<Resources />} />
                   <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
+                  <Route path="/research" element={<Research />} />
                   <Route path="/unsubscribe" element={<Unsubscribe />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

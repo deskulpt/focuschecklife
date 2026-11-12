@@ -1,22 +1,20 @@
-# focuschecklife
+# FocusCheck
 
-Create a full comprehensive adhd assessment app questionaire survey for anyone to answer and provide analysis based on globally recognize adhd research based work, site any sources and questions based on it. Make it interactive based on age ranges and categorically break it. This should be for kids to adults.
-
-This project was built with [Lovable](https://lovable.dev).
+ADHD screening web app combining validated self-report questionnaires (DSM-5 criteria, ASRS-v1.1, parent-mediated forms for ages 6–12) with cognitive tasks (Continuous Performance Test, working memory, Stroop). Educational and non-diagnostic; clinical validation pending.
 
 **Live app**: https://focuschecklife.lovable.app
 
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/4dab4350-5a21-4918-a111-003ec481fed6).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## Features
+- Age-adapted questionnaires and cognitive games
+- Results dashboard with risk gauge and symptom radar
+- Full report unlock with cached AI interpretation
+- Multi-language and multi-currency support
+- Admin CMS and CRM
+- Research & methodology page at `/research`
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires Node.js and npm.
 
 ```sh
 git clone <this-repository-url>
@@ -24,3 +22,5 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+Run tests with `npx vitest run`.
