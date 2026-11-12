@@ -1,7 +1,7 @@
+import { ZERO_DECIMAL, roundToNinetyNine } from '@/lib/pricing';
 import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-const ZERO_DECIMAL = new Set(['JPY', 'KRW', 'VND', 'IDR', 'HUF', 'ISK', 'CLP', 'COP']);
 
 const SYMBOLS: Record<string, string> = {
   CAD: 'CA$', USD: 'US$', EUR: '€', GBP: '£', AUD: 'A$', NZD: 'NZ$', BRL: 'R$',
@@ -27,17 +27,6 @@ interface CurrencyContextType {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'fc.currency';
-
-function roundToNinetyNine(value: number, currency: string): number {
-  if (value <= 0) return 0;
-  if (ZERO_DECIMAL.has(currency)) {
-    // round to nearest 99 (e.g. 487 -> 499, 1532 -> 1599)
-    const base = Math.max(99, Math.floor(value / 100) * 100 + 99);
-    return base;
-  }
-  // floor + 0.99 (so 6.42 -> 6.99, 7.10 -> 7.99). If converted is below 1, floor 0 -> 0.99.
-  return Math.floor(value) + 0.99;
-}
 
 export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
   const [currency, setCurrencyState] = useState<string>(() => {

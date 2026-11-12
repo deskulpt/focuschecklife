@@ -19,13 +19,14 @@ interface AssessmentResultsProps {
   onRestart: () => void;
   isFreePreview?: boolean;
   onUpgrade?: () => void;
+  upgradeLoading?: boolean;
   onPromoRedeemed?: () => void;
   hasReachedLimit?: boolean;
   assessmentCount?: number;
   maxFreeAttempts?: number;
 }
 
-export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUpgrade, onPromoRedeemed, hasReachedLimit = false, assessmentCount = 0, maxFreeAttempts = 2 }: AssessmentResultsProps) => {
+export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUpgrade, upgradeLoading = false, onPromoRedeemed, hasReachedLimit = false, assessmentCount = 0, maxFreeAttempts = 2 }: AssessmentResultsProps) => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [shareConsent, setShareConsent] = useState(false);
@@ -96,7 +97,7 @@ export const AssessmentResults = ({ data, onRestart, isFreePreview = false, onUp
           <CardContent className="p-6 text-center space-y-4">
             <h3 className="text-xl font-bold">{t('paywall.unlockTitle')}</h3>
             <p className="text-sm text-muted-foreground max-w-lg mx-auto">{t('results.upgradeDescription')}</p>
-            <Button onClick={onUpgrade} size="lg" className="gap-2">
+            <Button onClick={onUpgrade} size="lg" className="gap-2" disabled={upgradeLoading} aria-busy={upgradeLoading}>
               <Lock className="w-4 h-4" /> {t('results.unlockCta')}
             </Button>
             <div className="max-w-sm mx-auto mt-4">

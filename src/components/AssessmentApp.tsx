@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button';
 import { LogOut, ArrowLeft } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { MAX_FREE_ATTEMPTS, hasReachedFreeLimit } from '@/lib/pricing';
+import type { Json } from '@/integrations/supabase/types';
 
 export type AgeGroup = 'child' | 'teen' | 'adult';
 
@@ -40,8 +42,8 @@ const AssessmentApp = () => {
 
   const isFreeUser = !profile?.has_paid_full_test;
   const isMonitoringUser = profile?.plan === 'monitoring';
-  const maxFreeAttempts = 2;
-  const hasReachedLimit = isFreeUser && !isMonitoringUser && assessmentCount >= maxFreeAttempts;
+  const maxFreeAttempts = MAX_FREE_ATTEMPTS;
+  const hasReachedLimit = hasReachedFreeLimit({ hasPaid: !isFreeUser, isMonitoring: isMonitoringUser, attempts: assessmentCount });
 
   // Load saved assessment on mount
   useEffect(() => {
@@ -108,34 +110,39 @@ const AssessmentApp = () => {
     setShowConsent(true);
   };
 
+  const saveAssessment = async (data: AssessmentData): Promise<boolean> => {
+    if (!user) return false;
+    const { data: insertedData, error } = await supabase.from('user_assessments').insert({
+      user_id: user.id,
+      age_group: data.ageGroup,
+      survey_responses: data.responses as unknown as Json,
+      game_results: (data.gameResults ?? null) as unknown as Json,
+      is_full_access: !isFreeUser,
+      overall_score: null,
+      risk_level: null,
+    }).select('id').single();
+    if (error || !insertedData) {
+      toast.error('Your results could not be saved', {
+        description: 'Check your connection and try again.',
+        action: { label: 'Retry save', onClick: () => { void saveAssessment(data); } },
+      });
+      return false;
+    }
+    setAssessmentData(prev => prev ? { ...prev, id: insertedData.id } : prev);
+    // Attempt count is incremented by the database when a result is saved
+    setAssessmentCount(c => c + 1);
+    toast.success('Your results are saved');
+    return true;
+  };
+
   const handleConsentAccepted = async () => {
     if (!pendingData || !user) return;
     setShowConsent(false);
     setAssessmentData(pendingData);
     setCurrentStep('results');
 
-    // Save to database
-    const { data: insertedData } = await supabase.from('user_assessments').insert({
-      user_id: user.id,
-      age_group: pendingData.ageGroup,
-      survey_responses: pendingData.responses as any,
-      game_results: pendingData.gameResults as any,
-      is_full_access: !isFreeUser,
-      overall_score: null,
-      risk_level: null,
-    }).select('id').single();
-    
-    // Update assessment data with the new ID
-    if (insertedData) {
-      setAssessmentData(prev => prev ? { ...prev, id: insertedData.id } : prev);
-    }
-    
-    // Increment assessment count
-    const newCount = assessmentCount + 1;
-    await supabase.from('profiles').update({ assessment_count: newCount } as any).eq('user_id', user.id);
-    setAssessmentCount(newCount);
-    
-    setPendingData(null);
+    const saved = await saveAssessment(pendingData);
+    if (saved) setPendingData(null);
   };
 
   const handleConsentDeclined = () => {
@@ -228,16 +235,18 @@ const AssessmentApp = () => {
                 hasReachedLimit={hasReachedLimit}
                 assessmentCount={assessmentCount}
                 maxFreeAttempts={maxFreeAttempts}
+                upgradeLoading={paymentLoading}
                 onUpgrade={async () => {
                   setPaymentLoading(true);
                   try {
                     const { data, error } = await supabase.functions.invoke('create-payment');
                     if (error) throw error;
-                    if (data?.url) {
-                      window.open(data.url, '_blank');
-                    }
-                  } catch (err: any) {
-                    toast.error(t('payment.errorTitle'));
+                    if (!data?.url) throw new Error('No checkout link returned');
+                    window.open(data.url, '_blank');
+                  } catch (err: unknown) {
+                    toast.error(t('payment.errorTitle'), {
+                      description: err instanceof Error ? err.message : 'Please try again in a moment.',
+                    });
                   } finally {
                     setPaymentLoading(false);
                   }
