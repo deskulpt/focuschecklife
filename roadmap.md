@@ -11,3 +11,4 @@
 - [x] Remove platform branding from README (keep live URL)
 - [x] Research & methodology page with screenshots and sources
 - [ ] Expert contributor names/credentials — waiting on user
+- [x] Expand the GitHub README with objectives, research, procedures, AI limits, development history, and screenshots; remove screenshots from the site research page

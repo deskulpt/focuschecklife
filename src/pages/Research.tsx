@@ -3,10 +3,6 @@ import { ArrowLeft, Target, FlaskConical, ClipboardCheck, BookOpen, Users, Spark
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { SeoHead } from '@/components/SeoHead';
-import landingShot from '@/assets/research/landing.jpg';
-import pricingShot from '@/assets/research/pricing.jpg';
-import authShot from '@/assets/research/auth.jpg';
-import resourcesShot from '@/assets/research/resources.jpg';
 
 const objectives = [
   'Give people an accessible, private first step to learn whether ADHD may explain what they or their child experience.',
@@ -55,13 +51,6 @@ const aiLimits = [
   'It can be wrong. Attention scores are affected by sleep, stress, caffeine, device quality, and environment.',
   'It is not a diagnosis and must never be used to start, stop, or change any treatment or medication.',
   'Only a qualified practitioner can interpret results in the context of a full clinical evaluation.',
-];
-
-const shots = [
-  { src: landingShot, caption: 'Home page — clear starting point and non-medical framing' },
-  { src: pricingShot, caption: 'Plans — free check with optional full report' },
-  { src: authShot, caption: 'Sign up — captures consent and communication preferences' },
-  { src: resourcesShot, caption: 'Learning resources — curated trusted sources' },
 ];
 
 const Section = ({ icon: Icon, title, children }: { icon: typeof Target; title: string; children: React.ReactNode }) => (
@@ -162,18 +151,6 @@ export const Research = () => (
           {quality.map((q) => <li key={q}>{q}</li>)}
         </ul>
       </Section>
-
-      <section className="mb-14">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-foreground">Screenshots</h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {shots.map((s) => (
-            <figure key={s.caption} className="rounded-xl overflow-hidden border border-border/40">
-              <img src={s.src} alt={s.caption} loading="lazy" className="w-full h-auto" />
-              <figcaption className="p-3 text-sm text-muted-foreground">{s.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
 
       <div className="p-5 rounded-xl border border-destructive/30 bg-destructive/5 text-sm text-muted-foreground space-y-3">
         <p>
