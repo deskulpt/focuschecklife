@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Target, FlaskConical, ClipboardCheck, BookOpen, Users } from 'lucide-react';
+import { ArrowLeft, Target, FlaskConical, ClipboardCheck, BookOpen, Users, Sparkles, ShieldAlert } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { SeoHead } from '@/components/SeoHead';
@@ -40,6 +40,21 @@ const quality = [
   'End-to-end checks of sign-up, assessment, results, payment, and admin flows before launch.',
   'Repeated security reviews of data access, payments, and promo codes.',
   'Accessibility: light, dark, and high-contrast themes, font scaling, keyboard navigation (WCAG 2.1 AA target).',
+];
+
+const aiSteps = [
+  { title: 'Structured inputs', text: 'The AI receives only the scored outputs of the screening: questionnaire domain scores, CPT omission and commission counts, reaction-time variability, working memory span, and Stroop interference — never raw clicks or free text.' },
+  { title: 'Pattern summary', text: 'It compares the pattern of scores against the published instruments above (DSM-5-TR domains, ASRS v1.1, CPT norms) and describes which areas look elevated, typical, or inconclusive.' },
+  { title: 'Plain-language interpretation', text: 'The output is rewritten in everyday language, adapted to the age band, and always paired with the same non-diagnostic notice shown on the results screen.' },
+  { title: 'Generated once, saved', text: 'The interpretation is generated a single time per completed assessment and stored, so re-opening a report never regenerates or changes it. A new assessment produces a new interpretation.' },
+  { title: 'User-triggered translation', text: 'Reports are generated in English. Translations happen only when the user clicks translate, keeping the original English version as the source of record.' },
+];
+
+const aiLimits = [
+  'The AI does not see the person, their history, or any clinical context — it summarises numbers from one sitting.',
+  'It can be wrong. Attention scores are affected by sleep, stress, caffeine, device quality, and environment.',
+  'It is not a diagnosis and must never be used to start, stop, or change any treatment or medication.',
+  'Only a qualified practitioner can interpret results in the context of a full clinical evaluation.',
 ];
 
 const shots = [
@@ -123,6 +138,25 @@ export const Research = () => (
         </ol>
       </Section>
 
+      <Section icon={Sparkles} title="How the AI interprets results">
+        <ol className="space-y-3 mb-6">
+          {aiSteps.map((s, idx) => (
+            <li key={s.title} className="flex gap-3">
+              <span className="tabular-nums w-7 h-7 shrink-0 rounded-full bg-primary/10 text-primary text-sm font-semibold flex items-center justify-center">{idx + 1}</span>
+              <div><span className="font-medium text-foreground">{s.title}: </span><span className="text-muted-foreground">{s.text}</span></div>
+            </li>
+          ))}
+        </ol>
+        <Card className="p-5 border-destructive/30 bg-destructive/5">
+          <h3 className="font-semibold text-foreground flex items-center gap-2 mb-3">
+            <ShieldAlert className="w-4 h-4 text-destructive" /> Limits of the AI interpretation
+          </h3>
+          <ul className="space-y-2 list-disc pl-5 text-sm text-muted-foreground">
+            {aiLimits.map((l) => <li key={l}>{l}</li>)}
+          </ul>
+        </Card>
+      </Section>
+
       <Section icon={ClipboardCheck} title="Quality & testing">
         <ul className="space-y-2 list-disc pl-5 text-muted-foreground">
           {quality.map((q) => <li key={q}>{q}</li>)}
@@ -141,10 +175,22 @@ export const Research = () => (
         </div>
       </section>
 
-      <div className="p-5 rounded-xl border border-border/40 bg-muted/30 text-sm text-muted-foreground">
-        <strong className="text-foreground">Important:</strong> FocusCheck is an educational screening tool and does
-        not provide a diagnosis. Validation through clinical trials is pending. Please speak with a qualified
-        professional about your results.
+      <div className="p-5 rounded-xl border border-destructive/30 bg-destructive/5 text-sm text-muted-foreground space-y-3">
+        <p>
+          <strong className="text-foreground">Research prototype — not medical advice.</strong> FocusCheck is a
+          prototype project created for research purposes only. It is not a medical device, does not provide a
+          diagnosis, and nothing on this site is medical advice. Validation through clinical trials is pending.
+        </p>
+        <p>
+          <strong className="text-foreground">Reports are voidable.</strong> Any report, score, or AI-generated
+          interpretation this tool produces is provisional and voidable, and must not be used for any treatment
+          decision, medication change, or self-diagnosis.
+        </p>
+        <p>
+          <strong className="text-foreground">Always consult a practitioner.</strong> If you have concerns about
+          attention or behaviour — for yourself or your child — please speak with a qualified healthcare
+          professional who can perform a full clinical evaluation.
+        </p>
       </div>
     </div>
   </div>
