@@ -2,8 +2,10 @@
 
 An educational ADHD screening research prototype combining age-adapted questionnaires with attention, working memory, and response-inhibition tasks. This README is the repository's product, research, and development record; its screenshots render directly on GitHub.
 
-**Preview / live app:** https://focuschecklife.lovable.app  
-**Project domain:** focuscheck.life (domain configuration is separate from the preview address).  
+**Preview / live app:** https://focuschecklife.lovable.app
+
+**Project domain:** focuscheck.life (domain configuration is separate from the preview address).
+
 **Documentation updated:** 12 November 2026.
 
 > **Research prototype — pending clinical trials.** FocusCheck is for research and educational use only. It is not a medical device, does not diagnose ADHD, and does not provide medical advice. Every score, report, and AI interpretation is provisional and voidable. Do not use any output for self-diagnosis, treatment decisions, or starting, stopping, or changing medication. Consult a qualified healthcare practitioner for a full evaluation.
